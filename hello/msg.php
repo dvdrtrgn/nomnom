@@ -4,7 +4,7 @@
 //////////
 //////////
 
-function _hello_foo_get_lyric() {
+function hello_foo_get_lyric() {
 	/** These are the lyrics to Hello Foo */
 	$lyrics = "Well, hello, Foo
 You're lookin' swell, Foo

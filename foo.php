@@ -12,7 +12,7 @@ Author URI: http://ma.tt/
 Version: 1.6
 */
 
-function hello_foo_get_lyric() {
+function _hello_foo_get_lyric() {
   $msg = get_template_directory_uri() . '/library/myscript.js';
 
   /// find way to get plugin dir
@@ -20,5 +20,5 @@ function hello_foo_get_lyric() {
 	return wptexturize( $msg );
 }
 
-include('msg.php');
-include('css.php');
+include('hello/msg.php');
+include('hello/css.php');
