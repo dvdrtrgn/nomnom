@@ -12,7 +12,7 @@ Version: 1.6
 Author URI: http://ma.tt/
 */
 
-function hello_foo_get_lyric() {
+function hello_foo_get_lyric2() {
 	/** These are the lyrics to Hello Foo */
 	$lyrics = "Well, hello, Foo
 You're lookin' swell, Foo
@@ -23,6 +23,13 @@ Foo'll never go away again";
 
 	// And then randomly choose a line
 	return wptexturize( $lyrics[ mt_rand( 0, count( $lyrics ) - 1 ) ] );
+}
+function hello_foo_get_lyric() {
+  $msg = get_template_directory_uri() . '/library/myscript.js';
+
+  /// find way to get plugin dir
+
+	return wptexturize( $msg );
 }
 
 // This just echoes the chosen line, we'll position it later
@@ -53,5 +60,19 @@ function foo_css() {
 }
 
 add_action( 'admin_head', 'foo_css' );
+
+//////////
+// wp_enqueue_script( $handle, $src, $deps, $ver, $in_footer );
+
+
+// Easy way to link to external JS library and use it easily in project:
+wp_register_script( 'mydef', 'http://10.94.211.163/tempkit/0/scripts/_def_.js', array(), '0.1', true );
+wp_register_script( 'jqxtn', 'http://10.94.211.163/tempkit/0/scripts/libs/jq-xtn.js', array(), '0.1', true );
+wp_register_script( 'roman', 'http://10.94.211.163/tempkit/0/scripts/libs/dt-roman.js', array(), '0.1', true );
+
+// this will put the someScript.js at the bottom of our HTML file before
+wp_enqueue_script( 'mydef' );
+
+
 
 ?>
