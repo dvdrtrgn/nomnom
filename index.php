@@ -5,7 +5,7 @@
  */
 /*
 Description: This is not just a plugin.
-Plugin Name: Hello Foo
+Plugin Name: Nom-nom
 Plugin URI: http://wordpress.org/plugins/hello-foo/
 Author: Matt Mullenweg
 Author URI: http://ma.tt/
