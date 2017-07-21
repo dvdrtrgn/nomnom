@@ -1,8 +1,4 @@
 <?php
-//////////
-//////////
-//////////
-//////////
 
 wp_register_script('require', 'http://10.94.211.163/tempkit/0/vendors/require.js/require.js', array(), '0.1');
 wp_register_script('mydef', 'http://10.94.211.163/tempkit/0/scripts/_def_.js', array(), '0.1', true);
