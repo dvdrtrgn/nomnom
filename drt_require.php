@@ -4,7 +4,7 @@
 
   function drt_req_main() {
     $cfg = DRT__PLUGIN_URL. '/public/config';
-    $url = DRT__DEV_URL . '/vendors/require.min.js';
+    $url = DRT__DEV_URL . '/vendors/require.js';
     echo "<script type='text/javascript' src='$url' data-main='$cfg'></script>";
   }
 

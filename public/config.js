@@ -1,21 +1,22 @@
+var W = window;
+var C = W.console;
+
 require.config({
-  baseUrl: 'scripts',
+  // baseUrl: '..',
   paths: {
-    lib: 'libs',
-    // jquery: '../vendors/jquery/jquery.min',
-    // lodash: '../vendors/lodash.js/lodash.min',
+    // lib: 'libs',
   },
-  shim: {
-    // jqmobi: {
-    // deps: ['jquery'],
-    // exports: '$',
-    // },
-  },
+  shim: {},
 });
 
-require([''], function () {
-  if (typeof window.jQuery === 'function') {
-    define('jquery', function () { return window.jQuery; });
-    window.console.log('jq already there!');
-  }
+if (typeof W.jQuery === 'function') {
+  define('jquery', function () {
+    return W.$ = W.jQuery;
+  });
+} else require(['jquery'], function ($) {
+  W.$ = $;
+});
+
+require(['dostuff'], function (dostuff) {
+  dostuff();
 });

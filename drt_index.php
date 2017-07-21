@@ -13,12 +13,15 @@
   define('DRT__PLUGIN_URL', plugins_url('', __FILE__)); // http://localhost/.../drt-mod
   define('DRT__DEV_URL', 'http://10.94.211.163');
 
-  $ALERT = 'drt index';
 
 
   if (is_admin()){
-    // require_once(DRT__PLUGIN_DIR . 'drt_message.php');
-    // require_once(DRT__PLUGIN_DIR . 'drt_style.php');
+    require_once(DRT__PLUGIN_DIR . 'drt_message.php');
+    require_once(DRT__PLUGIN_DIR . 'drt_style.php');
   } else {
     // require_once(DRT__PLUGIN_DIR . 'drt_require.php');
   }
+
+  $ALERT = 'drt index';
+
+  require_once(DRT__PLUGIN_DIR . 'drt_test.php');
