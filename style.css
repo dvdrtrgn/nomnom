@@ -1,0 +1,9 @@
+#drt_slug {
+  color: red;
+  float: right;
+  margin: 0;
+  position: absolute;
+  top: -1.5rem;
+  right: 7rem;
+  z-index: 99999;
+}

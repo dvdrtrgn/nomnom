@@ -12,8 +12,8 @@ function drt_line_slug() {
 }
 
 function drt_line() {
-  $str = drt_line_slug();
-  echo "<p id='drt_slug'>$str</p>";
+  $str = drt_line_slug() . DRT__PLUGIN_URL;
+  echo "<p id='drt_slug'> $str </p>";
 }
 
 // set function for admin_notices event

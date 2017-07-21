@@ -13,7 +13,9 @@ require.config({
   },
 });
 
-if (typeof window.jQuery === 'function') {
-  define('jquery', function () { return window.jQuery; });
-  window.console.log('jq already there!');
-}
+require([''], function () {
+  if (typeof window.jQuery === 'function') {
+    define('jquery', function () { return window.jQuery; });
+    window.console.log('jq already there!');
+  }
+});
