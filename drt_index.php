@@ -1,6 +1,6 @@
 <?php
   /*
-    Plugin Name: drt-mod
+    Plugin Name: -drt-mod
     Description: drt’s javascript helper plugin.
     Plugin URI: http://dvdrtrgn.com/plugins/drt-mod/
     Author: dvdrtrgn
@@ -15,10 +15,7 @@
 
   define('DRT__DEV_JS', 'http://10.94.211.163/js/_main.js');
   define('DRT__PUB_JS', DRT__PLUGIN_URL . '/public/_main.js');
-
-  $Main = $Live ? DRT__PUB_JS : DRT__DEV_JS;
-
-  define('DRT__JS_MAIN', $Main);
+  define('DRT__JS_MAIN', $Live ? DRT__PUB_JS : DRT__DEV_JS);
 
   if (is_admin()){
     require_once(DRT__PLUGIN_DIR . 'drt_admin.php');
