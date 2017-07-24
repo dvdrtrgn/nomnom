@@ -3,9 +3,10 @@
   $ALERT = 'drt require';
 
   function drt_req_main() {
-    $cfg = DRT__PLUGIN_URL. '/public/config';
-    $url = DRT__DEV_URL . '/vendors/require.js';
-    echo "<script type='text/javascript' src='$url' data-main='$cfg'></script>";
+    $dev = DRT__DEV_URL . '/js/def.js';
+    // wp_enqueue_script('jquery');
+    $url = DRT__PLUGIN_URL. '/public';
+    echo "<script src='$url/require.js' data-dev='$dev' data-main='$url/config'></script>";
   }
 
-  add_action('plugins_loaded', 'drt_req_main');
+  add_action('wp_footer', 'drt_req_main');

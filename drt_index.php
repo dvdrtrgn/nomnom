@@ -20,7 +20,7 @@
     // require_once(DRT__PLUGIN_DIR . 'drt_style.php');
   } else {
     // require_once(DRT__PLUGIN_DIR . 'drt_require.php');
-    require_once(DRT__PLUGIN_DIR . 'drt_test.php');
+    require_once(DRT__PLUGIN_DIR . 'drt_require.php');
   }
 
   $ALERT = 'drt index';
