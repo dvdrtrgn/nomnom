@@ -1,4 +1,7 @@
-// EXPOSE jQuery
+/*globals _drt */
+
+window.console.log(['_drt', window._drt]);
+
 if (typeof window.jQuery === 'function') {
   define('jquery', function () {
     return window.jQuery;
@@ -6,7 +9,7 @@ if (typeof window.jQuery === 'function') {
 }
 
 require.config({
-  // baseUrl: '..',
+  baseUrl: _drt.base,
   paths: {
     // lib: 'libs',
   },
