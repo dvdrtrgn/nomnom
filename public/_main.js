@@ -1,11 +1,9 @@
 // EXPOSE jQuery
 if (typeof window.jQuery === 'function') {
   define('jquery', function () {
-    return window.$ = window.jQuery;
+    return window.jQuery;
   });
-} else require(['jquery'], function ($) {
-  window.$ = $;
-});
+}
 
 require.config({
   // baseUrl: '..',
