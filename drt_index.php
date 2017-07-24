@@ -17,8 +17,6 @@
   define('DRT__PUB_JS', DRT__PLUGIN_URL . '/public/');
   define('DRT__JS_BASE', $Live ? DRT__PUB_JS : DRT__DEV_JS);
 
-  define('DRT__JS_MAIN', DRT__JS_BASE . '_main.js');
-
   if (is_admin()){
     require_once(DRT__PLUGIN_DIR . 'drt_admin.php');
   } else {

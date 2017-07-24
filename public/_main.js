@@ -1,6 +1,6 @@
 /*globals _drt */
 
-window.console.log(['_drt', window._drt]);
+window.console.log('PHP', [_drt]);
 
 if (typeof window.jQuery === 'function') {
   define('jquery', function () {
