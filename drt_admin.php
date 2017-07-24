@@ -1,6 +1,6 @@
 <?php
 
-  $ALERT = 'drt message';
+  $Alert = 'drt admin';
 
   function drt_rando() {
     $str = 'A  B  C  D  E  F';
@@ -10,8 +10,8 @@
   }
 
   function drt_slug() {
-    global $ALERT;
-    $str = drt_rando() . ") $ALERT";
+    global $Alert;
+    $str = drt_rando() . ") $Alert";
     echo "<div id='drt_slug'> $str </div>";
   }
 
