@@ -17,11 +17,10 @@
 
   if (is_admin()){
     require_once(DRT__PLUGIN_DIR . 'drt_message.php');
-    require_once(DRT__PLUGIN_DIR . 'drt_style.php');
+    // require_once(DRT__PLUGIN_DIR . 'drt_style.php');
   } else {
     // require_once(DRT__PLUGIN_DIR . 'drt_require.php');
+    require_once(DRT__PLUGIN_DIR . 'drt_test.php');
   }
 
   $ALERT = 'drt index';
-
-  require_once(DRT__PLUGIN_DIR . 'drt_test.php');
