@@ -1,4 +1,4 @@
-define([], function () {
+define(['notify/_mod'], function () {
   var W = window;
   var C = W.console;
 

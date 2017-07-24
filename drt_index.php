@@ -8,7 +8,7 @@
     Version: 0.1.0
   */
 
-  $Live = 0;
+  $Live = 1;
   define('DRT__PLUGIN', __FILE__); # /.../drt_index.php
   define('DRT__PLUGIN_DIR', plugin_dir_path(__FILE__)); # /unix/
   define('DRT__PLUGIN_URL', plugins_url('', __FILE__)); # http://url
