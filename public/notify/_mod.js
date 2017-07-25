@@ -4,6 +4,7 @@ define(['jqxtn', './hash', './search'], function ($, hash, search) {
   var X = W._drt;
   X.hash = hash;
   X.search = search;
+  X.site = W.location.href;
 
   $.loadCss(`${X.base}/notify/style.css`);
 
@@ -15,8 +16,13 @@ define(['jqxtn', './hash', './search'], function ($, hash, search) {
   function initData(data) {
     function trigFilter(evt) {
       evt.preventDefault();
-      var dat = $(this).data('Filter');
-      alert(`Filter ${dat.filter} for ${dat.term}`);
+      var ele = $(this);
+      var dat = ele.data('Filter');
+      var url = X.site;
+
+      url += 'search-results/' + hash.search(dat.filter);
+      url += encodeURIComponent(hash.research(dat.term));
+      W.location = url;
     }
 
     function makeItem(arr, filter) {

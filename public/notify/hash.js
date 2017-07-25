@@ -20,7 +20,7 @@ define([], function () {
     }
 
     function _seek(key, a1, a2) {
-      return a2[a1.indexOf(key)];
+      return a2[a1.indexOf(key)] || key;
     }
 
     self.init = init;
@@ -34,6 +34,8 @@ define([], function () {
   }
 
   var hash = {
+    city: '?_sf_s=',
+    category: '?_sfm_area_of_interest=',
     '': 'All Items',
     animal_welfare: 'Animal Welfare',
     arts_culture: 'Arts & Culture',
