@@ -6,6 +6,10 @@ define(['jqxtn', './hash', './search'], function ($, hash, search) {
   X.search = search;
   X.site = W.location.href;
 
+  if (~X.site.indexOf('?')) {
+    return;
+  }
+
   $.loadCss(`${X.base}/notify/style.css`);
 
   var data = {
@@ -68,11 +72,8 @@ define(['jqxtn', './hash', './search'], function ($, hash, search) {
   }
 
   function dupeCard() {
-    var sels = [
-      '.gallery > .gallery-item',
-      '.possible-card-wrapper .possible-card',
-    ];
-    var card = $(sels[0]).eq(2);
+    var sels = '.gallery > .gallery-item, .possible-card-wrapper .possible-card';
+    var card = $(sels).eq(2);
     var dupe = card.clone();
 
     if (dupe.is('.dupe')) {
