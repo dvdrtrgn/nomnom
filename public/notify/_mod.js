@@ -1,9 +1,11 @@
-define(['jquery', './hash', './search'], function ($, hash, search) {
+define(['jqxtn', './hash', './search'], function ($, hash, search) {
   var W = window;
   var C = W.console;
   var X = W._drt;
   X.hash = hash;
   X.search = search;
+
+  $.loadCss(`${X.base}/notify/style.css`);
 
   var data = {
     cities: '[["TOP CITIES","city"],["Minneapolis",100],["Charlotte",87],["Des Moines",77],["San Francisco",67],["Chicago",57]]',
@@ -60,7 +62,11 @@ define(['jquery', './hash', './search'], function ($, hash, search) {
   }
 
   function dupeCard() {
-    var card = $('.possible-card-wrapper .possible-card').eq(2);
+    var sels = [
+      '.gallery > .gallery-item',
+      '.possible-card-wrapper .possible-card',
+    ];
+    var card = $(sels[0]).eq(2);
     var dupe = card.clone();
 
     if (dupe.is('.dupe')) {

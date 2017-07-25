@@ -11,7 +11,7 @@ if (typeof window.jQuery === 'function') {
 require.config({
   baseUrl: _drt.base,
   paths: {
-    // lib: 'libs',
+    jqxtn: 'libs/jq-xtn',
   },
   shim: {},
 });
