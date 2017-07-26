@@ -22,53 +22,56 @@ define(['lib/xtn_jq', 'lib/cookie'], function ($, cookie) {
 
   $.loadCss(`${X.base}notify/notify.css`);
 
-  function getData() {
-    function foo() {
-      alert('TBD');
-    }
+  function getData(key) {
     return {
-      post: [
-        foo,
+      posts: [
+        function () {
+          confirm('do something with new post?');
+        },
         'Better is Possible',
         'Andrea Voelke just created a new post.',
         '12 total posts on site',
       ],
-      like: [
-        foo,
+      likes: [
+        function () {
+          confirm('do something with liked post?');
+        },
         'Great job!',
         'Someone has liked a post that you created.',
         'You’ve been liked 123 times.',
       ],
-    };
+    }[key];
   }
 
   function makeDiv(klass, line) {
     var el = $('<div>');
-    var blah = 'Blah blah blah';
+    var makeLine = function (i) {
+      return $('<b>').addClass('l' + i).html(line[i] || '&nbsp;');
+    };
 
-    function fn() {
-      $(this).toggleClass('max').click(function () {
-        $(this).hide();
-      });
+    function _toggle() {
+      if (el.is('.max')) {
+        if (line[0]) line[0]();
+        el.hide();
+      }
+      el.toggleClass('max');
     }
 
-    function makeLine(i) {
-      return $('<b>') //
-        .addClass('l' + i) //
-        .text(line[i] || blah);
+    function _minify(evt) {
+      evt.stopPropagation();
+      el.removeClass('max');
     }
 
     $('<p>').appendTo(el)
       .append(makeLine(1)).append(makeLine(2)).append(makeLine(3))
-      .append($('<b class=xo>&times;</b>').click(line[0] || fn));
-    el.addClass(klass).one('click', fn);
+      .append($('<b class=xo>&times;</b>').click(_minify));
+    el.addClass(klass).on('click', _toggle);
 
     return el;
   }
 
-  var data = getData();
-  var notiPost = makeDiv('notify post', data.post);
-  var notiLike = makeDiv('notify like', data.like);
+  var notiPost = makeDiv('notify post', getData('posts'));
+  var notiLike = makeDiv('notify like', getData('likes'));
 
   $('body').prepend(notiPost, notiLike);
 });
