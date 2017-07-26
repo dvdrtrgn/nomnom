@@ -24,16 +24,19 @@ define(['lib/xtn_jq', 'lib/cookie'], function ($, cookie) {
 
   function makeDiv(klass) {
     function fn() {
-      $(this).toggleClass('max');
+      $(this).toggleClass('max').click(function() {
+        $(this).hide();
+      });
     }
 
     var el = $('<div>');
     $('<p>').appendTo(el)
       .append('<b class=l1>Blah blah blah</b>')
       .append('<b class=l2>Blah blah blah</b>')
-      .append('<b class=l3>Blah blah blah</b>');
+      .append('<b class=l3>Blah blah blah</b>')
+      .append('<b class=xo>&times;</b>');
 
-    el.addClass(klass).click(fn);
+    el.addClass(klass).one('click', fn);
 
     return el;
   }

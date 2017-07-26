@@ -14,31 +14,9 @@
   margin: 0;
   z-index: 9999;
 }
-
-.notify.post {
-  background-image: url('images/notice_post-sm.svg');
-  left: 40%;
+.notify:not(.max) {
+  cursor: pointer;
 }
-.notify.post.max {
-  background-image: url('images/notice_post-lg.svg');
-  left: 5em;
-}
-
-.notify.like {
-  background-image: url('images/notice_like-sm.svg');
-  right: 40%;
-}
-.notify.like.max {
-  background-image: url('images/notice_like-lg.svg');
-  right: 5em;
-}
-
-.notify.max {
-  background-size: 100px;
-  height: 110px;
-  width: 40em;
-}
-
 .notify p {
   display: none;
   font-family: 'myriad-pro', 'PT Sans', Arial, Helvetica, sans-serif;
@@ -46,11 +24,39 @@
   position: absolute;
   right: 0;
 }
+
+/* -------------------------------------------- */
+
+.notify.post {
+  background-image: url('images/notice_post-sm.svg');
+  right: 52%;
+}
+.notify.post.max {
+  background-image: url('images/notice_post-lg.svg');
+  right: 52%;
+}
+
+.notify.like {
+  background-image: url('images/notice_like-sm.svg');
+  left: 52%;
+}
+.notify.like.max {
+  background-image: url('images/notice_like-lg.svg');
+  left: 52%;
+}
+
+/* -------------------------------------------- */
+
+.notify.max {
+  background-size: 100px;
+  height: 110px;
+  width: 45em;
+}
 .notify.max p {
   background-color: white;
   display: block;
   height: 100%;
-  width: 30em;
+  width: 35em;
 }
 .notify.max p b {
   display: block;
@@ -70,4 +76,18 @@
 .notify.max .l3 {
   color: #666;
   font-weight: 100;
+}
+
+/* -------------------------------------------- */
+
+.notify.max .xo {
+  cursor: pointer;
+  font-size: 2em;
+  font-weight: 100;
+  position: absolute;
+  right: 0.2em;
+  top: 0;
+}
+.notify.max .xo:hover {
+  color: #bb0826;
 }
