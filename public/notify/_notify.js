@@ -1,9 +1,9 @@
-define(['./xtn_jq', './hash', './search'], function ($, hash, search) {
+define(['./xtn_jq', './hash'], function ($, hash) {
   var W = window;
   var C = W.console;
   var X = W._drt;
+
   X.hash = hash;
-  X.search = search;
   X.site = W.location.href;
 
   if (~X.site.indexOf('?')) {
