@@ -13,7 +13,7 @@ if (typeof W.jQuery === 'function') {
 require.config({
   baseUrl: _drt.base,
   paths: {
-    // jqxtn: 'libs/xtn_jq',
+    lib: 'libs',
   },
   shim: {},
 });
@@ -21,6 +21,7 @@ require.config({
 require([
 
   'notify/_notify',
+  'toplist/_toplist',
 
 ], function () {
   // C.log(require.toUrl(''));
