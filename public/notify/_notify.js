@@ -1,9 +1,10 @@
-define(['./xtn_jq', './hash'], function ($, hash) {
+define(['./xtn_jq', './hash', './cookie'], function ($, hash, cookie) {
   var W = window;
   var C = W.console;
   var X = W._drt;
 
   X.hash = hash;
+  X.cookie = cookie;
   X.site = W.location.href;
 
   if (~X.site.indexOf('?')) {
