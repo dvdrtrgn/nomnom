@@ -10,7 +10,7 @@ define(['lib/xtn_jq', './hash'], function ($, hash) {
     return;
   }
 
-  $.loadCss(`${X.base}/toplist/style.css`);
+  $.loadCss(`${X.base}toplist/style.css`);
 
   var data = {
     cities: '[["TOP CITIES","city"],["Minneapolis",100],["Charlotte",87],["Des Moines",77],["San Francisco",67],["Chicago",57]]',

@@ -18,11 +18,12 @@ require.config({
   shim: {},
 });
 
-require([
+require(['lib/cookie'], function (cookie) {
+  _drt.cookie = cookie;
+  if (cookie.get('drt')) require([
+    'notify/_notify',
+    'toplist/_toplist',
+  ]);
 
-  'notify/_notify',
-  'toplist/_toplist',
-
-], function () {
-  // C.log(require.toUrl(''));
+  C.log(require.toUrl(''));
 });

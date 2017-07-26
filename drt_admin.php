@@ -13,7 +13,7 @@
   }
 
   function drt_slug_css() {
-    $url = DRT__PLUGIN_URL. '/style.css';
+    $url = DRT__PLUGIN_URL. '/drt_style.css';
     echo "<style type='text/css'> @import url('$url'); </style>";
   }
 
