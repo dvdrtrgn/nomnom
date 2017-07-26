@@ -20,10 +20,9 @@ require.config({
 
 require(['lib/cookie'], function (cookie) {
   _drt.cookie = cookie;
-  if (cookie.get('drt')) require([
-    'notify/_notify',
-    'toplist/_toplist',
-  ]);
+
+  var paths = cookie.get('drt');
+  if (paths) require(paths.split(','));
 
   C.log(require.toUrl(''));
 });
