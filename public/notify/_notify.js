@@ -7,6 +7,16 @@ define(['./xtn_jq', './hash', './cookie'], function ($, hash, cookie) {
   X.cookie = cookie;
   X.site = W.location.href;
 
+  (function getPosts(key) {
+    var posts = cookie.get(key);
+
+    if (posts === undefined) cookie.set(key, posts = '');
+    posts = posts.split(',');
+
+    C.debug(key, posts);
+    return posts;
+  }('card_post_ids'));
+
   if (~X.site.indexOf('?')) {
     return;
   }
