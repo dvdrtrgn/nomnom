@@ -1,0 +1,73 @@
+.notify {
+  background-color: #f5f9fa;
+  background-position: top left;
+  background-repeat: no-repeat;
+  background-size: 50px;
+  border-radius: 2px;
+  bottom: -5px;
+  box-shadow: 0 0 15px -5px rgba(0, 0, 0, 0.7);
+  height: 55px;
+  position: fixed;
+  width: 50px;
+
+  font-size: 10px;
+  margin: 0;
+  z-index: 9999;
+}
+
+.notify.post {
+  background-image: url('images/notice_post-sm.svg');
+  left: 40%;
+}
+.notify.post.max {
+  background-image: url('images/notice_post-lg.svg');
+  left: 5em;
+}
+
+.notify.like {
+  background-image: url('images/notice_like-sm.svg');
+  right: 40%;
+}
+.notify.like.max {
+  background-image: url('images/notice_like-lg.svg');
+  right: 5em;
+}
+
+.notify.max {
+  background-size: 100px;
+  height: 110px;
+  width: 40em;
+}
+
+.notify p {
+  display: none;
+  font-family: 'myriad-pro', 'PT Sans', Arial, Helvetica, sans-serif;
+  margin: 0;
+  position: absolute;
+  right: 0;
+}
+.notify.max p {
+  background-color: white;
+  display: block;
+  height: 100%;
+  width: 30em;
+}
+.notify.max p b {
+  display: block;
+  font-size: 1.5em;
+  line-height: 1.3;
+  padding-left: 1.5rem;
+}
+
+.notify.max .l1 {
+  color: #bb0826;
+  padding-top: 20px;
+}
+.notify.max .l2 {
+  color: black;
+  font-weight: 100;
+}
+.notify.max .l3 {
+  color: #666;
+  font-weight: 100;
+}

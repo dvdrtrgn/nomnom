@@ -20,4 +20,25 @@ define(['lib/xtn_jq', 'lib/cookie'], function ($, cookie) {
     return;
   }
 
+  $.loadCss(`${X.base}notify/notify.css`);
+
+  function makeDiv(klass) {
+    function fn() {
+      $(this).toggleClass('max');
+    }
+
+    var el = $('<div>');
+    $('<p>').appendTo(el)
+      .append('<b class=l1>Blah blah blah</b>')
+      .append('<b class=l2>Blah blah blah</b>')
+      .append('<b class=l3>Blah blah blah</b>');
+
+    el.addClass(klass).click(fn);
+
+    return el;
+  }
+  var notiPost = makeDiv('notify post');
+  var notiLike = makeDiv('notify like');
+
+  $('body').prepend(notiPost, notiLike);
 });
