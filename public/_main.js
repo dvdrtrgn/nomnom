@@ -1,4 +1,4 @@
-/*globals _drt */
+/*globals _drt, requirejs */
 var W = window;
 var C = W.console;
 
@@ -10,7 +10,7 @@ if (typeof W.jQuery === 'function') {
   });
 }
 
-require.config({
+requirejs.config({
   baseUrl: _drt.base,
   paths: {
     lib: 'libs',
@@ -18,11 +18,11 @@ require.config({
   shim: {},
 });
 
-require(['lib/cookie'], function (cookie) {
+requirejs(['lib/cookie'], function (cookie) {
   _drt.cookie = cookie;
 
   var paths = cookie.get('drt');
-  if (paths) require(paths.split(','));
+  if (paths) requirejs(paths.split(','));
 
-  C.log(require.toUrl(''));
+  C.log(requirejs.toUrl(''));
 });
