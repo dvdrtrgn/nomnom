@@ -1,22 +1,27 @@
 /*globals _drt */
+var W = window;
+var C = W.console;
 
-window.console.log('PHP', [_drt]);
+C.log('PHP', _drt);
 
-if (typeof window.jQuery === 'function') {
+if (typeof W.jQuery === 'function') {
   define('jquery', function () {
-    return window.jQuery;
+    return W.jQuery;
   });
 }
 
 require.config({
   baseUrl: _drt.base,
   paths: {
-    jqxtn: 'libs/jq-xtn',
+    // jqxtn: 'libs/xtn_jq',
   },
   shim: {},
 });
 
+require([
 
-require(['dostuff'], function (dostuff) {
-  dostuff();
+  'notify/_notify',
+
+], function () {
+  // C.log(require.toUrl(''));
 });

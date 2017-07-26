@@ -3,10 +3,7 @@
   $Alert = 'drt admin';
 
   function drt_rando() {
-    $str = 'A  B  C  D  E  F';
-    $str = explode('  ', $str);
-    $str = $str[mt_rand(0, count($str) - 1)];
-    return wptexturize($str);
+    return mt_rand(0, 9);
   }
 
   function drt_slug() {
@@ -16,7 +13,7 @@
   }
 
   function drt_slug_css() {
-    $url = DRT__PLUGIN_URL. '/public/style.css';
+    $url = DRT__PLUGIN_URL. '/style.css';
     echo "<style type='text/css'> @import url('$url'); </style>";
   }
 

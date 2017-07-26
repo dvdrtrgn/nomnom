@@ -1,4 +1,4 @@
-define(['jqxtn', './hash', './search'], function ($, hash, search) {
+define(['./xtn_jq', './hash', './search'], function ($, hash, search) {
   var W = window;
   var C = W.console;
   var X = W._drt;
