@@ -70,7 +70,7 @@ footer:last-child {
     display: block;
   }
 
-  p {
+  p.slugs {
     background-color: white;
     height: 100%;
     width: 35em;
@@ -80,18 +80,17 @@ footer:last-child {
       line-height: 1.3;
       padding-left: 1.5rem;
     }
-  }
-
-  .l1 {
-    color: #bb0826;
-    padding-top: 20px;
-    font-weight: 800;
-  }
-  .l2 {
-    color: black;
-  }
-  .l3 {
-    color: #666;
+    .slug1 {
+      color: #bb0826;
+      padding-top: 20px;
+      font-weight: 800;
+    }
+    .slug2 {
+      color: black;
+    }
+    .slug3 {
+      color: #666;
+    }
   }
   .xo {
     cursor: pointer;
@@ -100,8 +99,8 @@ footer:last-child {
     position: absolute;
     right: 0.3em;
     top: 0;
-    transform-origin: 90% 30%;
-    transition: all 0.3s ease-in-out;
+    transform-origin: 60% 40%;
+    transition: transform 0.2s ease-in-out;
     &:hover {
       color: #bb0826;
       transform: scale(1.3);
