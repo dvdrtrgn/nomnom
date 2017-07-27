@@ -1,16 +1,10 @@
-define(['lib/xtn_jq', './hash'], function ($, hash) {
+define(['lib/xtn_jq', './hash', 'lib/endpoint'], function ($, hash, endpoint) {
   var W = window;
   var C = W.console;
   var X = W._drt;
 
   X.hash = hash;
   X.site = W.location.href;
-
-  if (~X.site.indexOf('?')) {
-    return;
-  }
-
-  $.loadCss(`${X.base}toplist/toplist.css`);
 
   var data = {
     cities: '[["TOP CITIES","city"],["Minneapolis",100],["Charlotte",87],["Des Moines",77],["San Francisco",67],["Chicago",57]]',
@@ -76,15 +70,31 @@ define(['lib/xtn_jq', './hash'], function ($, hash) {
     var card = $(sels).eq(2);
     var dupe = card.clone();
 
-    if (dupe.is('.dupe')) {
+    if (dupe.is('.toplist')) {
       dupe = card;
     } else {
-      dupe.addClass('dupe').insertBefore(card);
+      dupe.addClass('toplist').insertBefore(card);
     }
     return dupe.empty();
   }
 
-  data = initData(data);
-  dupeCard().append(data.cities, data.categories);
+  function fetchAll() {
+    endpoint('latest');
+    endpoint('likes');
+    endpoint('tops');
+  }
 
+  function init() {
+    if (~X.site.indexOf('?')) {
+      return;
+    }
+
+    $.loadCss(`${X.base}toplist/toplist.css`);
+    fetchAll();
+
+    data = initData(data);
+    dupeCard().append(data.cities, data.categories);
+  }
+
+  init();
 });

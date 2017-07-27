@@ -1,0 +1,53 @@
+$red: #b2272e;
+$blue: #0d6a8a;
+$lite: #f2f8f9;
+
+.toplist {
+  border: 0;
+  color: $blue;
+  font-family: 'myriad-pro', 'PT Sans', Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  padding: 0 0 0.5em;
+  text-align: left;
+  &:hover {
+    transform: initial;
+  }
+
+  article {
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    height: 50%;
+    margin-bottom: 0.5em;
+    overflow: hidden;
+    padding: 1em 1em 0;
+
+    b {
+      background-color: $lite;
+      color: $red;
+      display: block;
+      font-size: 1.1em;
+      font-weight: 100;
+      line-height: 2.5;
+      margin: -1em -1em 0.5em;
+      padding: 0.5em 1em;
+      text-transform: uppercase;
+    }
+  }
+
+  ol {
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+
+    li {
+      cursor: pointer;
+      margin-left: 1em;
+      a {
+        color: $blue;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}

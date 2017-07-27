@@ -46,7 +46,7 @@ define(['lib/xtn_jq', 'lib/cookie'], function ($, cookie) {
   function makeDiv(klass, line) {
     var el = $('<div>');
     var makeLine = function (i) {
-      return $('<b>').addClass('l' + i).html(line[i] || '&nbsp;');
+      return $('<b>').addClass('slug' + i).html(line[i] || '&nbsp;');
     };
 
     function _toggle() {
@@ -62,9 +62,10 @@ define(['lib/xtn_jq', 'lib/cookie'], function ($, cookie) {
       el.removeClass('max');
     }
 
-    $('<p>').appendTo(el)
-      .append(makeLine(1)).append(makeLine(2)).append(makeLine(3))
-      .append($('<b class=xo>&times;</b>').click(_minify));
+    $('<p class=slugs>').appendTo(el)
+      .append(makeLine(1)).append(makeLine(2)).append(makeLine(3));
+    $('<b class=xo>&times;</b>').appendTo(el)
+      .click(_minify);
     el.addClass(klass).on('click', _toggle);
 
     return el;
