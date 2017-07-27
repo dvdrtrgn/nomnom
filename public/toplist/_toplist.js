@@ -70,10 +70,10 @@ define(['lib/xtn_jq', './hash', 'lib/endpoint'], function ($, hash, endpoint) {
     var card = $(sels).eq(2);
     var dupe = card.clone();
 
-    if (dupe.is('.dupe')) {
+    if (dupe.is('.toplist')) {
       dupe = card;
     } else {
-      dupe.addClass('dupe').insertBefore(card);
+      dupe.addClass('toplist').insertBefore(card);
     }
     return dupe.empty();
   }
