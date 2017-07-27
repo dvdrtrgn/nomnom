@@ -1,0 +1,36 @@
+{
+  "cities": [
+    [
+      "Minneapolis", 100
+    ],
+    [
+      "Charlotte", 87
+    ],
+    [
+      "Des Moines", 77
+    ],
+    [
+      "San Francisco", 67
+    ],
+    [
+      "Chicago", 57
+    ]
+  ],
+  "categories": [
+    [
+      "Diversity & Inclusion", 100
+    ],
+    [
+      "Animal Welfare", 87
+    ],
+    [
+      "Arts & Culture", 77
+    ],
+    [
+      "Environmental", 67
+    ],
+    [
+      "Human Services", 57
+    ]
+  ]
+}
