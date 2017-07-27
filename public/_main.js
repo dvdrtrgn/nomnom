@@ -6,7 +6,7 @@ C.log('PHP', _drt);
 
 if (typeof W.jQuery === 'function') {
   define('jquery', function () {
-    return W.jQuery;
+    return W.$ = W.jQuery;
   });
 }
 
@@ -15,10 +15,14 @@ requirejs.config({
   paths: {
     lib: 'libs',
   },
-  shim: {},
+  shim: {
+    // jquery: {
+    //   exports: '$',
+    // },
+  },
 });
 
-requirejs(['lib/cookie'], function (cookie) {
+requirejs(['jquery', 'lib/cookie'], function ($, cookie) {
   _drt.cookie = cookie;
   _drt.defcon = function (num) {
     switch (num) {
