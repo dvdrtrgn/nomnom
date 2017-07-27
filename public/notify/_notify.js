@@ -63,8 +63,9 @@ define(['lib/xtn_jq', 'lib/cookie'], function ($, cookie) {
     }
 
     $('<p>').appendTo(el)
-      .append(makeLine(1)).append(makeLine(2)).append(makeLine(3))
-      .append($('<b class=xo>&times;</b>').click(_minify));
+      .append(makeLine(1)).append(makeLine(2)).append(makeLine(3));
+    $('<b class=xo>&times;</b>').appendTo(el)
+      .click(_minify);
     el.addClass(klass).on('click', _toggle);
 
     return el;
