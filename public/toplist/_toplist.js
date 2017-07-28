@@ -36,11 +36,11 @@ define(['lib/xtn_jq', './hash', 'lib/endpoint',
     var url = X.site;
 
     url += 'search-results/' + hash.search(dat.filter);
-    url += encodeURIComponent(dat.term);
+    url += encodeURIComponent(hash.research(dat.term));
     W.location = url;
   }
 
-  function initData(data) {
+  function data2elem(data) {
 
     function makeItem(arr, filter) {
       var li = $('<li>');
@@ -67,58 +67,54 @@ define(['lib/xtn_jq', './hash', 'lib/endpoint',
       return div;
     }
 
-    function prepData(data) {
-      // var data = JSON.parse(str);
-      C.log(data);
-      var init = data.shift();
-      var arg = {
+    function prepData(arr) {
+      var init = arr.shift();
+      var obj = {
         title: init[0],
         filter: init[1],
-        list: data,
+        list: arr,
       };
-      window.console.log(arg);
-      return makeArticle(arg);
+      return makeArticle(obj);
     }
 
     data.cities = prepData(data.cities);
     data.categories = prepData(data.categories);
+
     return data;
   }
 
-  function listCats(obj) {
-    var arr = [
-      ['TOP CATEGORIES', 'category'],
-    ];
-    for (var i in obj) {
-      arr.push([i, obj[i]]);
-    }
+  function readCategories(obj) {
+    var arr = [['TOP CATEGORIES', 'category']];
+
+    for (var i in obj)
+      if (i) arr.push([hash.search(i), obj[i]]);
+
     Data.categories = arr;
   }
 
-  function listCits(obj) {
-    var arr = [
-      ['TOP CITIES', 'city'],
-    ];
-    for (var i in obj) {
-      arr.push([i, obj[i]]);
-    }
+  function readCities(obj) {
+    var arr = [['TOP CITIES', 'city']];
+
+    for (var i in obj)
+      if (i) arr.push([i, obj[i]]);
+
     Data.cities = arr;
   }
 
   function checkData() {
-    if (Data.categories && Data.cites) {
+    if (Data.categories && Data.cities) {
       W.clearInterval(Df.ival);
 
-      var data = initData(data);
-      dupeCard().append(data.cities, data.categories);
+      var eles = data2elem(Data);
+      dupeCard().append(eles.cities, eles.categories);
     }
   }
 
   function init() {
     $.loadCss(`${X.base}toplist/toplist.css`);
 
-    endpoint(Df.points.categories, listCats);
-    endpoint(Df.points.cities, listCits);
+    endpoint(Df.points.categories, readCategories);
+    endpoint(Df.points.cities, readCities);
 
     Df.ival = W.setInterval(checkData, 999);
 
