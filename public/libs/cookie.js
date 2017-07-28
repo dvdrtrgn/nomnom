@@ -7,6 +7,8 @@
  *
  */
 define([], function () {
+  'use strict';
+
   function extend() {
     var i = 0;
     var result = {};

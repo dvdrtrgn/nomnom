@@ -1,10 +1,12 @@
 define([], function () {
+  'use strict';
+
   var W = window;
   var C = W.console;
 
   function Hash(obj) {
     var self = this;
-    if (self.constructor !== Hash) {
+    if (!self || self.constructor !== Hash) {
       return new Hash(obj);
     }
     var aL = self.left = [];

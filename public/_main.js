@@ -18,6 +18,7 @@
     baseUrl: _drt.base,
     paths: {
       lib: 'libs',
+      jscook: 'libs/js-cookie',
     },
     shim: {
       // jquery: {

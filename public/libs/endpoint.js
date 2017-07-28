@@ -6,6 +6,11 @@ define(['jquery'], function ($) {
   var C = W.console;
   var X = W._drt;
 
+  // set defaults
+  $.ajaxSetup({
+    cache: false,
+  });
+
   function fixArgs(args, count) {
     return [].slice.call(args).slice(0, count);
   }
