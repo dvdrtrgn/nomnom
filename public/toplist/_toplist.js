@@ -29,17 +29,18 @@ define(['lib/xtn_jq', './hash', 'lib/endpoint',
     return dupe.empty();
   }
 
-  function initData(data) {
-    function trigFilter(evt) {
-      evt.preventDefault();
-      var ele = $(this);
-      var dat = ele.data('Filter');
-      var url = X.site;
+  function trigFilter(evt) {
+    evt.preventDefault();
+    var ele = $(this);
+    var dat = ele.data('Filter');
+    var url = X.site;
 
-      url += 'search-results/' + hash.search(dat.filter);
-      url += encodeURIComponent(dat.term);
-      W.location = url;
-    }
+    url += 'search-results/' + hash.search(dat.filter);
+    url += encodeURIComponent(dat.term);
+    W.location = url;
+  }
+
+  function initData(data) {
 
     function makeItem(arr, filter) {
       var li = $('<li>');
