@@ -1,7 +1,17 @@
-define(['lib/xtn_jq', './hash', 'lib/endpoint'], function ($, hash, endpoint) {
+define(['lib/xtn_jq', './hash', 'lib/endpoint',
+], function ($, hash, endpoint) {
+
+  var Nom = '_toplist';
   var W = window;
   var C = W.console;
   var X = W._drt;
+  var Data = {};
+  var Df = {
+    points: {
+      categories: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/categories/top.php',
+      cities: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/cities/top.php',
+    },
+  };
 
   X.hash = hash;
   X.site = W.location.href;
@@ -78,23 +88,28 @@ define(['lib/xtn_jq', './hash', 'lib/endpoint'], function ($, hash, endpoint) {
     return dupe.empty();
   }
 
-  function fetchAll() {
-    endpoint('latest');
-    endpoint('likes');
-    endpoint('tops');
-  }
-
   function init() {
-    if (~X.site.indexOf('?')) {
-      return;
-    }
-
     $.loadCss(`${X.base}toplist/toplist.css`);
-    fetchAll();
 
     data = initData(data);
     dupeCard().append(data.cities, data.categories);
+
+    return {
+      _: Nom,
+      endpoint: endpoint,
+      Data: Data,
+      Df: Df,
+    };
   }
 
-  init();
+  if (X.site.indexOf('?') === -1) {
+    return init();
+  }
+
 });
+
+/*
+
+
+
+ */
