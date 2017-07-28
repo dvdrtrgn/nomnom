@@ -1,27 +1,46 @@
-define(['lib/xtn_jq', './hash', 'lib/endpoint'], function ($, hash, endpoint) {
+define(['lib/xtn_jq', './hash', 'lib/endpoint',
+], function ($, hash, endpoint) {
+
+  var Nom = '_toplist';
   var W = window;
   var C = W.console;
   var X = W._drt;
+  var Data = {};
+  var Df = {
+    points: {
+      categories: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/categories/top.php',
+      cities: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/cities/top.php',
+    },
+  };
 
   X.hash = hash;
   X.site = W.location.href;
 
-  var data = {
-    cities: '[["TOP CITIES","city"],["Minneapolis",100],["Charlotte",87],["Des Moines",77],["San Francisco",67],["Chicago",57]]',
-    categories: '[["TOP CATEGORIES","category"],["Diversity & Inclusion",100],["Animal Welfare",87],["Arts & Culture",77],["Environmental",67],["Human Services",57]]',
-  };
+  function dupeCard() {
+    var sels = '.gallery > .gallery-item, .possible-card-wrapper .possible-card';
+    var card = $(sels).eq(2);
+    var dupe = card.clone();
 
-  function initData(data) {
-    function trigFilter(evt) {
-      evt.preventDefault();
-      var ele = $(this);
-      var dat = ele.data('Filter');
-      var url = X.site;
-
-      url += 'search-results/' + hash.search(dat.filter);
-      url += encodeURIComponent(hash.research(dat.term));
-      W.location = url;
+    if (dupe.is('.toplist')) {
+      dupe = card;
+    } else {
+      dupe.addClass('toplist').insertBefore(card);
     }
+    return dupe.empty();
+  }
+
+  function trigFilter(evt) {
+    evt.preventDefault();
+    var ele = $(this);
+    var dat = ele.data('Filter');
+    var url = X.site;
+
+    url += 'search-results/' + hash.search(dat.filter);
+    url += encodeURIComponent(hash.research(dat.term));
+    W.location = url;
+  }
+
+  function data2elem(data) {
 
     function makeItem(arr, filter) {
       var li = $('<li>');
@@ -31,7 +50,7 @@ define(['lib/xtn_jq', './hash', 'lib/endpoint'], function ($, hash, endpoint) {
         count: arr[1],
       };
 
-      li.html(`<a href="#">${dat.term} (${dat.count} posts)</a>`);
+      li.html(`<a href="#">${hash.search(dat.term)} (${dat.count} posts)</a>`);
       li.on('click', trigFilter).data('Filter', dat);
       return li;
     }
@@ -48,53 +67,73 @@ define(['lib/xtn_jq', './hash', 'lib/endpoint'], function ($, hash, endpoint) {
       return div;
     }
 
-    function prepData(str) {
-      var data = JSON.parse(str);
-      var init = data.shift();
-      var arg = {
+    function prepData(arr) {
+      var init = arr.shift();
+      var obj = {
         title: init[0],
         filter: init[1],
-        list: data,
+        list: arr,
       };
-      window.console.log(arg);
-      return makeArticle(arg);
+      return makeArticle(obj);
     }
 
     data.cities = prepData(data.cities);
     data.categories = prepData(data.categories);
+
     return data;
   }
 
-  function dupeCard() {
-    var sels = '.gallery > .gallery-item, .possible-card-wrapper .possible-card';
-    var card = $(sels).eq(2);
-    var dupe = card.clone();
+  function readCategories(obj) {
+    var arr = [['TOP CATEGORIES', 'category']];
 
-    if (dupe.is('.toplist')) {
-      dupe = card;
-    } else {
-      dupe.addClass('toplist').insertBefore(card);
-    }
-    return dupe.empty();
+    for (var i in obj)
+      if (i) arr.push([hash.search(i), obj[i]]);
+
+    Data.categories = arr;
   }
 
-  function fetchAll() {
-    endpoint('latest');
-    endpoint('likes');
-    endpoint('tops');
+  function readCities(obj) {
+    var arr = [['TOP CITIES', 'city']];
+
+    for (var i in obj)
+      if (i) arr.push([i, obj[i]]);
+
+    Data.cities = arr;
+  }
+
+  function checkData() {
+    if (Data.categories && Data.cities) {
+      W.clearInterval(Df.ival);
+
+      var eles = data2elem(Data);
+      dupeCard().append(eles.cities, eles.categories);
+    }
   }
 
   function init() {
-    if (~X.site.indexOf('?')) {
-      return;
-    }
-
     $.loadCss(`${X.base}toplist/toplist.css`);
-    fetchAll();
 
-    data = initData(data);
-    dupeCard().append(data.cities, data.categories);
+    endpoint(Df.points.categories, readCategories);
+    endpoint(Df.points.cities, readCities);
+
+    Df.ival = W.setInterval(checkData, 999);
+
+    return {
+      _: Nom,
+      endpoint: endpoint,
+      Data: Data,
+      Df: Df,
+    };
   }
 
-  init();
+  if (X.site.indexOf('?') === -1) {
+    return init();
+  }
+
 });
+
+/*
+
+
+
+ */

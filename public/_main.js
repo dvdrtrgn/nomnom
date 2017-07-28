@@ -5,12 +5,14 @@
 
   C.log('PHP', _drt);
 
+  // http://kaidez.com/requirejs-wordpress/
   if (typeof W.jQuery === 'function') {
     define('jquery', function () {
-      // return W.$ = W.jQuery;
-      return W.jQuery;
+      return W.$ = W.jQuery;
+      // return W.jQuery;
     });
   }
+  // http://requirejs.org/docs/errors.html
 
   requirejs.config({
     baseUrl: _drt.base,
@@ -44,7 +46,9 @@
     };
 
     var paths = cookie.get('drt');
-    if (paths) requirejs(paths.split(','));
+    if (paths) requirejs(paths.split(','), function () {
+      C.log('args', arguments);
+    });
 
     C.log(requirejs.toUrl(''));
   });
