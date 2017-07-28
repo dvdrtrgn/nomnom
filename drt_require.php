@@ -3,7 +3,7 @@
   $Alert = 'drt require';
 
   function drt_req_main() {
-    $req = DRT__PLUGIN_URL . '/public/vendors/require.js';
+    $req = DRT__PLUGIN_URL . '/public/vendors/require.min.js';
     $base = DRT__JS_BASE;
     $main = $base . '_main.js';
 
