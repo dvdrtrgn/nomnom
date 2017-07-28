@@ -1,5 +1,7 @@
+/*globals _drt, requirejs */
 (function () {
-  /*globals _drt, requirejs */
+  'use strict';
+
   var W = window;
   var C = W.console;
 
