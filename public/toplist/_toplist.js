@@ -16,10 +16,18 @@ define(['lib/xtn_jq', './hash', 'lib/endpoint',
   X.hash = hash;
   X.site = W.location.href;
 
-  var data = {
-    cities: '[["TOP CITIES","city"],["Minneapolis",100],["Charlotte",87],["Des Moines",77],["San Francisco",67],["Chicago",57]]',
-    categories: '[["TOP CATEGORIES","category"],["Diversity & Inclusion",100],["Animal Welfare",87],["Arts & Culture",77],["Environmental",67],["Human Services",57]]',
-  };
+  function dupeCard() {
+    var sels = '.gallery > .gallery-item, .possible-card-wrapper .possible-card';
+    var card = $(sels).eq(2);
+    var dupe = card.clone();
+
+    if (dupe.is('.toplist')) {
+      dupe = card;
+    } else {
+      dupe.addClass('toplist').insertBefore(card);
+    }
+    return dupe.empty();
+  }
 
   function initData(data) {
     function trigFilter(evt) {
@@ -29,7 +37,7 @@ define(['lib/xtn_jq', './hash', 'lib/endpoint',
       var url = X.site;
 
       url += 'search-results/' + hash.search(dat.filter);
-      url += encodeURIComponent(hash.research(dat.term));
+      url += encodeURIComponent(dat.term);
       W.location = url;
     }
 
@@ -41,7 +49,7 @@ define(['lib/xtn_jq', './hash', 'lib/endpoint',
         count: arr[1],
       };
 
-      li.html(`<a href="#">${dat.term} (${dat.count} posts)</a>`);
+      li.html(`<a href="#">${hash.search(dat.term)} (${dat.count} posts)</a>`);
       li.on('click', trigFilter).data('Filter', dat);
       return li;
     }
@@ -58,8 +66,9 @@ define(['lib/xtn_jq', './hash', 'lib/endpoint',
       return div;
     }
 
-    function prepData(str) {
-      var data = JSON.parse(str);
+    function prepData(data) {
+      // var data = JSON.parse(str);
+      C.log(data);
       var init = data.shift();
       var arg = {
         title: init[0],
@@ -75,24 +84,42 @@ define(['lib/xtn_jq', './hash', 'lib/endpoint',
     return data;
   }
 
-  function dupeCard() {
-    var sels = '.gallery > .gallery-item, .possible-card-wrapper .possible-card';
-    var card = $(sels).eq(2);
-    var dupe = card.clone();
-
-    if (dupe.is('.toplist')) {
-      dupe = card;
-    } else {
-      dupe.addClass('toplist').insertBefore(card);
+  function listCats(obj) {
+    var arr = [
+      ['TOP CATEGORIES', 'category'],
+    ];
+    for (var i in obj) {
+      arr.push([i, obj[i]]);
     }
-    return dupe.empty();
+    Data.categories = arr;
+  }
+
+  function listCits(obj) {
+    var arr = [
+      ['TOP CITIES', 'city'],
+    ];
+    for (var i in obj) {
+      arr.push([i, obj[i]]);
+    }
+    Data.cities = arr;
+  }
+
+  function checkData() {
+    if (Data.categories && Data.cites) {
+      W.clearInterval(Df.ival);
+
+      var data = initData(data);
+      dupeCard().append(data.cities, data.categories);
+    }
   }
 
   function init() {
     $.loadCss(`${X.base}toplist/toplist.css`);
 
-    data = initData(data);
-    dupeCard().append(data.cities, data.categories);
+    endpoint(Df.points.categories, listCats);
+    endpoint(Df.points.cities, listCits);
+
+    Df.ival = W.setInterval(checkData, 999);
 
     return {
       _: Nom,

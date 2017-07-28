@@ -82,6 +82,11 @@ define(['lib/xtn_jq', 'lib/cookie', 'lib/endpoint',
   function init() {
     $.loadCss(`${X.base}notify/notify.css`);
 
+    // var data = {
+    //   posts: endpoint(Df.points.posts),
+    //   likes: endpoint(Df.points.likes),
+    // };
+
     var notiPost = makeDiv('notify post', getData('posts'));
     var notiLike = makeDiv('notify like', getData('likes'));
 
