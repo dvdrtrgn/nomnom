@@ -1,5 +1,7 @@
+/*globals _drt, requirejs */
 (function () {
-  /*globals _drt, requirejs */
+  'use strict';
+
   var W = window;
   var C = W.console;
 
@@ -18,6 +20,7 @@
     baseUrl: _drt.base,
     paths: {
       lib: 'libs',
+      jscook: 'libs/js-cookie',
     },
     shim: {
       // jquery: {

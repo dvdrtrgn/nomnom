@@ -1,5 +1,6 @@
 define(['lib/xtn_jq', './hash', 'lib/endpoint',
 ], function ($, hash, endpoint) {
+  'use strict';
 
   var Nom = '_toplist';
   var W = window;
@@ -116,7 +117,7 @@ define(['lib/xtn_jq', './hash', 'lib/endpoint',
     endpoint(Df.points.categories, readCategories);
     endpoint(Df.points.cities, readCities);
 
-    Df.ival = W.setInterval(checkData, 999);
+    Df.ival = W.setInterval(checkData, 9);
 
     return {
       _: Nom,
@@ -126,7 +127,7 @@ define(['lib/xtn_jq', './hash', 'lib/endpoint',
     };
   }
 
-  if (X.site.indexOf('?') === -1) {
+  if (X.site.indexOf('?_sf') === -1) {
     return init();
   }
 

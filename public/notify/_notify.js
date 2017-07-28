@@ -13,7 +13,6 @@ define(['lib/xtn_jq', 'lib/cookie', 'lib/endpoint',
     },
   };
 
-  X.cookie = cookie;
   X.site = W.location.href;
 
   (function getPosts(key) {
