@@ -6,6 +6,11 @@ define(['jquery'], function ($) {
   var C = W.console;
   var X = W._drt;
 
+  // set defaults
+  $.ajaxSetup({
+    cache: false,
+  });
+
   function fixArgs(args, count) {
     return [].slice.call(args).slice(0, count);
   }
@@ -23,12 +28,16 @@ define(['jquery'], function ($) {
     };
   }
 
-  return function (nom, done, fail) {
-    nom = nom || 'latests';
+  return function (endpoint, done, fail) {
+    endpoint = endpoint || 'latests';
+
+    if (endpoint.indexOf('http') !== 0) {
+      endpoint = X.base + 'data/' + endpoint + '.json';
+    }
     done = done || makeCb('json');
     fail = fail || makeCb('fail', 'info', 9);
 
-    $.ajax(X.base + 'data/' + nom + '.json')
+    $.ajax(endpoint)
       .done(done).fail(fail).always();
   };
 

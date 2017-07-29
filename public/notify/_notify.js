@@ -1,9 +1,18 @@
-define(['lib/xtn_jq', 'lib/cookie'], function ($, cookie) {
+define(['lib/xtn_jq', 'lib/cookie', 'lib/endpoint',
+], function ($, cookie, endpoint) {
+
+  var Nom = '_notify';
   var W = window;
   var C = W.console;
   var X = W._drt;
+  var Data = {};
+  var Df = {
+    points: {
+      likes: 'likes',
+      posts: 'posts',
+    },
+  };
 
-  X.cookie = cookie;
   X.site = W.location.href;
 
   (function getPosts(key) {
@@ -19,8 +28,6 @@ define(['lib/xtn_jq', 'lib/cookie'], function ($, cookie) {
   if (~X.site.indexOf('?')) {
     return;
   }
-
-  $.loadCss(`${X.base}notify/notify.css`);
 
   function getData(key) {
     return {
@@ -71,8 +78,32 @@ define(['lib/xtn_jq', 'lib/cookie'], function ($, cookie) {
     return el;
   }
 
-  var notiPost = makeDiv('notify post', getData('posts'));
-  var notiLike = makeDiv('notify like', getData('likes'));
+  function init() {
+    $.loadCss(`${X.base}notify/notify.css`);
 
-  $('body').prepend(notiPost, notiLike);
+    // var data = {
+    //   posts: endpoint(Df.points.posts),
+    //   likes: endpoint(Df.points.likes),
+    // };
+
+    var notiPost = makeDiv('notify post', getData('posts'));
+    var notiLike = makeDiv('notify like', getData('likes'));
+
+    $('body').prepend(notiPost, notiLike);
+
+    return {
+      _: Nom,
+      endpoint: endpoint,
+      Data: Data,
+      Df: Df,
+    };
+  }
+
+  return init();
 });
+
+/*
+
+
+
+ */
