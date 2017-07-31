@@ -79,7 +79,7 @@ define(['lib/xtn_jq', 'lib/cookie', 'lib/endpoint',
   }
 
   function init() {
-    $.loadCss(`${X.base}notify/notify.css`);
+    $.loadCss(X.base + 'notify/notify.css');
 
     // var data = {
     //   posts: endpoint(Df.points.posts),

@@ -51,7 +51,7 @@ define(['lib/xtn_jq', './hash', 'lib/endpoint',
         count: arr[1],
       };
 
-      li.html(`<a href="#">${hash.search(dat.term)} (${dat.count} posts)</a>`);
+      li.html('<a href="#">' + hash.search(dat.term) + ' (' + dat.count + ' posts)</a>');
       li.on('click', trigFilter).data('Filter', dat);
       return li;
     }
@@ -112,7 +112,7 @@ define(['lib/xtn_jq', './hash', 'lib/endpoint',
   }
 
   function init() {
-    $.loadCss(`${X.base}toplist/toplist.css`);
+    $.loadCss(X.base + 'toplist/toplist.css');
 
     endpoint(Df.points.categories, readCategories);
     endpoint(Df.points.cities, readCities);
