@@ -172,7 +172,8 @@ a.search-filter-reset {
 }
 
 .possible-card {
-  flex-basis: 30%;
+  flex-basis: 22%;
+  font-size: 11px;
   padding: 10px;
   border: 1px solid #ccc;
   margin-bottom: 20px;
@@ -189,21 +190,19 @@ a.search-filter-reset {
   -webkit-filter: blur(0);
 }
 
-.possible-card:nth-child(3n+2):last-child {
-  margin-right: auto;
-  margin-left: 2%;
-}
-
 .p-card-meta,
 .p-card-actions {
-  min-width: 30%;
+  min-width: 22%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-basis: 40%;
+  line-height: 1;
+  margin-top: 5px;
 }
 
 .share_button {
-  padding-left: 20px;
+  padding-left: 2px;
 }
 
 .share_button:before {
