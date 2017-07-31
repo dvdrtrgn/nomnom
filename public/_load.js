@@ -8,4 +8,4 @@ setTimeout(function () {
   script.src = _drt.base + 'vendors/require.min.js';
 
   document.getElementsByTagName('head')[0].appendChild(script);
-}, 999);
+}, 333);

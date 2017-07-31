@@ -11,6 +11,7 @@ define(['lib/xtn_jq', './hash', 'lib/endpoint',
     points: {
       categories: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/categories/top.php',
       cities: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/cities/top.php',
+      top5: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/ecg/top5.php',
     },
   };
 
@@ -102,22 +103,18 @@ define(['lib/xtn_jq', './hash', 'lib/endpoint',
     Data.cities = arr;
   }
 
-  function checkData() {
-    if (Data.categories && Data.cities) {
-      W.clearInterval(Df.ival);
+  function readTop5(obj) {
+    readCategories(obj.area_of_interest);
+    readCities(obj.city);
 
-      var eles = data2elem(Data);
-      dupeCard().append(eles.cities, eles.categories);
-    }
+    var eles = data2elem(Data);
+    dupeCard().append(eles.cities, eles.categories);
   }
 
   function init() {
     $.loadCss(X.base + 'toplist/toplist.css');
 
-    endpoint(Df.points.categories, readCategories);
-    endpoint(Df.points.cities, readCities);
-
-    Df.ival = W.setInterval(checkData, 9);
+    endpoint(Df.points.top5, readTop5);
 
     return {
       _: Nom,
