@@ -1,4 +1,4 @@
-define(['lib/xtn_jq', './hash', 'lib/endpoint',
+define(['jqxtn', './hash', 'lib/endpoint',
 ], function ($, hash, endpoint) {
   'use strict';
 
@@ -16,17 +16,22 @@ define(['lib/xtn_jq', './hash', 'lib/endpoint',
   };
 
   X.hash = hash;
-  X.site = W.location.href;
+  X.site = W.location.origin + W.location.pathname;
 
   function dupeCard() {
     var sels = '.gallery > .gallery-item, .possible-card-wrapper .possible-card';
-    var card = $(sels).eq(2);
+    var card = $(sels);
+    if (card.length > 2) {
+      card = card.eq(2);
+    } else {
+      card = card.last();
+    }
     var dupe = card.clone();
 
     if (dupe.is('.toplist')) {
       dupe = card;
     } else {
-      dupe.addClass('toplist').insertBefore(card);
+      dupe.addClass('toplist').insertAfter(card);
     }
     return dupe.empty();
   }
@@ -89,7 +94,7 @@ define(['lib/xtn_jq', './hash', 'lib/endpoint',
     var arr = [['TOP CATEGORIES', 'category']];
 
     for (var i in obj)
-      if (i) arr.push([hash.search(i), obj[i]]);
+      if (i && i !== 'other') arr.push([hash.search(i), obj[i]]);
 
     Data.categories = arr;
   }
@@ -124,9 +129,7 @@ define(['lib/xtn_jq', './hash', 'lib/endpoint',
     };
   }
 
-  if (X.site.indexOf('?_sf') === -1) {
-    return init();
-  }
+  return init();
 
 });
 

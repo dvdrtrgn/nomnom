@@ -1,4 +1,4 @@
-define(['lib/xtn_jq', 'lib/cookie', 'lib/endpoint',
+define(['jqxtn', 'jscook', 'lib/endpoint',
 ], function ($, cookie, endpoint) {
 
   var Nom = '_notify';

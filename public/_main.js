@@ -20,7 +20,8 @@
     baseUrl: _drt.base,
     paths: {
       lib: 'libs',
-      jscook: 'libs/js-cookie',
+      jscook: 'libs/cookie',
+      jqxtn: 'libs/xtn_jq',
     },
     shim: {
       // jquery: {
@@ -29,7 +30,7 @@
     },
   });
 
-  requirejs(['jquery', 'lib/cookie'], function ($, cookie) {
+  requirejs(['jquery', 'jscook'], function ($, cookie) {
     _drt.cookie = cookie;
     _drt.defcon = function (num) {
       switch (num) {
@@ -48,12 +49,16 @@
       W.location.reload();
     };
 
-    var paths = cookie.get('drt');
-    if (paths) requirejs(paths.split(','), function () {
-      C.log('args', arguments);
-    });
+    function init() {
+      var paths = cookie.get('drt');
+      if (paths) requirejs(paths.split(','), function () {
+        C.log('args', arguments);
+      });
 
-    C.log(requirejs.toUrl(''));
+      C.log(requirejs.toUrl(''));
+    }
+
+    $(init);
   });
 
 }());
