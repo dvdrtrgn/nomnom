@@ -6,23 +6,6 @@ define(['jqxtn', './fetch',
   var C = W.console;
   var D = W._drt;
 
-  function getData(key) {
-    return {
-      posts: [
-        false,
-        'Better is Possible',
-        'Andrea Voelke just created a new post.',
-        '12 total posts on site',
-      ],
-      likes: [
-        false,
-        'Great job!',
-        'Someone has liked a post that you created.',
-        'You’ve been liked 123 times.',
-      ],
-    }[key];
-  }
-
   function makeDiv(klass, line) {
     var el = $('<div>');
     var makeLine = function (i) {
@@ -53,16 +36,17 @@ define(['jqxtn', './fetch',
     return el;
   }
 
+  function useData(data) {
+    var notiPost = makeDiv('notify post', data.posts);
+    var notiLike = makeDiv('notify like', data.likes);
+
+    $('body').prepend(notiPost, notiLike);
+  }
+
   function init() {
     $.loadCss(D.base + 'notify/notify.css');
 
-    var notiPost = getData('posts');
-    var notiLike = getData('likes');
-
-    notiPost = makeDiv('notify post', notiPost);
-    notiLike = makeDiv('notify like', notiLike);
-
-    $('body').prepend(notiPost, notiLike);
+    Fetch.get(useData);
 
     return {
       _: Nom,
