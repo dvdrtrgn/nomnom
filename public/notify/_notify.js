@@ -25,24 +25,16 @@ define(['jqxtn', 'jscook', 'lib/endpoint',
     return posts;
   }('card_post_ids'));
 
-  if (~X.site.indexOf('?')) {
-    return;
-  }
-
   function getData(key) {
     return {
       posts: [
-        function () {
-          confirm('do something with new post?');
-        },
+        false,
         'Better is Possible',
         'Andrea Voelke just created a new post.',
         '12 total posts on site',
       ],
       likes: [
-        function () {
-          confirm('do something with liked post?');
-        },
+        false,
         'Great job!',
         'Someone has liked a post that you created.',
         'You’ve been liked 123 times.',
@@ -56,23 +48,25 @@ define(['jqxtn', 'jscook', 'lib/endpoint',
       return $('<b>').addClass('slug' + i).html(line[i] || '&nbsp;');
     };
 
-    function _toggle() {
+    function _close() {
       if (el.is('.max')) {
         if (line[0]) line[0]();
-        el.hide();
+        else el.hide();
       }
       el.toggleClass('max');
     }
 
-    function _minify(evt) {
+    function _toggle(evt) {
       evt.stopPropagation();
-      el.removeClass('max');
+      el.toggleClass('max');
     }
 
     $('<p class=slugs>').appendTo(el)
       .append(makeLine(1)).append(makeLine(2)).append(makeLine(3));
+
     $('<b class=xo>&times;</b>').appendTo(el)
-      .click(_minify);
+      .click(_close);
+
     el.addClass(klass).on('click', _toggle);
 
     return el;
