@@ -35,7 +35,8 @@ class Card {
         $stmt = sprintf("
             SELECT COUNT(*) as count
             FROM %s
-            WHERE post_type='%s'%s;",
+            WHERE post_type='%s'
+            AND post_status='publish'%s;",
             TBL_POSTS, 'possible-card', Card::gen_since_query($since));
         $res = $conn->query($stmt)->fetch();
 
@@ -49,7 +50,8 @@ class Card {
             FROM %s
             INNER JOIN %s
             ON %s.ID=%s.post_id
-            WHERE meta_key='%s'%s
+            WHERE post_status='publish'
+            AND meta_key='%s'%s
             GROUP BY meta_value
             ORDER BY count DESC LIMIT %d;",
             TBL_POSTS, TBL_DATA, TBL_POSTS, TBL_DATA, $field, Card::gen_since_query($since), $num);
@@ -123,6 +125,7 @@ class Card {
             SELECT ID
             FROM %s
             WHERE post_type='%s'
+            AND post_status='publish'
             ORDER BY ID DESC
             LIMIT 1",
             TBL_POSTS, 'possible-card'));

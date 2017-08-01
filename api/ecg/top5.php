@@ -7,7 +7,7 @@ require_once('cfg.php');
 $res = array();
 
 foreach($FILTER_TOP_GET as $item) {
-	$res[$item] = Card::get_top($pdo, $item, FILTER_TOP_NUM, FILTER_START_DATE);
+	$res[$item] = Card::get_top($pdo, $item, FILTER_TOP_NUM);
 }
 
 echo json_encode($res);
