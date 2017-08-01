@@ -8,8 +8,8 @@ define(['jqxtn', 'jscook', 'lib/endpoint',
   var Data = {};
   var Df = {
     points: {
-      likes: 'likes',
-      posts: 'posts',
+      likes: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/ecg/get.php',
+      posts: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/ecg/latest.php',
     },
   };
 
@@ -76,12 +76,21 @@ define(['jqxtn', 'jscook', 'lib/endpoint',
     $.loadCss(X.base + 'notify/notify.css');
 
     // var data = {
-    //   posts: endpoint(Df.points.posts),
-    //   likes: endpoint(Df.points.likes),
+    //   posts:
+    //   likes:
     // };
+    endpoint(Df.points.posts, function (data) {
+      Data.posts = data;
+    });
+    endpoint(Df.points.likes, function (data) {
+      Data.likes = data;
+    });
 
-    var notiPost = makeDiv('notify post', getData('posts'));
-    var notiLike = makeDiv('notify like', getData('likes'));
+    var notiPost = getData('posts');
+    var notiLike = getData('likes');
+
+    notiPost = makeDiv('notify post', notiPost);
+    notiLike = makeDiv('notify like', notiLike);
 
     $('body').prepend(notiPost, notiLike);
 
