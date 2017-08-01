@@ -31,7 +31,9 @@
   });
 
   requirejs(['jquery', 'jscook'], function ($, cookie) {
+    _drt.site = W.location.origin + W.location.pathname;
     _drt.cookie = cookie;
+
     _drt.defcon = function (num) {
       switch (num) {
       case 1:

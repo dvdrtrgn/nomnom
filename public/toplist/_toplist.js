@@ -5,8 +5,7 @@ define(['jqxtn', './hash', 'lib/endpoint',
   var Nom = '_toplist';
   var W = window;
   var C = W.console;
-  var X = W._drt;
-  var Data = {};
+  var D = W._drt;
   var Df = {
     points: {
       categories: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/categories/top.php',
@@ -14,9 +13,7 @@ define(['jqxtn', './hash', 'lib/endpoint',
       top5: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/ecg/top5.php',
     },
   };
-
-  X.hash = hash;
-  X.site = W.location.origin + W.location.pathname;
+  var Data = {};
 
   function dupeCard() {
     var sels = '.gallery > .gallery-item, .possible-card-wrapper .possible-card';
@@ -40,7 +37,7 @@ define(['jqxtn', './hash', 'lib/endpoint',
     evt.preventDefault();
     var ele = $(this);
     var dat = ele.data('Filter');
-    var url = X.site;
+    var url = D.site;
 
     url += 'search-results/' + hash.search(dat.filter);
     url += encodeURIComponent(hash.research(dat.term));
@@ -117,7 +114,7 @@ define(['jqxtn', './hash', 'lib/endpoint',
   }
 
   function init() {
-    $.loadCss(X.base + 'toplist/toplist.css');
+    $.loadCss(D.base + 'toplist/toplist.css');
 
     endpoint(Df.points.top5, readTop5);
 
@@ -129,6 +126,7 @@ define(['jqxtn', './hash', 'lib/endpoint',
     };
   }
 
+  D.hash = hash;
   return init();
 
 });

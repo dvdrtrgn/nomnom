@@ -4,16 +4,14 @@ define(['jqxtn', 'jscook', 'lib/endpoint',
   var Nom = '_notify';
   var W = window;
   var C = W.console;
-  var X = W._drt;
-  var Data = {};
+  var D = W._drt;
   var Df = {
     points: {
       likes: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/ecg/get.php',
       posts: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/ecg/latest.php',
     },
   };
-
-  X.site = W.location.href;
+  var Data = {};
 
   (function getPosts(key) {
     var posts = cookie.get(key);
@@ -73,7 +71,7 @@ define(['jqxtn', 'jscook', 'lib/endpoint',
   }
 
   function init() {
-    $.loadCss(X.base + 'notify/notify.css');
+    $.loadCss(D.base + 'notify/notify.css');
 
     // var data = {
     //   posts:
