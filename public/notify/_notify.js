@@ -63,6 +63,11 @@ define(['jqxtn', './fetch',
 
     Fetch.get(useData);
 
+    setInterval(function () {
+      Fetch.update();
+      Fetch.get(useData);
+    }, 60 * 1000);
+
     return {
       _: {
         Nom: Nom,

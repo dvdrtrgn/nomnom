@@ -10,13 +10,18 @@ define(['jqxtn', 'lib/endpoint', 'jscook',
     posts: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/ecg/latest.php',
   };
 
-  Endpoint(Uris.posts, function (data) {
-    Data.posts = data;
-  });
+  function update() {
+    delete Data.posts;
+    delete Data.likes;
 
-  Endpoint(Uris.likes, function (data) {
-    Data.likes = data;
-  });
+    Endpoint(Uris.posts, function (data) {
+      Data.posts = data;
+    });
+
+    Endpoint(Uris.likes, function (data) {
+      Data.likes = data;
+    });
+  }
 
   function cleanData() {
     var name = Data.posts.first_name + ' ' + Data.posts.last_name;
@@ -65,6 +70,7 @@ define(['jqxtn', 'lib/endpoint', 'jscook',
   }
 
   function init() {
+    update();
     return {
       _: {
         Nom: Nom,
@@ -75,6 +81,7 @@ define(['jqxtn', 'lib/endpoint', 'jscook',
       Uris: Uris,
       //
       get: getData,
+      update: update,
     };
   }
 
