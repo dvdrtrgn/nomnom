@@ -28,18 +28,21 @@ define(['jqxtn', 'lib/endpoint', 'jscook',
     }, 0);
 
     var lastId = Number(Cookie.get('card_last_post_id')) || 0;
-    Cookie.set('card_last_post_id', postId);
     var lastCnt = Number(Cookie.get('card_last_like_cnt')) || 0;
-    Cookie.set('card_last_like_cnt', likeCnt);
 
     var postArr = [
-      false,
+      function () {
+        Cookie.set('card_last_post_id', postId);
+      },
       'Better is Possible',
       name + ' just created a new post.',
       postStr + ' on site',
     ];
+
     var likeArr = [
-      false,
+      function () {
+        Cookie.set('card_last_like_cnt', likeCnt);
+      },
       'Great job!',
       'Someone has liked a post that you created.',
       'You’ve been liked ' + likeCnt + ' times.',
