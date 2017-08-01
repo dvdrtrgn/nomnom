@@ -1,27 +1,10 @@
-define(['jqxtn', 'jscook', 'lib/endpoint',
-], function ($, cookie, endpoint) {
+define(['jqxtn', 'fetch', 'lib/endpoint',
+], function ($, fetch, endpoint) {
 
   var Nom = '_notify';
   var W = window;
   var C = W.console;
   var D = W._drt;
-  var Df = {
-    points: {
-      likes: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/ecg/get.php',
-      posts: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/ecg/latest.php',
-    },
-  };
-  var Data = {};
-
-  (function getPosts(key) {
-    var posts = cookie.get(key);
-
-    if (posts === undefined) cookie.set(key, posts = '');
-    posts = posts.split(',');
-
-    C.debug(key, posts);
-    return posts;
-  }('card_post_ids'));
 
   function getData(key) {
     return {
@@ -73,17 +56,6 @@ define(['jqxtn', 'jscook', 'lib/endpoint',
   function init() {
     $.loadCss(D.base + 'notify/notify.css');
 
-    // var data = {
-    //   posts:
-    //   likes:
-    // };
-    endpoint(Df.points.posts, function (data) {
-      Data.posts = data;
-    });
-    endpoint(Df.points.likes, function (data) {
-      Data.likes = data;
-    });
-
     var notiPost = getData('posts');
     var notiLike = getData('likes');
 
@@ -95,8 +67,7 @@ define(['jqxtn', 'jscook', 'lib/endpoint',
     return {
       _: Nom,
       endpoint: endpoint,
-      Data: Data,
-      Df: Df,
+      fetch: fetch,
     };
   }
 
