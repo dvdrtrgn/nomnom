@@ -10,16 +10,6 @@ define(['jqxtn', 'lib/endpoint', 'jscook',
     posts: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/ecg/latest.php',
   };
 
-  (function getPosts(key) {
-    var posts = Cookie.get(key);
-
-    if (posts === undefined) Cookie.set(key, posts = '');
-    posts = posts.split(',');
-
-    C.debug(key, posts);
-    return posts;
-  }('card_post_ids'));
-
   Endpoint(Uris.posts, function (data) {
     Data.posts = data;
   });
@@ -30,26 +20,34 @@ define(['jqxtn', 'lib/endpoint', 'jscook',
 
   function cleanData() {
     var name = Data.posts.first_name + ' ' + Data.posts.last_name;
-    var postNum = Data.posts.total_posts;
-    var likeNum = Data.likes.reduce(function (tot, obj) {
+    var postId = Number(Data.posts.id);
+    var postCnt = Data.posts.total_posts;
+    var postStr = postCnt + (postCnt === 1 ? ' post so far' : ' total posts');
+    var likeCnt = Data.likes.reduce(function (tot, obj) {
       return tot + Number(obj.vortex_system_likes || 0);
     }, 0);
 
-    var postStr = postNum + (postNum === 1 ? ' post so far' : ' total posts');
+    var lastId = Number(Cookie.get('card_last_post_id')) || 0;
+    Cookie.set('card_last_post_id', postId);
+    var lastCnt = Number(Cookie.get('card_last_like_cnt')) || 0;
+    Cookie.set('card_last_like_cnt', likeCnt);
+
+    var postArr = [
+      false,
+      'Better is Possible',
+      name + ' just created a new post.',
+      postStr + ' on site',
+    ];
+    var likeArr = [
+      false,
+      'Great job!',
+      'Someone has liked a post that you created.',
+      'You’ve been liked ' + likeCnt + ' times.',
+    ];
 
     return {
-      posts: [
-        false,
-        'Better is Possible',
-        name + ' just created a new post.',
-        postStr + ' on site',
-      ],
-      likes: [
-        false,
-        'Great job!',
-        'Someone has liked a post that you created.',
-        'You’ve been liked ' + likeNum + ' times.',
-      ],
+      posts: lastId < postId ? postArr : [],
+      likes: lastCnt < likeCnt ? likeArr : [],
     };
   }
 
