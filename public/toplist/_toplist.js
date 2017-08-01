@@ -1,3 +1,4 @@
+/*globals _drt */
 define(['jqxtn', './hash', 'lib/endpoint',
 ], function ($, Hash, Endpoint) {
   'use strict';
@@ -5,7 +6,6 @@ define(['jqxtn', './hash', 'lib/endpoint',
   var Nom = '_toplist';
   var W = window;
   var C = W.console;
-  var D = W._drt;
   var Df = {
     points: {
       categories: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/categories/top.php',
@@ -37,7 +37,7 @@ define(['jqxtn', './hash', 'lib/endpoint',
     evt.preventDefault();
     var ele = $(this);
     var dat = ele.data('Filter');
-    var url = D.site;
+    var url = _drt.site;
 
     url += 'search-results/' + Hash.search(dat.filter);
     url += encodeURIComponent(Hash.research(dat.term));
@@ -114,7 +114,7 @@ define(['jqxtn', './hash', 'lib/endpoint',
   }
 
   function init() {
-    $.loadCss(D.base + 'toplist/toplist.css');
+    $.loadCss(_drt.base + 'toplist/toplist.css');
 
     Endpoint(Df.points.top5, readTop5);
 

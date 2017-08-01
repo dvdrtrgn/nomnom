@@ -1,10 +1,10 @@
+/*globals _drt */
 define(['jqxtn', './fetch',
 ], function ($, Fetch) {
 
   var Nom = '_notify';
   var W = window;
   var C = W.console;
-  var D = W._drt;
 
   function makeDiv(klass, line) {
     var el = $('<div>');
@@ -44,7 +44,7 @@ define(['jqxtn', './fetch',
   }
 
   function init() {
-    $.loadCss(D.base + 'notify/notify.css');
+    $.loadCss(_drt.base + 'notify/notify.css');
 
     Fetch.get(useData);
 
