@@ -1,10 +1,8 @@
-/*global define, */
 define(['jquery'], function ($) {
   'use strict';
 
   var W = window;
   var C = W.console;
-  var X = W._drt;
 
   // set defaults
   $.ajaxSetup({
@@ -29,11 +27,10 @@ define(['jquery'], function ($) {
   }
 
   return function (endpoint, done, fail) {
-    endpoint = endpoint || 'latests';
-
-    if (endpoint.indexOf('http') !== 0) {
-      endpoint = X.base + 'data/' + endpoint + '.json';
+    if (!endpoint) {
+      throw ('no uri');
     }
+
     done = done || makeCb('json');
     fail = fail || makeCb('fail', 'info', 9);
 
