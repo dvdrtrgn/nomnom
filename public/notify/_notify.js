@@ -1,5 +1,5 @@
-define(['jqxtn', 'fetch', 'lib/endpoint',
-], function ($, fetch, endpoint) {
+define(['jqxtn', './fetch',
+], function ($, Fetch) {
 
   var Nom = '_notify';
   var W = window;
@@ -66,8 +66,7 @@ define(['jqxtn', 'fetch', 'lib/endpoint',
 
     return {
       _: Nom,
-      endpoint: endpoint,
-      fetch: fetch,
+      Fetch: Fetch,
     };
   }
 

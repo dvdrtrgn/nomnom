@@ -30,29 +30,29 @@
     },
   });
 
-  requirejs(['jquery', 'jscook'], function ($, cookie) {
+  requirejs(['jquery', 'jscook'], function ($, Cookie) {
     _drt.site = W.location.origin + W.location.pathname;
-    _drt.cookie = cookie;
+    _drt.Cookie = Cookie;
 
     _drt.defcon = function (num) {
       switch (num) {
       case 1:
-        cookie.set('drt', 'notify/_notify,toplist/_toplist');
+        Cookie.set('drt', 'notify/_notify,toplist/_toplist');
         break;
       case 2:
-        cookie.set('drt', 'notify/_notify');
+        Cookie.set('drt', 'notify/_notify');
         break;
       case 3:
-        cookie.set('drt', 'toplist/_toplist');
+        Cookie.set('drt', 'toplist/_toplist');
         break;
       default:
-        cookie.set('drt', '');
+        Cookie.set('drt', '');
       }
       W.location.reload();
     };
 
     function init() {
-      var paths = cookie.get('drt');
+      var paths = Cookie.get('drt');
       if (paths) requirejs(paths.split(','), function () {
         C.log('args', arguments);
       });

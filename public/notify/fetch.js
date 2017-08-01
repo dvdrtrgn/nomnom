@@ -1,5 +1,5 @@
 define(['jqxtn', 'lib/endpoint',
-], function ($, endpoint) {
+], function ($, Endpoint) {
 
   var Nom = 'fetch';
   var W = window;
@@ -10,11 +10,11 @@ define(['jqxtn', 'lib/endpoint',
     posts: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/ecg/latest.php',
   };
 
-  endpoint(Uris.posts, function (data) {
+  Endpoint(Uris.posts, function (data) {
     Data.posts = data;
   });
 
-  endpoint(Uris.likes, function (data) {
+  Endpoint(Uris.likes, function (data) {
     Data.likes = data;
   });
 
@@ -31,7 +31,7 @@ define(['jqxtn', 'lib/endpoint',
   function init() {
     return {
       _: Nom,
-      endpoint: endpoint,
+      Endpoint: Endpoint,
       Data: Data,
       Uris: Uris,
       //

@@ -1,5 +1,5 @@
 define(['jqxtn', './hash', 'lib/endpoint',
-], function ($, hash, endpoint) {
+], function ($, Hash, Endpoint) {
   'use strict';
 
   var Nom = '_toplist';
@@ -39,8 +39,8 @@ define(['jqxtn', './hash', 'lib/endpoint',
     var dat = ele.data('Filter');
     var url = D.site;
 
-    url += 'search-results/' + hash.search(dat.filter);
-    url += encodeURIComponent(hash.research(dat.term));
+    url += 'search-results/' + Hash.search(dat.filter);
+    url += encodeURIComponent(Hash.research(dat.term));
     W.location = url;
   }
 
@@ -54,7 +54,7 @@ define(['jqxtn', './hash', 'lib/endpoint',
         count: arr[1],
       };
 
-      li.html('<a href="#">' + hash.search(dat.term) + ' (' + dat.count + ' posts)</a>');
+      li.html('<a href="#">' + Hash.search(dat.term) + ' (' + dat.count + ' posts)</a>');
       li.on('click', trigFilter).data('Filter', dat);
       return li;
     }
@@ -91,7 +91,7 @@ define(['jqxtn', './hash', 'lib/endpoint',
     var arr = [['TOP CATEGORIES', 'category']];
 
     for (var i in obj)
-      if (i && i !== 'other') arr.push([hash.search(i), obj[i]]);
+      if (i && i !== 'other') arr.push([Hash.search(i), obj[i]]);
 
     Data.categories = arr;
   }
@@ -116,17 +116,17 @@ define(['jqxtn', './hash', 'lib/endpoint',
   function init() {
     $.loadCss(D.base + 'toplist/toplist.css');
 
-    endpoint(Df.points.top5, readTop5);
+    Endpoint(Df.points.top5, readTop5);
 
     return {
       _: Nom,
-      endpoint: endpoint,
+      Endpoint: Endpoint,
+      Hash: Hash,
       Data: Data,
       Df: Df,
     };
   }
 
-  D.hash = hash;
   return init();
 
 });
