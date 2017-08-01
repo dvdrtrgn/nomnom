@@ -119,11 +119,9 @@ define(['jqxtn', './hash', 'lib/endpoint',
     Endpoint(Df.points.top5, readTop5);
 
     return {
-      _: {
-        Nom: Nom,
-        Endpoint: Endpoint,
-        Hash: Hash,
-      },
+      _: Nom,
+      _Endpoint: Endpoint,
+      _Hash: Hash,
       Data: Data,
       Df: Df,
     };

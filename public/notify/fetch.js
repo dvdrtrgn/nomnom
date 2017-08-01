@@ -73,11 +73,9 @@ define(['jqxtn', 'lib/endpoint', 'jscook',
   function init() {
     update();
     return {
-      _: {
-        Nom: Nom,
-        Cookie: Cookie,
-        Endpoint: Endpoint,
-      },
+      _: Nom,
+      _Cookie: Cookie,
+      _Endpoint: Endpoint,
       Data: Data,
       Uris: Uris,
       //

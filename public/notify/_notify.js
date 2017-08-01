@@ -70,10 +70,9 @@ define(['jqxtn', './fetch',
     }, 60 * 1000);
 
     return {
-      _: {
-        Nom: Nom,
-        Fetch: Fetch,
-      },
+      _: Nom,
+      _Fetch: Fetch,
+      El: El,
     };
   }
 
