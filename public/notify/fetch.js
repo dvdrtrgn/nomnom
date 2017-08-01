@@ -20,24 +20,25 @@ define(['jqxtn', 'lib/endpoint',
 
   function cleanData() {
     var name = Data.posts.first_name + ' ' + Data.posts.last_name;
-    var tots = Data.posts.total_posts;
-    var posts = tots + (tots === 1 ? ' post so far' : ' total posts');
-    var likes = Data.likes.reduce(function (tot, obj) {
+    var postNum = Data.posts.total_posts;
+    var likeNum = Data.likes.reduce(function (tot, obj) {
       return tot + Number(obj.vortex_system_likes || 0);
     }, 0);
+
+    var postStr = postNum + (postNum === 1 ? ' post so far' : ' total posts');
 
     return {
       posts: [
         false,
         'Better is Possible',
         name + ' just created a new post.',
-        posts + ' on site',
+        postStr + ' on site',
       ],
       likes: [
         false,
         'Great job!',
         'Someone has liked a post that you created.',
-        'You’ve been liked ' + likes + ' times.',
+        'You’ve been liked ' + likeNum + ' times.',
       ],
     };
   }
