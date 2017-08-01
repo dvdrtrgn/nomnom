@@ -49,8 +49,10 @@ define(['jqxtn', './fetch',
     Fetch.get(useData);
 
     return {
-      _: Nom,
-      Fetch: Fetch,
+      _: {
+        Nom: Nom,
+        Fetch: Fetch,
+      },
     };
   }
 

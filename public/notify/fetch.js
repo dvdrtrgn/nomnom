@@ -1,5 +1,5 @@
-define(['jqxtn', 'lib/endpoint',
-], function ($, Endpoint) {
+define(['jqxtn', 'lib/endpoint', 'jscook',
+], function ($, Endpoint, Cookie) {
 
   var Nom = 'fetch';
   var W = window;
@@ -9,6 +9,16 @@ define(['jqxtn', 'lib/endpoint',
     likes: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/ecg/get.php',
     posts: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/ecg/latest.php',
   };
+
+  (function getPosts(key) {
+    var posts = Cookie.get(key);
+
+    if (posts === undefined) Cookie.set(key, posts = '');
+    posts = posts.split(',');
+
+    C.debug(key, posts);
+    return posts;
+  }('card_post_ids'));
 
   Endpoint(Uris.posts, function (data) {
     Data.posts = data;
@@ -55,8 +65,11 @@ define(['jqxtn', 'lib/endpoint',
 
   function init() {
     return {
-      _: Nom,
-      Endpoint: Endpoint,
+      _: {
+        Nom: Nom,
+        Cookie: Cookie,
+        Endpoint: Endpoint,
+      },
       Data: Data,
       Uris: Uris,
       //
