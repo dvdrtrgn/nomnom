@@ -30,9 +30,14 @@
     },
   });
 
-  requirejs(['jquery', 'jscook'], function ($, Cookie) {
+  requirejs(['jqxtn', 'jscook'], function ($, Cookie) {
     _drt.site = W.location.origin + W.location.pathname;
-    _drt.Cookie = Cookie;
+    _drt.cookies = {
+      drt: Cookie.get('drt'),
+      card_post_ids: Cookie.get('card_post_ids'),
+      card_last_post_id: Cookie.get('card_last_post_id'),
+      card_last_like_cnt: Cookie.get('card_last_like_cnt'),
+    };
 
     _drt.defcon = function (num) {
       switch (num) {
@@ -52,12 +57,10 @@
     };
 
     function init() {
-      var paths = Cookie.get('drt');
-      if (paths) requirejs(paths.split(','), function () {
-        C.log('args', arguments);
+      _drt.paths = (_drt.cookies.drt || '').split(',');
+      if (_drt.paths.length) requirejs(_drt.paths, function () {
+        _drt.modules = $.fixArgs(arguments);
       });
-
-      C.log(requirejs.toUrl(''));
     }
 
     $(init);

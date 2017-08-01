@@ -9,17 +9,13 @@ define(['jquery'], function ($) {
     cache: false,
   });
 
-  function fixArgs(args, count) {
-    return [].slice.call(args).slice(0, count);
-  }
-
   function makeCb(label, meth, amt) {
     amt = amt || 1;
     meth = meth || 'log';
     label = label || 'makeCb';
 
     return function () {
-      var args = fixArgs(arguments, amt);
+      var args = $.fixArgs(arguments, amt);
       if (amt > 1) args = [label, args];
       else args.unshift(label);
       C[meth].apply(null, args);

@@ -26,6 +26,7 @@ define(['jqxtn', './fetch',
   function fillDiv(el, data) {
     if (!data || !data.length) return;
     // i has data?
+    el.empty();
 
     var makeLine = function (i) {
       return $('<b>').addClass('slug' + i).html(data[i] || '&nbsp;');
@@ -34,12 +35,12 @@ define(['jqxtn', './fetch',
     function _close() {
       if (el.is('.max')) {
         if (data[0]) data[0](); // cookie setting callback
+        el.removeClass('max');
         el.hide();
       }
       el.toggleClass('max');
     }
 
-    el.empty();
     $('<p class=slugs>').appendTo(el)
       .append(makeLine(1)).append(makeLine(2)).append(makeLine(3));
 

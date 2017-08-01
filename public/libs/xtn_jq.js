@@ -22,6 +22,10 @@ define(['jquery'], function ($) {
     $('head').append(link);
   };
 
+  $.fixArgs = function (args, count) {
+    return [].slice.call(args).slice(0, count);
+  };
+
   // - - - - - - - - - - - - - - - - - -
   // PUBSUBS
   $.publish = function () {

@@ -25,6 +25,7 @@ define(['jqxtn', 'lib/endpoint', 'jscook',
 
   function cleanData() {
     var name = Data.posts.first_name + ' ' + Data.posts.last_name;
+    var nameStr = name.length > 1 ? name : 'Someone';
     var postId = Number(Data.posts.id);
     var postCnt = Data.posts.total_posts;
     var postStr = postCnt + (postCnt === 1 ? ' post so far' : ' total posts');
@@ -40,7 +41,7 @@ define(['jqxtn', 'lib/endpoint', 'jscook',
         Cookie.set('card_last_post_id', postId);
       },
       'Better is Possible',
-      name + ' just created a new post.',
+      nameStr + ' just created a new post.',
       postStr + ' on site',
     ];
 
