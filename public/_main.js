@@ -53,7 +53,6 @@
       default:
         Cookie.set('drt', '');
       }
-      W.location.reload();
     };
 
     function init() {
