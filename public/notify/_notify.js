@@ -25,8 +25,8 @@ define(['jqxtn', './fetch',
 
   function fillDiv(el, data) {
     if (!data || !data.length) return;
-    // i has data?
-    el.empty();
+    // icanhasdata?
+    el.empty().data(Nom, data);
 
     var makeLine = function (i) {
       return $('<b>').addClass('slug' + i).html(data[i] || '&nbsp;');
