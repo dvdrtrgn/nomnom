@@ -1,3 +1,4 @@
+/*globals _drt */
 define(['jqxtn', 'lib/endpoint', 'jscook',
 ], function ($, Endpoint, Cookie) {
 
@@ -37,8 +38,11 @@ define(['jqxtn', 'lib/endpoint', 'jscook',
     var lastCnt = Number(Cookie.get('card_last_like_cnt')) || 0;
 
     var postArr = [
-      function () {
-        Cookie.set('card_last_post_id', postId);
+      function (arg) {
+        if (arg === 'setcookie') Cookie.set('card_last_post_id', postId);
+        if (arg === 'changepage' && !~_drt.site.indexOf('search-results')) {
+          W.location = _drt.site + 'search-results/';
+        }
       },
       'Better is Possible',
       nameStr + ' just created a new post.',
@@ -46,8 +50,8 @@ define(['jqxtn', 'lib/endpoint', 'jscook',
     ];
 
     var likeArr = [
-      function () {
-        Cookie.set('card_last_like_cnt', likeCnt);
+      function (arg) {
+        if (arg === 'setcookie') Cookie.set('card_last_like_cnt', likeCnt);
       },
       'Great job!',
       'Someone has liked a post that you created.',

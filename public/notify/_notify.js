@@ -15,7 +15,10 @@ define(['jqxtn', './fetch',
 
     function _toggle(evt) {
       evt.stopPropagation();
+      var data = ele.data(Nom);
+
       ele.toggleClass('max');
+      data.max = !data.max || data.cb('changepage');
     }
 
     ele.on('click', _toggle);
@@ -26,15 +29,18 @@ define(['jqxtn', './fetch',
   function fillDiv(ele, data) {
     if (!data || !data.length) return;
     // icanhasdata?
+    data.cb = data[0] || $.noop;
+    data.max = false;
     ele.empty().data(Nom, data);
 
     var makeLine = function (i) {
       return $('<b>').addClass('slug' + i).html(data[i] || '&nbsp;');
     };
 
-    function _close() {
+    function _close(evt) {
+      evt.stopPropagation();
       if (ele.is('.max')) {
-        if (data[0]) data[0](); // cookie setting callback
+        data.cb('setcookie');
         ele.removeClass('max');
         ele.hide();
       }
