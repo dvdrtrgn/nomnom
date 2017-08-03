@@ -33,7 +33,7 @@
   requirejs(['jqxtn', 'jscook'], function ($, Cookie) {
     _drt.site = W.location.origin + W.location.pathname;
     _drt.cookies = {
-      drt: Cookie.get('drt'),
+      drt_mods: Cookie.get('drt_mods'),
       card_post_ids: Cookie.get('card_post_ids'),
       card_last_post_id: Cookie.get('card_last_post_id'),
       card_last_like_cnt: Cookie.get('card_last_like_cnt'),
@@ -42,21 +42,27 @@
     _drt.defcon = function (num) {
       switch (num) {
       case 1:
-        Cookie.set('drt', 'notify/_notify,toplist/_toplist');
+        Cookie.set('drt_mods', 'notify/_notify,toplist/_toplist');
         break;
       case 2:
-        Cookie.set('drt', 'notify/_notify');
+        Cookie.set('drt_mods', 'notify/_notify');
         break;
       case 3:
-        Cookie.set('drt', 'toplist/_toplist');
+        Cookie.set('drt_mods', 'toplist/_toplist');
         break;
       default:
-        Cookie.set('drt', '');
+        Cookie.set('drt_mods', '');
       }
     };
 
+    _drt.paths = _drt.cookies.drt_mods;
+
+    if (_drt.paths === undefined) {
+      _drt.paths = 'notify/_notify,toplist/_toplist';
+    }
+    _drt.paths = _drt.paths.split(',');
+
     function init() {
-      _drt.paths = (_drt.cookies.drt || '').split(',');
       if (_drt.paths.length) requirejs(_drt.paths, function () {
         _drt.modules = $.fixArgs(arguments);
       });
