@@ -10,8 +10,7 @@
   // http://kaidez.com/requirejs-wordpress/
   if (typeof W.jQuery === 'function') {
     define('jquery', function () {
-      return W.$ = W.jQuery;
-      // return W.jQuery;
+      return W.$ = W.jQuery; // expose jQuery (why fnot!?)
     });
   }
   // http://requirejs.org/docs/errors.html
@@ -24,20 +23,26 @@
       jqxtn: 'libs/xtn_jq',
     },
     shim: {
-      // jquery: {
-      //   exports: '$',
-      // },
+      // jquery: { exports: '$' },
     },
   });
 
+  function parsePaths(str) {
+    if (str === undefined) {
+      str = 'notify/_notify,toplist/_toplist';
+    }
+    return str.split(',');
+  }
+
   requirejs(['jqxtn', 'jscook'], function ($, Cookie) {
-    _drt.site = W.location.origin + W.location.pathname;
     _drt.cookies = {
       drt_mods: Cookie.get('drt_mods'),
       card_post_ids: Cookie.get('card_post_ids'),
       card_last_post_id: Cookie.get('card_last_post_id'),
       card_last_like_cnt: Cookie.get('card_last_like_cnt'),
     };
+    _drt.paths = parsePaths(_drt.cookies.drt_mods);
+    _drt.site = W.location.origin + W.location.pathname;
 
     _drt.defcon = function (num) {
       switch (num) {
@@ -54,13 +59,6 @@
         Cookie.set('drt_mods', '');
       }
     };
-
-    _drt.paths = _drt.cookies.drt_mods;
-
-    if (_drt.paths === undefined) {
-      _drt.paths = 'notify/_notify,toplist/_toplist';
-    }
-    _drt.paths = _drt.paths.split(',');
 
     function init() {
       if (_drt.paths.length) requirejs(_drt.paths, function () {
