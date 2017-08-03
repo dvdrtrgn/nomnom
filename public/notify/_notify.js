@@ -11,43 +11,43 @@ define(['jqxtn', './fetch',
   };
 
   function makeDiv(klass) {
-    var el = $('<div>').addClass(klass);
+    var ele = $('<div>').addClass(klass);
 
     function _toggle(evt) {
       evt.stopPropagation();
-      el.toggleClass('max');
+      ele.toggleClass('max');
     }
 
-    el.on('click', _toggle);
+    ele.on('click', _toggle);
 
-    return el;
+    return ele;
   }
 
-  function fillDiv(el, data) {
+  function fillDiv(ele, data) {
     if (!data || !data.length) return;
     // icanhasdata?
-    el.empty().data(Nom, data);
+    ele.empty().data(Nom, data);
 
     var makeLine = function (i) {
       return $('<b>').addClass('slug' + i).html(data[i] || '&nbsp;');
     };
 
     function _close() {
-      if (el.is('.max')) {
+      if (ele.is('.max')) {
         if (data[0]) data[0](); // cookie setting callback
-        el.removeClass('max');
-        el.hide();
+        ele.removeClass('max');
+        ele.hide();
       }
-      el.toggleClass('max');
+      ele.toggleClass('max');
     }
 
-    $('<p class=slugs>').appendTo(el)
+    $('<p class=slugs>').appendTo(ele)
       .append(makeLine(1)).append(makeLine(2)).append(makeLine(3));
 
-    $('<b class=xo>&times;</b>').appendTo(el)
+    $('<b class=xo>&times;</b>').appendTo(ele)
       .click(_close);
 
-    return el.show();
+    return ele.show();
   }
 
   function useData(data) {
