@@ -105,8 +105,17 @@ define(['jqxtn', './hash', 'lib/endpoint',
     Data.cities = arr;
   }
 
+  function addDummies(wrap) {
+    var blank = $('<div class="possible-card blank">');
+    wrap.append(blank.clone(), blank.clone(), blank.clone());
+  }
+
   function insertLists() {
-    dupeCard().append(Data.cities, Data.categories);
+    var dupe = dupeCard();
+    var wrap = dupe.parent();
+
+    dupe.append(Data.cities, Data.categories);
+    addDummies(wrap);
   }
 
   function readTop5(obj) {

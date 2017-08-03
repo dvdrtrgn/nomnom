@@ -182,9 +182,10 @@ a.search-filter-reset {
   transition: all .2s ease-in-out;
   box-sizing: content-box;
 }
-.possible-card:last-child {
-  margin-right: auto;
-  margin-left: 1em;
+.possible-card.blank {
+  border: 0;
+  height: 0;
+  margin: 0;
 }
 .possible-card:hover {
   transform: scale(1.2);
