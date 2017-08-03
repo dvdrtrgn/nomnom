@@ -7,5 +7,5 @@ require_once('cfg.php');
 
 $card = new Card($pdo);
 $card->get_latest();
-$card->total_posts = Card::count_all($card->get_conn(), FILTER_START_DATE);
+$card->total_posts = Card::count_all($card->get_conn());
 echo json_encode($card);
