@@ -105,12 +105,17 @@ define(['jqxtn', './hash', 'lib/endpoint',
     Data.cities = arr;
   }
 
+  function insertLists() {
+    dupeCard().append(Data.cities, Data.categories);
+  }
+
   function readTop5(obj) {
     readCategories(obj.area_of_interest);
     readCities(obj.city);
 
-    var eles = data2elem(Data);
-    dupeCard().append(eles.cities, eles.categories);
+    data2elem(Data);
+    insertLists();
+    $(document).on('sf:ajaxfinish', insertLists);
   }
 
   function init() {
