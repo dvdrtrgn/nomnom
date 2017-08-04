@@ -1,6 +1,6 @@
 /*globals _drt */
 define(['jqxtn', './hash', 'lib/endpoint',
-], function ($, Hash, Endpoint) {
+], function ($, Hash, newEndpoint) {
   'use strict';
 
   var Nom = '_toplist';
@@ -8,43 +8,43 @@ define(['jqxtn', './hash', 'lib/endpoint',
   var C = W.console;
   var Df = {
     points: {
-      categories: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/categories/top.php',
-      cities: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/cities/top.php',
       top5: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/ecg/top5.php',
     },
   };
   var Data = {};
+  var Dupe;
 
-  function dupeCard() {
+  //
+  // etc
+  //
+
+  function findCard() {
     var card = $('.gallery > .gallery-item, .possible-card-wrapper .possible-card');
-    var dupe;
 
     card = (card.length > 2) ? card.eq(2) : card.last();
-    dupe = card.clone();
 
-    if (dupe.is('.toplist')) {
-      dupe = card; // already there! (for whatever reason)
-    } else {
-      dupe.addClass('toplist').insertAfter(card);
-    }
-    return dupe.empty();
+    return card;
   }
 
-  function genUrl(ele) {
-    var data = ele.data(Nom);
+  function dupeCard() {
+    var card = findCard();
+    var dupe = card.clone();
+
+    if (!dupe.is('.toplist')) {
+      dupe.addClass('toplist');
+    } else {
+      dupe = card; // already there! (for whatever reason)
+    }
+    return dupe;
+  }
+
+  function genUrl(obj) {
     var url = _drt.site;
 
-    url += 'search-results/' + Hash.search(data.filter);
-    url += encodeURIComponent(Hash.research(data.term));
+    url += 'search-results/' + Hash.search(obj.filter);
+    url += encodeURIComponent(Hash.research(obj.term));
 
     return url;
-  }
-
-  function trigFilter(evt) {
-    evt.preventDefault();
-    var ele = $(this);
-
-    W.location = genUrl(ele);
   }
 
   function makeLine(arr, filter) {
@@ -54,8 +54,12 @@ define(['jqxtn', './hash', 'lib/endpoint',
       term: arr[0],
       count: arr[1],
     };
-    line.html('<a href="#">' + Hash.search(obj.term) + ' (' + obj.count + ' posts)</a>');
-    line.on('click', trigFilter);
+    var link = [
+      '<a href="', genUrl(obj), '">',
+      Hash.search(obj.term),
+      ' (', obj.count, ' posts)</a>',
+    ];
+    line.html(link.join(''));
     return line.data(Nom, obj);
   }
 
@@ -91,7 +95,7 @@ define(['jqxtn', './hash', 'lib/endpoint',
     var arr = [['TOP CATEGORIES', 'category']];
 
     for (var i in obj)
-      if (i && i !== 'other') arr.push([Hash.search(i), obj[i]]);
+      if (i) arr.push([Hash.search(i), obj[i]]);
 
     Data.categories = arr;
   }
@@ -111,10 +115,12 @@ define(['jqxtn', './hash', 'lib/endpoint',
   }
 
   function insertLists() {
-    var dupe = dupeCard();
-    var wrap = dupe.parent();
+    var dupe = Dupe.clone().empty();
+    var card = findCard();
+    var wrap = card.parent();
 
-    dupe.append(Data.cities, Data.categories);
+    dupe.insertAfter(card);
+    dupe.append(Data.cities.clone(), Data.categories.clone());
     addDummies(wrap);
   }
 
@@ -130,13 +136,15 @@ define(['jqxtn', './hash', 'lib/endpoint',
   function init() {
     $.loadCss(_drt.base + 'toplist/toplist.css');
 
-    Endpoint(Df.points.top5, readTop5);
+    newEndpoint(Df.points.top5, readTop5);
+    Dupe = dupeCard();
 
     return {
       _: Nom,
-      _Endpoint: Endpoint,
+      _Endpoint: newEndpoint,
       _Hash: Hash,
       Data: Data,
+      Dupe: Dupe,
       Df: Df,
     };
   }
