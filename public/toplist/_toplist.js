@@ -14,20 +14,30 @@ define(['jqxtn', './hash', 'lib/endpoint',
     },
   };
   var Data = {};
+  var Dupe;
 
-  function dupeCard() {
+  //
+  // etc
+  //
+
+  function findCard() {
     var card = $('.gallery > .gallery-item, .possible-card-wrapper .possible-card');
-    var dupe;
 
     card = (card.length > 2) ? card.eq(2) : card.last();
-    dupe = card.clone();
 
-    if (dupe.is('.toplist')) {
-      dupe = card; // already there! (for whatever reason)
+    return card;
+  }
+
+  function dupeCard() {
+    var card = findCard();
+    var dupe = card.clone();
+
+    if (!dupe.is('.toplist')) {
+      dupe.addClass('toplist');
     } else {
-      dupe.addClass('toplist').insertAfter(card);
+      dupe = card; // already there! (for whatever reason)
     }
-    return dupe.empty();
+    return dupe;
   }
 
   function genUrl(obj) {
@@ -107,10 +117,12 @@ define(['jqxtn', './hash', 'lib/endpoint',
   }
 
   function insertLists() {
-    var dupe = dupeCard();
-    var wrap = dupe.parent();
+    var dupe = Dupe.clone().empty();
+    var card = findCard();
+    var wrap = card.parent();
 
-    dupe.append(Data.cities, Data.categories);
+    dupe.insertAfter(card);
+    dupe.append(Data.cities.clone(), Data.categories.clone());
     addDummies(wrap);
   }
 
@@ -127,12 +139,14 @@ define(['jqxtn', './hash', 'lib/endpoint',
     $.loadCss(_drt.base + 'toplist/toplist.css');
 
     Endpoint(Df.points.top5, readTop5);
+    Dupe = dupeCard();
 
     return {
       _: Nom,
       _Endpoint: Endpoint,
       _Hash: Hash,
       Data: Data,
+      Dupe: Dupe,
       Df: Df,
     };
   }
