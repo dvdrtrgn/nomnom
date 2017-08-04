@@ -1,6 +1,6 @@
 /*globals _drt */
 define(['jqxtn', './hash', 'lib/endpoint',
-], function ($, Hash, Endpoint) {
+], function ($, Hash, newEndpoint) {
   'use strict';
 
   var Nom = '_toplist';
@@ -8,8 +8,6 @@ define(['jqxtn', './hash', 'lib/endpoint',
   var C = W.console;
   var Df = {
     points: {
-      categories: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/categories/top.php',
-      cities: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/cities/top.php',
       top5: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/ecg/top5.php',
     },
   };
@@ -138,12 +136,12 @@ define(['jqxtn', './hash', 'lib/endpoint',
   function init() {
     $.loadCss(_drt.base + 'toplist/toplist.css');
 
-    Endpoint(Df.points.top5, readTop5);
+    newEndpoint(Df.points.top5, readTop5);
     Dupe = dupeCard();
 
     return {
       _: Nom,
-      _Endpoint: Endpoint,
+      _Endpoint: newEndpoint,
       _Hash: Hash,
       Data: Data,
       Dupe: Dupe,
