@@ -30,21 +30,13 @@ define(['jqxtn', './hash', 'lib/endpoint',
     return dupe.empty();
   }
 
-  function genUrl(ele) {
-    var data = ele.data(Nom);
+  function genUrl(obj) {
     var url = _drt.site;
 
-    url += 'search-results/' + Hash.search(data.filter);
-    url += encodeURIComponent(Hash.research(data.term));
+    url += 'search-results/' + Hash.search(obj.filter);
+    url += encodeURIComponent(Hash.research(obj.term));
 
     return url;
-  }
-
-  function trigFilter(evt) {
-    evt.preventDefault();
-    var ele = $(this);
-
-    W.location = genUrl(ele);
   }
 
   function makeLine(arr, filter) {
@@ -54,8 +46,12 @@ define(['jqxtn', './hash', 'lib/endpoint',
       term: arr[0],
       count: arr[1],
     };
-    line.html('<a href="#">' + Hash.search(obj.term) + ' (' + obj.count + ' posts)</a>');
-    line.on('click', trigFilter);
+    var link = [
+      '<a href="', genUrl(obj), '">',
+      Hash.search(obj.term),
+      ' (', obj.count, ' posts)</a>',
+    ];
+    line.html(link.join(''));
     return line.data(Nom, obj);
   }
 
@@ -91,7 +87,7 @@ define(['jqxtn', './hash', 'lib/endpoint',
     var arr = [['TOP CATEGORIES', 'category']];
 
     for (var i in obj)
-      if (i && i !== 'other') arr.push([Hash.search(i), obj[i]]);
+      if (i) arr.push([Hash.search(i), obj[i]]);
 
     Data.categories = arr;
   }
