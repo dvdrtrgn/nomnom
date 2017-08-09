@@ -7,7 +7,7 @@ define(['jqxtn', './hash', 'lib/endpoint',
   var W = window;
   var C = W.console;
   var Df = {
-    index: 3, // in avada css, set nth-child(<index+1>) to hidden
+    index: 2, // in avada css, set nth-child(<index+1>) to hidden
     query: '.possible-card-wrapper .possible-card',
     points: {
       top5: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/ecg/top5.php',

@@ -174,12 +174,12 @@ a.search-filter-reset {
   flex-wrap: wrap;
   justify-content: space-between;
 }
-.possible-card-wrapper > :nth-child(4) {
+.possible-card-wrapper > :nth-child(3) {
   visibility: hidden;
 }
 
 .possible-card {
-  flex-basis: 22%;
+  flex-basis: 30%;
   font-size: 11px;
   padding: 10px;
   border: 1px solid #ccc;
