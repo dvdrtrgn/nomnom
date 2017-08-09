@@ -19,7 +19,10 @@ define(['jqxtn', './fetch',
       var data = ele.data(Nom);
 
       ele.toggleClass('max');
-      data.max = !data.max || data.cb('setsearch', data[4]);
+      if (data.max) {
+        data.cb('setsearch', data[4]);
+      }
+      data.max = !data.max;
     }
 
     ele.on('click keypress', _toggle);

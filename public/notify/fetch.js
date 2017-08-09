@@ -53,16 +53,18 @@ define(['jqxtn', 'lib/endpoint', 'jscook', 'lib/formtool',
       'Better is Possible',
       nameStr + ' just created a new post.',
       postStr + ' on site',
-      name,
+      Data.posts.post_title,
     ];
 
     var likeArr = [
-      function (arg) {
+      function (arg, msg) {
         if (arg === 'setcookie') Cookie.set('card_last_like_cnt', likeCnt);
+        if (arg === 'setsearch') Formtool.set(msg);
       },
       'Great job!',
       'Someone has liked a post that you created.',
       'You’ve been liked ' + likeCnt + ' times.',
+      Data.likes[0].post_title,
     ];
 
     return {
