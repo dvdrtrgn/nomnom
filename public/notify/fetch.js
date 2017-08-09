@@ -1,6 +1,6 @@
 /*globals _drt */
-define(['jqxtn', 'lib/endpoint', 'jscook',
-], function ($, Endpoint, Cookie) {
+define(['jqxtn', 'lib/endpoint', 'jscook', 'lib/formtool',
+], function ($, Endpoint, Cookie, Formtool) {
 
   var Nom = 'fetch';
   var W = window;
@@ -24,6 +24,14 @@ define(['jqxtn', 'lib/endpoint', 'jscook',
     });
   }
 
+  function setSearch(text) {
+    var field = $('.sf-input-text');
+    var form = field.closest('form');
+
+    field.val('"' + text + '"');
+    form.submit();
+  }
+
   function cleanData() {
     var name = Data.posts.first_name + ' ' + Data.posts.last_name;
     var nameStr = name.length > 1 ? name : 'Someone';
@@ -38,24 +46,25 @@ define(['jqxtn', 'lib/endpoint', 'jscook',
     var lastCnt = Number(Cookie.get('card_last_like_cnt')) || 0;
 
     var postArr = [
-      function (arg) {
+      function (arg, msg) {
         if (arg === 'setcookie') Cookie.set('card_last_post_id', postId);
-        if (arg === 'changepage' && !~_drt.site.indexOf('search-results')) {
-          W.location = _drt.site + 'search-results/';
-        }
+        if (arg === 'setsearch') Formtool.set(msg);
       },
       'Better is Possible',
       nameStr + ' just created a new post.',
       postStr + ' on site',
+      Data.posts.post_title,
     ];
 
     var likeArr = [
-      function (arg) {
+      function (arg, msg) {
         if (arg === 'setcookie') Cookie.set('card_last_like_cnt', likeCnt);
+        if (arg === 'setsearch') Formtool.set(msg);
       },
       'Great job!',
       'Someone has liked a post that you created.',
       'You’ve been liked ' + likeCnt + ' times.',
+      Data.likes[0].post_title,
     ];
 
     return {
@@ -80,11 +89,13 @@ define(['jqxtn', 'lib/endpoint', 'jscook',
       _: Nom,
       _Cookie: Cookie,
       _Endpoint: Endpoint,
+      _Formtool: Formtool,
       Data: Data,
       Uris: Uris,
       //
       get: getData,
       update: update,
+      setSearch: setSearch,
     };
   }
 
