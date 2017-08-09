@@ -174,7 +174,11 @@ a.search-filter-reset {
   flex-wrap: wrap;
   justify-content: space-between;
 }
-.possible-card-wrapper > :nth-child(3) {
+.possible-card-wrapper > :nth-child(3):not(.ready) {
+  background-image: url('../dummy.jpg');
+  background-size: cover;
+}
+.possible-card-wrapper > :nth-child(3):not(.ready) * {
   visibility: hidden;
 }
 
