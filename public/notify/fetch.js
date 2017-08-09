@@ -1,6 +1,6 @@
 /*globals _drt */
-define(['jqxtn', 'lib/endpoint', 'jscook',
-], function ($, Endpoint, Cookie) {
+define(['jqxtn', 'lib/endpoint', 'jscook', 'lib/formtool',
+], function ($, Endpoint, Cookie, Formtool) {
 
   var Nom = 'fetch';
   var W = window;
@@ -48,7 +48,7 @@ define(['jqxtn', 'lib/endpoint', 'jscook',
     var postArr = [
       function (arg, msg) {
         if (arg === 'setcookie') Cookie.set('card_last_post_id', postId);
-        if (arg === 'setsearch') setSearch(msg);
+        if (arg === 'setsearch') Formtool.set(msg);
       },
       'Better is Possible',
       nameStr + ' just created a new post.',
@@ -87,6 +87,7 @@ define(['jqxtn', 'lib/endpoint', 'jscook',
       _: Nom,
       _Cookie: Cookie,
       _Endpoint: Endpoint,
+      _Formtool: Formtool,
       Data: Data,
       Uris: Uris,
       //
