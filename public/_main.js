@@ -10,8 +10,7 @@
   // http://kaidez.com/requirejs-wordpress/
   if (typeof W.jQuery === 'function') {
     define('jquery', function () {
-      return W.$ = W.jQuery;
-      // return W.jQuery;
+      return W.$ = W.jQuery; // expose jQuery (why fnot!?)
     });
   }
   // http://requirejs.org/docs/errors.html
@@ -20,40 +19,54 @@
     baseUrl: _drt.base,
     paths: {
       lib: 'libs',
-      jscook: 'libs/js-cookie',
+      jscook: 'libs/cookie',
+      jqxtn: 'libs/xtn_jq',
     },
     shim: {
-      // jquery: {
-      //   exports: '$',
-      // },
+      // jquery: { exports: '$' },
     },
   });
 
-  requirejs(['jquery', 'lib/cookie'], function ($, cookie) {
-    _drt.cookie = cookie;
+  function parsePaths(str) {
+    if (str === undefined) {
+      str = 'notify/_notify,toplist/_toplist';
+    }
+    return str.split(',');
+  }
+
+  requirejs(['jqxtn', 'jscook'], function ($, Cookie) {
+    _drt.cookies = {
+      drt_mods: Cookie.get('drt_mods'),
+      card_post_ids: Cookie.get('card_post_ids'),
+      card_last_post_id: Cookie.get('card_last_post_id'),
+      card_last_like_cnt: Cookie.get('card_last_like_cnt'),
+    };
+    _drt.paths = parsePaths(_drt.cookies.drt_mods);
+    _drt.site = W.location.origin + W.location.pathname;
+
     _drt.defcon = function (num) {
       switch (num) {
       case 1:
-        cookie.set('drt', 'notify/_notify,toplist/_toplist');
+        Cookie.set('drt_mods', 'notify/_notify,toplist/_toplist');
         break;
       case 2:
-        cookie.set('drt', 'notify/_notify');
+        Cookie.set('drt_mods', 'notify/_notify');
         break;
       case 3:
-        cookie.set('drt', 'toplist/_toplist');
+        Cookie.set('drt_mods', 'toplist/_toplist');
         break;
       default:
-        cookie.set('drt', '');
+        Cookie.set('drt_mods', '');
       }
-      W.location.reload();
     };
 
-    var paths = cookie.get('drt');
-    if (paths) requirejs(paths.split(','), function () {
-      C.log('args', arguments);
-    });
+    function init() {
+      if (_drt.paths.length) requirejs(_drt.paths, function () {
+        _drt.modules = $.fixArgs(arguments);
+      });
+    }
 
-    C.log(requirejs.toUrl(''));
+    $(init);
   });
 
 }());

@@ -1,19 +1,13 @@
-/*global define, */
 define(['jquery'], function ($) {
   'use strict';
 
   var W = window;
   var C = W.console;
-  var X = W._drt;
 
   // set defaults
   $.ajaxSetup({
     cache: false,
   });
-
-  function fixArgs(args, count) {
-    return [].slice.call(args).slice(0, count);
-  }
 
   function makeCb(label, meth, amt) {
     amt = amt || 1;
@@ -21,7 +15,7 @@ define(['jquery'], function ($) {
     label = label || 'makeCb';
 
     return function () {
-      var args = fixArgs(arguments, amt);
+      var args = $.fixArgs(arguments, amt);
       if (amt > 1) args = [label, args];
       else args.unshift(label);
       C[meth].apply(null, args);
@@ -29,11 +23,10 @@ define(['jquery'], function ($) {
   }
 
   return function (endpoint, done, fail) {
-    endpoint = endpoint || 'latests';
-
-    if (endpoint.indexOf('http') !== 0) {
-      endpoint = X.base + 'data/' + endpoint + '.json';
+    if (!endpoint) {
+      throw ('no uri');
     }
+
     done = done || makeCb('json');
     fail = fail || makeCb('fail', 'info', 9);
 

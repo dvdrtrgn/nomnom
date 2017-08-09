@@ -1,85 +1,92 @@
-define(['lib/xtn_jq', './hash', 'lib/endpoint',
-], function ($, hash, endpoint) {
+/*globals _drt */
+define(['jqxtn', './hash', 'lib/endpoint',
+], function ($, Hash, newEndpoint) {
   'use strict';
 
   var Nom = '_toplist';
   var W = window;
   var C = W.console;
-  var X = W._drt;
-  var Data = {};
   var Df = {
     points: {
-      categories: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/categories/top.php',
-      cities: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/cities/top.php',
+      top5: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/ecg/top5.php',
     },
   };
+  var Data = {};
+  var Dupe;
 
-  X.hash = hash;
-  X.site = W.location.href;
+  //
+  // etc
+  //
 
-  function dupeCard() {
-    var sels = '.gallery > .gallery-item, .possible-card-wrapper .possible-card';
-    var card = $(sels).eq(2);
-    var dupe = card.clone();
+  function findCard() {
+    var card = $('.gallery > .gallery-item, .possible-card-wrapper .possible-card');
 
-    if (dupe.is('.toplist')) {
-      dupe = card;
-    } else {
-      dupe.addClass('toplist').insertBefore(card);
-    }
-    return dupe.empty();
+    card = (card.length > 2) ? card.eq(2) : card.last();
+
+    return card;
   }
 
-  function trigFilter(evt) {
-    evt.preventDefault();
-    var ele = $(this);
-    var dat = ele.data('Filter');
-    var url = X.site;
+  function dupeCard() {
+    var card = findCard();
+    var dupe = card.clone();
 
-    url += 'search-results/' + hash.search(dat.filter);
-    url += encodeURIComponent(hash.research(dat.term));
-    W.location = url;
+    if (!dupe.is('.toplist')) {
+      dupe.addClass('toplist');
+    } else {
+      dupe = card; // already there! (for whatever reason)
+    }
+    return dupe;
+  }
+
+  function genUrl(obj) {
+    var url = _drt.site;
+
+    url += 'search-results/' + Hash.search(obj.filter);
+    url += encodeURIComponent(Hash.research(obj.term));
+
+    return url;
+  }
+
+  function makeLine(arr, filter) {
+    var line = $('<li>');
+    var obj = {
+      filter: filter,
+      term: arr[0],
+      count: arr[1],
+    };
+    var link = [
+      '<a href="', genUrl(obj), '">',
+      Hash.search(obj.term),
+      ' (', obj.count, ' posts)</a>',
+    ];
+    line.html(link.join(''));
+    return line.data(Nom, obj);
+  }
+
+  function makeArticle(obj) {
+    var div = $('<article>');
+    var head = $('<b>').html(obj.title);
+    var list = $('<ol>');
+    obj.data.forEach(function (item) {
+      list.append(makeLine(item, obj.filter));
+    });
+    return div.append(head, list);
+  }
+
+  function transArray(arr) {
+    var init = arr.shift();
+    var obj = {
+      title: init[0],
+      filter: init[1],
+      data: arr,
+    };
+    return makeArticle(obj);
   }
 
   function data2elem(data) {
 
-    function makeItem(arr, filter) {
-      var li = $('<li>');
-      var dat = {
-        filter: filter,
-        term: arr[0],
-        count: arr[1],
-      };
-
-      li.html(`<a href="#">${hash.search(dat.term)} (${dat.count} posts)</a>`);
-      li.on('click', trigFilter).data('Filter', dat);
-      return li;
-    }
-
-    function makeArticle(obj) {
-      var h1 = $('<b>').html(obj.title);
-      var ol = $('<ol>');
-      var div = $('<article>').append(h1, ol);
-
-      obj.list.forEach(function (item) {
-        ol.append(makeItem(item, obj.filter));
-      });
-
-      return div;
-    }
-
-    function prepData(arr) {
-      var init = arr.shift();
-      var obj = {
-        title: init[0],
-        filter: init[1],
-        list: arr,
-      };
-      return makeArticle(obj);
-    }
-
-    data.cities = prepData(data.cities);
-    data.categories = prepData(data.categories);
+    data.cities = transArray(data.cities);
+    data.categories = transArray(data.categories);
 
     return data;
   }
@@ -88,7 +95,7 @@ define(['lib/xtn_jq', './hash', 'lib/endpoint',
     var arr = [['TOP CATEGORIES', 'category']];
 
     for (var i in obj)
-      if (i) arr.push([hash.search(i), obj[i]]);
+      if (i) arr.push([Hash.search(i), obj[i]]);
 
     Data.categories = arr;
   }
@@ -102,34 +109,47 @@ define(['lib/xtn_jq', './hash', 'lib/endpoint',
     Data.cities = arr;
   }
 
-  function checkData() {
-    if (Data.categories && Data.cities) {
-      W.clearInterval(Df.ival);
+  function addDummies(wrap) {
+    var blank = $('<div class="possible-card blank">');
+    wrap.append(blank.clone(), blank.clone(), blank.clone());
+  }
 
-      var eles = data2elem(Data);
-      dupeCard().append(eles.cities, eles.categories);
-    }
+  function insertLists() {
+    var dupe = Dupe.clone().empty();
+    var card = findCard();
+    var wrap = card.parent();
+
+    dupe.insertAfter(card);
+    dupe.append(Data.cities.clone(), Data.categories.clone());
+    addDummies(wrap);
+  }
+
+  function readTop5(obj) {
+    readCategories(obj.area_of_interest);
+    readCities(obj.city);
+
+    data2elem(Data);
+    insertLists();
+    $(document).on('sf:ajaxfinish', insertLists);
   }
 
   function init() {
-    $.loadCss(`${X.base}toplist/toplist.css`);
+    $.loadCss(_drt.base + 'toplist/toplist.css');
 
-    endpoint(Df.points.categories, readCategories);
-    endpoint(Df.points.cities, readCities);
-
-    Df.ival = W.setInterval(checkData, 9);
+    newEndpoint(Df.points.top5, readTop5);
+    Dupe = dupeCard();
 
     return {
       _: Nom,
-      endpoint: endpoint,
+      _Endpoint: newEndpoint,
+      _Hash: Hash,
       Data: Data,
+      Dupe: Dupe,
       Df: Df,
     };
   }
 
-  if (X.site.indexOf('?_sf') === -1) {
-    return init();
-  }
+  return init();
 
 });
 

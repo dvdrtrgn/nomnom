@@ -1,101 +1,84 @@
-define(['lib/xtn_jq', 'lib/cookie', 'lib/endpoint',
-], function ($, cookie, endpoint) {
+/*globals _drt */
+define(['jqxtn', './fetch',
+], function ($, Fetch) {
 
   var Nom = '_notify';
   var W = window;
   var C = W.console;
-  var X = W._drt;
-  var Data = {};
-  var Df = {
-    points: {
-      likes: 'likes',
-      posts: 'posts',
-    },
+  var El = {
+    notiPost: 'notify post',
+    notiLike: 'notify like',
   };
 
-  X.site = W.location.href;
+  function makeDiv(klass) {
+    var ele = $('<div>').addClass(klass);
 
-  (function getPosts(key) {
-    var posts = cookie.get(key);
+    function _toggle(evt) {
+      evt.stopPropagation();
+      var data = ele.data(Nom);
 
-    if (posts === undefined) cookie.set(key, posts = '');
-    posts = posts.split(',');
+      ele.toggleClass('max');
+      data.max = !data.max || data.cb('changepage');
+    }
 
-    C.debug(key, posts);
-    return posts;
-  }('card_post_ids'));
+    ele.on('click', _toggle);
 
-  if (~X.site.indexOf('?')) {
-    return;
+    return ele;
   }
 
-  function getData(key) {
-    return {
-      posts: [
-        function () {
-          confirm('do something with new post?');
-        },
-        'Better is Possible',
-        'Andrea Voelke just created a new post.',
-        '12 total posts on site',
-      ],
-      likes: [
-        function () {
-          confirm('do something with liked post?');
-        },
-        'Great job!',
-        'Someone has liked a post that you created.',
-        'You’ve been liked 123 times.',
-      ],
-    }[key];
-  }
+  function fillDiv(ele, data) {
+    if (!data || !data.length) return;
+    // icanhasdata?
+    data.cb = data[0] || $.noop;
+    data.max = false;
+    ele.empty().data(Nom, data);
 
-  function makeDiv(klass, line) {
-    var el = $('<div>');
     var makeLine = function (i) {
-      return $('<b>').addClass('slug' + i).html(line[i] || '&nbsp;');
+      return $('<b>').addClass('slug' + i).html(data[i] || '&nbsp;');
     };
 
-    function _toggle() {
-      if (el.is('.max')) {
-        if (line[0]) line[0]();
-        el.hide();
-      }
-      el.toggleClass('max');
-    }
-
-    function _minify(evt) {
+    function _close(evt) {
       evt.stopPropagation();
-      el.removeClass('max');
+      if (ele.is('.max')) {
+        data.cb('setcookie');
+        ele.removeClass('max');
+        ele.hide();
+      }
+      ele.toggleClass('max');
     }
 
-    $('<p class=slugs>').appendTo(el)
+    $('<p class=slugs>').appendTo(ele)
       .append(makeLine(1)).append(makeLine(2)).append(makeLine(3));
-    $('<b class=xo>&times;</b>').appendTo(el)
-      .click(_minify);
-    el.addClass(klass).on('click', _toggle);
 
-    return el;
+    $('<b class=xo>&times;</b>').appendTo(ele)
+      .click(_close);
+
+    return ele.show();
+  }
+
+  function useData(data) {
+    fillDiv(El.notiPost, data.posts);
+    fillDiv(El.notiLike, data.likes);
   }
 
   function init() {
-    $.loadCss(`${X.base}notify/notify.css`);
+    $.loadCss(_drt.base + 'notify/notify.css');
 
-    // var data = {
-    //   posts: endpoint(Df.points.posts),
-    //   likes: endpoint(Df.points.likes),
-    // };
+    El.notiPost = makeDiv(El.notiPost).hide();
+    El.notiLike = makeDiv(El.notiLike).hide();
+    $('body').prepend(El.notiPost, El.notiLike);
 
-    var notiPost = makeDiv('notify post', getData('posts'));
-    var notiLike = makeDiv('notify like', getData('likes'));
+    Fetch.get(useData);
 
-    $('body').prepend(notiPost, notiLike);
+    setInterval(function () {
+      Fetch.update();
+      Fetch.get(useData);
+    }, 60 * 1000);
 
     return {
       _: Nom,
-      endpoint: endpoint,
-      Data: Data,
-      Df: Df,
+      _Fetch: Fetch,
+      El: El,
     };
   }
 

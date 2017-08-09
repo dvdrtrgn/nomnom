@@ -1,2 +1,1 @@
-public/notify/notify.css
-public/toplist/toplist.css
+public/**/*.css

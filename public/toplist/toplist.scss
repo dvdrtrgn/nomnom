@@ -6,42 +6,41 @@ $lite: #f2f8f9;
   border: 0;
   color: $blue;
   font-family: 'myriad-pro', 'PT Sans', Arial, Helvetica, sans-serif;
-  font-size: 12px;
-  padding: 0 0 0.5em;
+  margin: -10px 0px 10px 0px;
   text-align: left;
   &:hover {
-    transform: initial;
+    transform: none;
   }
 
   article {
     border: 1px solid #ccc;
     border-radius: 3px;
-    height: 50%;
-    margin-bottom: 0.5em;
+    height: 48%;
+    margin-bottom: 4%;
     overflow: hidden;
-    padding: 1em 1em 0;
+    padding: 1rem 0.5rem 0;
 
     b {
       background-color: $lite;
       color: $red;
       display: block;
-      font-size: 1.1em;
+      font-size: 0.9rem;
       font-weight: 100;
-      line-height: 2.5;
-      margin: -1em -1em 0.5em;
-      padding: 0.5em 1em;
+      line-height: 1;
+      margin: -1rem -1rem 0.5rem;
+      padding: 0.5rem 1rem;
       text-transform: uppercase;
     }
   }
 
   ol {
     line-height: 1.5;
-    margin: 0;
+    margin: 0.5rem 0;
     padding: 0;
 
     li {
       cursor: pointer;
-      margin-left: 1em;
+      margin-left: 1rem;
       a {
         color: $blue;
       }
