@@ -11,9 +11,10 @@ define(['jqxtn', './fetch',
   };
 
   function makeDiv(klass) {
-    var ele = $('<div>').addClass(klass);
+    var ele = $('<div tabindex=0>').addClass(klass);
 
     function _toggle(evt) {
+      evt.preventDefault();
       evt.stopPropagation();
       var data = ele.data(Nom);
 
@@ -21,7 +22,7 @@ define(['jqxtn', './fetch',
       data.max = !data.max || data.cb('changepage');
     }
 
-    ele.on('click', _toggle);
+    ele.on('click keypress', _toggle);
 
     return ele;
   }
@@ -38,6 +39,7 @@ define(['jqxtn', './fetch',
     };
 
     function _close(evt) {
+      evt.preventDefault();
       evt.stopPropagation();
       if (ele.is('.max')) {
         data.cb('setcookie');
@@ -50,8 +52,8 @@ define(['jqxtn', './fetch',
     $('<p class=slugs>').appendTo(ele)
       .append(makeLine(1)).append(makeLine(2)).append(makeLine(3));
 
-    $('<b class=xo>&times;</b>').appendTo(ele)
-      .click(_close);
+    $('<b class=xo tabindex=0>&times;</b>').appendTo(ele)
+      .on('click keypress', _close);
 
     return ele.show();
   }
