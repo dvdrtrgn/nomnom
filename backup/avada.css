@@ -1,3 +1,7 @@
+#main {
+  min-height: 67vh;
+}
+
 /* Main Menu Active Menu Item */
 
 #menu-main-menu .current-menu-item a {
@@ -184,11 +188,15 @@ a.search-filter-reset {
   background-color: white;
   transition: all .2s ease-in-out;
   box-sizing: content-box;
+  opacity: 0.2;
 }
 .possible-card.blank {
   border: 0;
   height: 0;
   margin: 0;
+}
+.possible-card.ready {
+  opacity: 1;
 }
 .possible-card:hover {
   transform: scale(1.2);

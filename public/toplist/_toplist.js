@@ -7,6 +7,8 @@ define(['jqxtn', './hash', 'lib/endpoint',
   var W = window;
   var C = W.console;
   var Df = {
+    index: 3, // in avada css, set nth-child(<index+1>) to hidden
+    query: '.possible-card-wrapper .possible-card',
     points: {
       top5: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/ecg/top5.php',
     },
@@ -18,10 +20,18 @@ define(['jqxtn', './hash', 'lib/endpoint',
   // etc
   //
 
-  function findCard() {
-    var card = $('.gallery > .gallery-item, .possible-card-wrapper .possible-card');
+  function ghostCards() {
+    return $(Df.query).removeClass('ready');
+  }
 
-    card = (card.length > 2) ? card.eq(2) : card.last();
+  function revealCards() {
+    return $(Df.query).addClass('ready');
+  }
+
+  function findCard() {
+    var cards = ghostCards();
+    var pick = Df.index - 1;
+    var card = (cards.length > pick) ? cards.eq(pick) : cards.last();
 
     return card;
   }
@@ -124,6 +134,7 @@ define(['jqxtn', './hash', 'lib/endpoint',
     next.appendTo(wrap).css('visibility', 'visible');
     dupe.append(Data.cities.clone(), Data.categories.clone());
     addDummies(wrap);
+    revealCards();
   }
 
   function readTop5(obj) {
