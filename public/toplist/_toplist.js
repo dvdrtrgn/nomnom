@@ -51,7 +51,7 @@ define(['jqxtn', './hash', 'lib/endpoint',
   function genUrl(obj) {
     var url = _drt.site;
 
-    url += 'search-results/' + Hash.search(obj.filter);
+    url += Hash.search(obj.filter); // 'search-results/' +
     url += encodeURIComponent(Hash.research(obj.term));
 
     return url;

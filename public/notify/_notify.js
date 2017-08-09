@@ -19,7 +19,7 @@ define(['jqxtn', './fetch',
       var data = ele.data(Nom);
 
       ele.toggleClass('max');
-      data.max = !data.max || data.cb('changepage');
+      data.max = !data.max || data.cb('setsearch', data[4]);
     }
 
     ele.on('click keypress', _toggle);
@@ -30,7 +30,7 @@ define(['jqxtn', './fetch',
   function fillDiv(ele, data) {
     if (!data || !data.length) return;
     // icanhasdata?
-    data.cb = data[0] || $.noop;
+    data.cb = data[0] || $.noop; // look in data for a callback clue
     data.max = false;
     ele.empty().data(Nom, data);
 

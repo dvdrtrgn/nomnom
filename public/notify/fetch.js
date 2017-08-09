@@ -24,6 +24,14 @@ define(['jqxtn', 'lib/endpoint', 'jscook',
     });
   }
 
+  function setSearch(text) {
+    var field = $('.sf-input-text');
+    var form = field.closest('form');
+
+    field.val('"' + text + '"');
+    form.submit();
+  }
+
   function cleanData() {
     var name = Data.posts.first_name + ' ' + Data.posts.last_name;
     var nameStr = name.length > 1 ? name : 'Someone';
@@ -38,15 +46,14 @@ define(['jqxtn', 'lib/endpoint', 'jscook',
     var lastCnt = Number(Cookie.get('card_last_like_cnt')) || 0;
 
     var postArr = [
-      function (arg) {
+      function (arg, msg) {
         if (arg === 'setcookie') Cookie.set('card_last_post_id', postId);
-        if (arg === 'changepage' && !~_drt.site.indexOf('search-results')) {
-          W.location = _drt.site + 'search-results/';
-        }
+        if (arg === 'setsearch') setSearch(msg);
       },
       'Better is Possible',
       nameStr + ' just created a new post.',
       postStr + ' on site',
+      name,
     ];
 
     var likeArr = [
@@ -85,6 +92,7 @@ define(['jqxtn', 'lib/endpoint', 'jscook',
       //
       get: getData,
       update: update,
+      setSearch: setSearch,
     };
   }
 
