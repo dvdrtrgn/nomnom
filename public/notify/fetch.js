@@ -64,7 +64,7 @@ define(['jqxtn', 'lib/endpoint', 'jscook', 'lib/formtool',
       'Great job!',
       'Someone has liked a post that you created.',
       'You’ve been liked ' + likeCnt + ' times.',
-      Data.likes[0].post_title,
+      Data.likes[0] && Data.likes[0].post_title,
     ];
 
     return {
