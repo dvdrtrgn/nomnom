@@ -117,9 +117,11 @@ define(['jqxtn', './hash', 'lib/endpoint',
   function insertLists() {
     var dupe = Dupe.clone().empty();
     var card = findCard();
+    var next = card.next();
     var wrap = card.parent();
 
-    dupe.insertAfter(card);
+    dupe.insertAfter(card).css('visibility', 'visible');
+    next.appendTo(wrap).css('visibility', 'visible');
     dupe.append(Data.cities.clone(), Data.categories.clone());
     addDummies(wrap);
   }
