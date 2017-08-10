@@ -86,26 +86,6 @@ define(['jqxtn', './help', 'lib/endpoint',
     return div.append(head, list);
   }
 
-  function transArray(arr) {
-    var init = arr.shift();
-
-    return {
-      title: init[0],
-      filter: init[1],
-      strings: arr,
-    };
-  }
-
-  function data2elem() {
-    Data.cities = transArray(Data.cities.slice());
-    Data.categs = transArray(Data.categs.slice());
-
-    El.cities = makeArticle(Data.cities);
-    El.categs = makeArticle(Data.categs);
-  }
-
-  // moved
-
   function insertToplist() {
     var dupe = Dupe.clone().empty();
     var card = findCard();
@@ -125,9 +105,11 @@ define(['jqxtn', './help', 'lib/endpoint',
     Data.categs = Help.readCategs(data.area_of_interest);
     Data.cities = Help.readCities(data.city);
 
-    data2elem();
-    insertToplist();
+    El.cities = makeArticle(Data.cities);
+    El.categs = makeArticle(Data.categs);
+
     $(document).on('sf:ajaxfinish', insertToplist);
+    insertToplist();
   }
 
   function init() {

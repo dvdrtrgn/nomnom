@@ -6,6 +6,16 @@ define(['jqxtn', './hash',
   var W = window;
   var C = W.console;
 
+  function _transArray(arr) {
+    var init = arr.shift();
+
+    return {
+      title: init[0],
+      filter: init[1],
+      strings: arr,
+    };
+  }
+
   function addDummies(wrap) {
     var blank = $('<div class="possible-card blank">');
     wrap.append(blank.clone(), blank.clone(), blank.clone());
@@ -26,7 +36,7 @@ define(['jqxtn', './hash',
     for (var i in obj) {
       if (i) arr.push([Hash.search(i), obj[i]]); // turn keys into full text
     }
-    return arr;
+    return _transArray(arr);
   }
 
   function readCities(obj) {
@@ -35,7 +45,7 @@ define(['jqxtn', './hash',
     for (var i in obj) {
       if (i) arr.push([i, obj[i]]);
     }
-    return arr;
+    return _transArray(arr);
   }
 
   return {
