@@ -15,6 +15,7 @@ define(['jqxtn', './hash', 'lib/endpoint',
   };
   var Data = {};
   var Dupe;
+  var El = {};
 
   //
   // etc
@@ -93,12 +94,9 @@ define(['jqxtn', './hash', 'lib/endpoint',
     return makeArticle(obj);
   }
 
-  function data2elem(data) {
-
-    data.cities = transArray(data.cities);
-    data.categories = transArray(data.categories);
-
-    return data;
+  function data2elem() {
+    El.cities = transArray(Data.cities.slice());
+    El.categories = transArray(Data.categories.slice());
   }
 
   function readCategories(obj) {
@@ -132,7 +130,7 @@ define(['jqxtn', './hash', 'lib/endpoint',
 
     dupe.insertAfter(card).css('visibility', 'visible');
     next.appendTo(wrap).css('visibility', 'visible');
-    dupe.append(Data.cities.clone(), Data.categories.clone());
+    dupe.append(El.cities.clone(), El.categories.clone());
     addDummies(wrap);
     revealCards();
   }
@@ -141,7 +139,7 @@ define(['jqxtn', './hash', 'lib/endpoint',
     readCategories(obj.area_of_interest);
     readCities(obj.city);
 
-    data2elem(Data);
+    data2elem();
     insertLists();
     $(document).on('sf:ajaxfinish', insertLists);
   }
@@ -159,6 +157,7 @@ define(['jqxtn', './hash', 'lib/endpoint',
       Data: Data,
       Dupe: Dupe,
       Df: Df,
+      El: El,
     };
   }
 
