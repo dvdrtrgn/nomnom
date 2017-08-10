@@ -20,31 +20,35 @@ define(['jqxtn', 'jscook', 'lib/formtool',
     var lastId = Number(Cookie.get('card_last_post_id')) || 0;
     var lastCnt = Number(Cookie.get('card_last_like_cnt')) || 0;
 
-    var postArr = [
-      function (arg, msg) {
+    var postObj = {
+      dismiss: function (arg, msg) {
         if (arg === 'setcookie') Cookie.set('card_last_post_id', postId);
         if (arg === 'setsearch') Formtool.search(msg);
       },
-      'Better is Possible',
-      nameStr + ' just created a new post.',
-      postStr + ' on site',
-      Data.posts.post_title,
-    ];
+      strings: [
+        'Better is Possible',
+        nameStr + ' just created a new post.',
+        postStr + ' on site',
+      ],
+      title: Data.posts.post_title,
+    };
 
-    var likeArr = [
-      function (arg, msg) {
+    var likeObj = {
+      dismiss: function (arg, msg) {
         if (arg === 'setcookie') Cookie.set('card_last_like_cnt', likeCnt);
         if (arg === 'setsearch') Formtool.search(msg);
       },
-      'Great job!',
-      'Someone has liked a post that you created.',
-      'You’ve been liked ' + likeCnt + ' times.',
-      Data.likes[0] && Data.likes[0].post_title,
-    ];
+      strings: [
+        'Great job!',
+        'Someone has liked a post that you created.',
+        'You’ve been liked ' + likeCnt + ' times.',
+      ],
+      title: (Data.likes[0] && Data.likes[0].post_title),
+    };
 
     return {
-      posts: lastId < postId ? postArr : [],
-      likes: lastCnt < likeCnt ? likeArr : [],
+      posts: lastId < postId ? postObj : {},
+      likes: lastCnt < likeCnt ? likeObj : {},
     };
   }
 

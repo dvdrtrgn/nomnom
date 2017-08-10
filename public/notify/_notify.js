@@ -20,7 +20,7 @@ define(['jqxtn', './clean', './fetch',
 
       ele.toggleClass('max');
       if (data.max) {
-        data.cb('setsearch', data[4]);
+        data.cb('setsearch', data.title);
       }
       data.max = !data.max;
     }
@@ -30,22 +30,24 @@ define(['jqxtn', './clean', './fetch',
     return ele;
   }
 
-  function fillDiv(ele, data) {
-    if (!data || !data.length) return;
+  function fillDiv(ele, obj) {
+    var strs = obj.strings;
+    if (!obj || !strs || !strs.length) return;
     // icanhasdata?
-    data.cb = data[0] || $.noop; // look in data for a callback clue
-    data.max = false;
-    ele.empty().data(Nom, data);
+
+    obj.cb = obj.dismiss || $.noop; // look in data for a callback clue
+    obj.max = false;
+    ele.empty().data(Nom, obj);
 
     var makeLine = function (i) {
-      return $('<b>').addClass('slug' + i).html(data[i] || '&nbsp;');
+      return $('<b>').addClass('slug' + i).html(strs[i - 1] || '&nbsp;');
     };
 
     function _close(evt) {
       evt.preventDefault();
       evt.stopPropagation();
       if (ele.is('.max')) {
-        data.cb('setcookie');
+        obj.cb('setcookie');
         ele.removeClass('max');
         ele.hide();
       }
@@ -63,10 +65,10 @@ define(['jqxtn', './clean', './fetch',
 
   function useData(data) {
     Clean.load(data);
-    var arrs = Clean.strings();
+    var objs = Clean.strings();
 
-    fillDiv(El.notiPost, arrs.posts);
-    fillDiv(El.notiLike, arrs.likes);
+    fillDiv(El.notiPost, objs.posts);
+    fillDiv(El.notiLike, objs.likes);
   }
 
   function init() {
