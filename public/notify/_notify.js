@@ -1,6 +1,6 @@
 /*globals _drt */
-define(['jqxtn', './fetch',
-], function ($, Fetch) {
+define(['jqxtn', './clean', './fetch',
+], function ($, Clean, Fetch) {
 
   var Nom = '_notify';
   var W = window;
@@ -62,8 +62,11 @@ define(['jqxtn', './fetch',
   }
 
   function useData(data) {
-    fillDiv(El.notiPost, data.posts);
-    fillDiv(El.notiLike, data.likes);
+    Clean.load(data);
+    var arrs = Clean.strings();
+
+    fillDiv(El.notiPost, arrs.posts);
+    fillDiv(El.notiLike, arrs.likes);
   }
 
   function init() {
@@ -82,6 +85,7 @@ define(['jqxtn', './fetch',
 
     return {
       _: Nom,
+      _Clean: Clean,
       _Fetch: Fetch,
       El: El,
     };

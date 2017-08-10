@@ -1,6 +1,6 @@
 /*globals _drt */
-define(['jqxtn', 'lib/endpoint', './clean', 'lib/formtool',
-], function ($, Endpoint, Clean) {
+define(['jqxtn', 'lib/endpoint', 'lib/formtool',
+], function ($, Endpoint) {
 
   var Nom = 'fetch';
   var W = window;
@@ -29,7 +29,7 @@ define(['jqxtn', 'lib/endpoint', './clean', 'lib/formtool',
       if (!Data.likes || !Data.posts) {
         getData(cb);
       } else {
-        cb(Clean.data(Data));
+        cb(Data);
       }
     }, 99);
   }
@@ -38,7 +38,6 @@ define(['jqxtn', 'lib/endpoint', './clean', 'lib/formtool',
     update();
     return {
       _: Nom,
-      _Clean: Clean,
       _Endpoint: Endpoint,
       Data: Data,
       Uris: Uris,

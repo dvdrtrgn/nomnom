@@ -7,9 +7,7 @@ define(['jqxtn', 'jscook', 'lib/formtool',
   var C = W.console;
   var Data = {};
 
-  function cleanData(obj) {
-    Data = obj;
-
+  function cleanData() {
     var name = Data.posts.first_name + ' ' + Data.posts.last_name;
     var nameStr = name.length > 1 ? name : 'Someone';
     var postId = Number(Data.posts.id);
@@ -50,13 +48,18 @@ define(['jqxtn', 'jscook', 'lib/formtool',
     };
   }
 
+  function loadData(obj) {
+    Data = obj;
+  }
+
   return {
     _: Nom,
     _Cookie: Cookie,
     _Formtool: Formtool,
     Data: Data,
     //
-    data: cleanData,
+    load: loadData,
+    strings: cleanData,
   };
 });
 
