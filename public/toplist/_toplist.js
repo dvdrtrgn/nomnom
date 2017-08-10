@@ -1,6 +1,6 @@
 /*globals _drt */
-define(['jqxtn', './hash', 'lib/endpoint',
-], function ($, Hash, Endpoint) {
+define(['jqxtn', './help', 'lib/endpoint',
+], function ($, Help, Endpoint) {
   'use strict';
 
   var Nom = '_toplist';
@@ -53,14 +53,7 @@ define(['jqxtn', './hash', 'lib/endpoint',
     return dupe;
   }
 
-  function genUrl(obj) {
-    var url = _drt.site;
-
-    url += Hash.search(obj.filter); // 'search-results/' +
-    url += encodeURIComponent(Hash.research(obj.term));
-
-    return url;
-  }
+  // moved
 
   function makeLine(arr, filter) {
     var line = $('<li>');
@@ -70,8 +63,8 @@ define(['jqxtn', './hash', 'lib/endpoint',
       count: arr[1],
     };
     var link = [
-      '<a href="', genUrl(obj), '">',
-      Hash.search(obj.term),
+      '<a href="', Help.genUrl(obj), '">',
+      Help.search(obj.term),
       ' (', obj.count, ' posts)</a>',
     ];
 
@@ -108,28 +101,7 @@ define(['jqxtn', './hash', 'lib/endpoint',
     El.categories = transArray(Data.categories.slice());
   }
 
-  function readCategories(obj) {
-    var arr = [['TOP CATEGORIES', 'category']];
-
-    for (var i in obj) {
-      if (i) arr.push([Hash.search(i), obj[i]]); // turn keys into full text
-    }
-    Data.categories = arr;
-  }
-
-  function readCities(obj) {
-    var arr = [['TOP CITIES', 'city']];
-
-    for (var i in obj) {
-      if (i) arr.push([i, obj[i]]);
-    }
-    Data.cities = arr;
-  }
-
-  function addDummies(wrap) {
-    var blank = $('<div class="possible-card blank">');
-    wrap.append(blank.clone(), blank.clone(), blank.clone());
-  }
+  // moved
 
   function insertToplist() {
     var dupe = Dupe.clone().empty();
@@ -140,13 +112,13 @@ define(['jqxtn', './hash', 'lib/endpoint',
     dupe.insertAfter(card).css('visibility', 'visible');
     next.appendTo(wrap).css('visibility', 'visible');
     dupe.append(El.cities.clone(), El.categories.clone());
-    addDummies(wrap);
+    Help.addDummies(wrap);
     revealCards();
   }
 
   function useData(data) {
-    readCategories(data.area_of_interest);
-    readCities(data.city);
+    Data.categories = Help.readCategories(data.area_of_interest);
+    Data.cities = Help.readCities(data.city);
 
     data2elem();
     insertToplist();
@@ -167,7 +139,7 @@ define(['jqxtn', './hash', 'lib/endpoint',
     return {
       _: Nom,
       _Endpoint: Endpoint,
-      _Hash: Hash,
+      _Help: Help,
       Data: Data,
       Dupe: Dupe,
       Df: Df,

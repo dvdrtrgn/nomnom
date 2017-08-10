@@ -1,6 +1,7 @@
 define([], function () {
   'use strict';
 
+  var Nom = 'hash';
   var W = window;
   var C = W.console;
 
@@ -36,6 +37,7 @@ define([], function () {
   }
 
   var hash = {
+    _: Nom,
     city: '?_sf_s=',
     category: '?_sfm_area_of_interest=',
     '': 'All Items',
