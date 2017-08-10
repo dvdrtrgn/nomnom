@@ -8,7 +8,11 @@ define(['jqxtn', './hash', 'lib/endpoint',
   var C = W.console;
   var Df = {
     index: 2, // in avada css, set nth-child(<index+1>) to hidden
-    query: '.possible-card-wrapper .possible-card',
+    wrap: '.possible-card-wrapper',
+    posts: '.possible-card-wrapper .possible-card',
+    homes: [
+      'http://ecgsolutions.hosting.wellsfargo.com/marketing/csc/',
+    ],
     points: {
       top5: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/ecg/top5.php',
     },
@@ -22,15 +26,15 @@ define(['jqxtn', './hash', 'lib/endpoint',
   //
 
   function ghostCards() {
-    return $(Df.query).removeClass('ready');
+    $(Df.wrap).removeClass('ready');
   }
 
   function revealCards() {
-    return $(Df.query).addClass('ready');
+    $(Df.wrap).addClass('ready');
   }
 
   function findCard() {
-    var cards = ghostCards();
+    var cards = $(Df.posts);
     var pick = Df.index - 1;
     var card = (cards.length > pick) ? cards.eq(pick) : cards.last();
 
@@ -145,10 +149,15 @@ define(['jqxtn', './hash', 'lib/endpoint',
   }
 
   function init() {
-    $.loadCss(_drt.base + 'toplist/toplist.css');
+    if (~Df.homes.indexOf(_drt.site)) {
+      ghostCards();
 
-    newEndpoint(Df.points.top5, readTop5);
-    Dupe = dupeCard();
+      $.loadCss(_drt.base + 'toplist/toplist.css');
+
+      newEndpoint(Df.points.top5, readTop5);
+
+      Dupe = dupeCard();
+    }
 
     return {
       _: Nom,
@@ -167,6 +176,7 @@ define(['jqxtn', './hash', 'lib/endpoint',
 
 /*
 
-
+  #search-filter-form-3453
+  #search-filter-results-3453
 
  */

@@ -5,6 +5,11 @@ define(['jqxtn', './clean', './fetch',
   var Nom = '_notify';
   var W = window;
   var C = W.console;
+  var Df = {
+    homes: [
+      'http://ecgsolutions.hosting.wellsfargo.com/marketing/csc/',
+    ],
+  };
   var El = {
     notiPost: 'notify post',
     notiLike: 'notify like',
@@ -72,18 +77,20 @@ define(['jqxtn', './clean', './fetch',
   }
 
   function init() {
-    $.loadCss(_drt.base + 'notify/notify.css');
+    if (~Df.homes.indexOf(_drt.site)) {
+      $.loadCss(_drt.base + 'notify/notify.css');
 
-    El.notiPost = makeDiv(El.notiPost).hide();
-    El.notiLike = makeDiv(El.notiLike).hide();
-    $('body').prepend(El.notiPost, El.notiLike);
+      El.notiPost = makeDiv(El.notiPost).hide();
+      El.notiLike = makeDiv(El.notiLike).hide();
+      $('body').prepend(El.notiPost, El.notiLike);
 
-    Fetch.get(useData);
-
-    setInterval(function () {
-      Fetch.update();
       Fetch.get(useData);
-    }, 60 * 1000);
+
+      setInterval(function () {
+        Fetch.update();
+        Fetch.get(useData);
+      }, 60 * 1000);
+    }
 
     return {
       _: Nom,
