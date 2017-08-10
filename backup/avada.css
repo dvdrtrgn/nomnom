@@ -1,3 +1,7 @@
+#main {
+  min-height: 67vh;
+}
+
 /* Main Menu Active Menu Item */
 
 #menu-main-menu .current-menu-item a {
@@ -170,9 +174,16 @@ a.search-filter-reset {
   flex-wrap: wrap;
   justify-content: space-between;
 }
+.possible-card-wrapper > :nth-child(3):not(.ready) {
+  background-image: url('../dummy.jpg');
+  background-size: cover;
+}
+.possible-card-wrapper > :nth-child(3):not(.ready) * {
+  visibility: hidden;
+}
 
 .possible-card {
-  flex-basis: 22%;
+  flex-basis: 30%;
   font-size: 11px;
   padding: 10px;
   border: 1px solid #ccc;
@@ -181,11 +192,15 @@ a.search-filter-reset {
   background-color: white;
   transition: all .2s ease-in-out;
   box-sizing: content-box;
+  opacity: 0.2;
 }
 .possible-card.blank {
   border: 0;
   height: 0;
   margin: 0;
+}
+.possible-card.ready {
+  opacity: 1;
 }
 .possible-card:hover {
   transform: scale(1.2);

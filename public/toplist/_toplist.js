@@ -7,21 +7,32 @@ define(['jqxtn', './hash', 'lib/endpoint',
   var W = window;
   var C = W.console;
   var Df = {
+    index: 2, // in avada css, set nth-child(<index+1>) to hidden
+    query: '.possible-card-wrapper .possible-card',
     points: {
       top5: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/ecg/top5.php',
     },
   };
   var Data = {};
   var Dupe;
+  var El = {};
 
   //
   // etc
   //
 
-  function findCard() {
-    var card = $('.gallery > .gallery-item, .possible-card-wrapper .possible-card');
+  function ghostCards() {
+    return $(Df.query).removeClass('ready');
+  }
 
-    card = (card.length > 2) ? card.eq(2) : card.last();
+  function revealCards() {
+    return $(Df.query).addClass('ready');
+  }
+
+  function findCard() {
+    var cards = ghostCards();
+    var pick = Df.index - 1;
+    var card = (cards.length > pick) ? cards.eq(pick) : cards.last();
 
     return card;
   }
@@ -41,7 +52,7 @@ define(['jqxtn', './hash', 'lib/endpoint',
   function genUrl(obj) {
     var url = _drt.site;
 
-    url += 'search-results/' + Hash.search(obj.filter);
+    url += Hash.search(obj.filter); // 'search-results/' +
     url += encodeURIComponent(Hash.research(obj.term));
 
     return url;
@@ -83,12 +94,9 @@ define(['jqxtn', './hash', 'lib/endpoint',
     return makeArticle(obj);
   }
 
-  function data2elem(data) {
-
-    data.cities = transArray(data.cities);
-    data.categories = transArray(data.categories);
-
-    return data;
+  function data2elem() {
+    El.cities = transArray(Data.cities.slice());
+    El.categories = transArray(Data.categories.slice());
   }
 
   function readCategories(obj) {
@@ -117,18 +125,21 @@ define(['jqxtn', './hash', 'lib/endpoint',
   function insertLists() {
     var dupe = Dupe.clone().empty();
     var card = findCard();
+    var next = card.next();
     var wrap = card.parent();
 
-    dupe.insertAfter(card);
-    dupe.append(Data.cities.clone(), Data.categories.clone());
+    dupe.insertAfter(card).css('visibility', 'visible');
+    next.appendTo(wrap).css('visibility', 'visible');
+    dupe.append(El.cities.clone(), El.categories.clone());
     addDummies(wrap);
+    revealCards();
   }
 
   function readTop5(obj) {
     readCategories(obj.area_of_interest);
     readCities(obj.city);
 
-    data2elem(Data);
+    data2elem();
     insertLists();
     $(document).on('sf:ajaxfinish', insertLists);
   }
@@ -146,6 +157,7 @@ define(['jqxtn', './hash', 'lib/endpoint',
       Data: Data,
       Dupe: Dupe,
       Df: Df,
+      El: El,
     };
   }
 

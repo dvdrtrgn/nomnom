@@ -1,6 +1,6 @@
 /*globals _drt */
-define(['jqxtn', './fetch',
-], function ($, Fetch) {
+define(['jqxtn', './clean', './fetch',
+], function ($, Clean, Fetch) {
 
   var Nom = '_notify';
   var W = window;
@@ -11,36 +11,43 @@ define(['jqxtn', './fetch',
   };
 
   function makeDiv(klass) {
-    var ele = $('<div>').addClass(klass);
+    var ele = $('<div tabindex=0>').addClass(klass);
 
     function _toggle(evt) {
+      evt.preventDefault();
       evt.stopPropagation();
       var data = ele.data(Nom);
 
       ele.toggleClass('max');
-      data.max = !data.max || data.cb('changepage');
+      if (data.max) {
+        data.cb('setsearch', data.title);
+      }
+      data.max = !data.max;
     }
 
-    ele.on('click', _toggle);
+    ele.on('click keypress', _toggle);
 
     return ele;
   }
 
-  function fillDiv(ele, data) {
-    if (!data || !data.length) return;
+  function fillDiv(ele, obj) {
+    var strs = obj.strings;
+    if (!obj || !strs || !strs.length) return;
     // icanhasdata?
-    data.cb = data[0] || $.noop;
-    data.max = false;
-    ele.empty().data(Nom, data);
+
+    obj.cb = obj.dismiss || $.noop; // look in data for a callback clue
+    obj.max = false;
+    ele.empty().data(Nom, obj);
 
     var makeLine = function (i) {
-      return $('<b>').addClass('slug' + i).html(data[i] || '&nbsp;');
+      return $('<b>').addClass('slug' + i).html(strs[i - 1] || '&nbsp;');
     };
 
     function _close(evt) {
+      evt.preventDefault();
       evt.stopPropagation();
-      if (ele.is('.max')) {
-        data.cb('setcookie');
+      if (obj.max) {
+        obj.cb('setcookie');
         ele.removeClass('max');
         ele.hide();
       }
@@ -50,15 +57,18 @@ define(['jqxtn', './fetch',
     $('<p class=slugs>').appendTo(ele)
       .append(makeLine(1)).append(makeLine(2)).append(makeLine(3));
 
-    $('<b class=xo>&times;</b>').appendTo(ele)
-      .click(_close);
+    $('<b class=xo tabindex=0>&times;</b>').appendTo(ele)
+      .on('click keypress', _close);
 
     return ele.show();
   }
 
   function useData(data) {
-    fillDiv(El.notiPost, data.posts);
-    fillDiv(El.notiLike, data.likes);
+    Clean.load(data);
+    var objs = Clean.strings();
+
+    fillDiv(El.notiPost, objs.posts);
+    fillDiv(El.notiLike, objs.likes);
   }
 
   function init() {
@@ -77,6 +87,7 @@ define(['jqxtn', './fetch',
 
     return {
       _: Nom,
+      _Clean: Clean,
       _Fetch: Fetch,
       El: El,
     };
