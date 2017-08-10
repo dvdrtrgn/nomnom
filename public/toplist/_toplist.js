@@ -1,6 +1,6 @@
 /*globals _drt */
-define(['jqxtn', './hash', 'lib/endpoint',
-], function ($, Hash, newEndpoint) {
+define(['jqxtn', './help', 'lib/endpoint',
+], function ($, Help, Endpoint) {
   'use strict';
 
   var Nom = '_toplist';
@@ -8,13 +8,16 @@ define(['jqxtn', './hash', 'lib/endpoint',
   var C = W.console;
   var Df = {
     index: 2, // in avada css, set nth-child(<index+1>) to hidden
-    query: '.possible-card-wrapper .possible-card',
+    wrap: '.possible-card-wrapper',
+    posts: '.possible-card-wrapper .possible-card',
+    homes: [
+      'http://ecgsolutions.hosting.wellsfargo.com/marketing/csc/',
+    ],
     points: {
       top5: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/ecg/top5.php',
     },
   };
   var Data = {};
-  var Dupe;
   var El = {};
 
   //
@@ -22,41 +25,22 @@ define(['jqxtn', './hash', 'lib/endpoint',
   //
 
   function ghostCards() {
-    return $(Df.query).removeClass('ready');
+    $(Df.wrap).removeClass('ready');
   }
 
   function revealCards() {
-    return $(Df.query).addClass('ready');
+    $(Df.wrap).addClass('ready');
   }
 
   function findCard() {
-    var cards = ghostCards();
+    var cards = $(Df.posts);
     var pick = Df.index - 1;
     var card = (cards.length > pick) ? cards.eq(pick) : cards.last();
 
     return card;
   }
 
-  function dupeCard() {
-    var card = findCard();
-    var dupe = card.clone();
-
-    if (!dupe.is('.toplist')) {
-      dupe.addClass('toplist');
-    } else {
-      dupe = card; // already there! (for whatever reason)
-    }
-    return dupe;
-  }
-
-  function genUrl(obj) {
-    var url = _drt.site;
-
-    url += Hash.search(obj.filter); // 'search-results/' +
-    url += encodeURIComponent(Hash.research(obj.term));
-
-    return url;
-  }
+  // moved
 
   function makeLine(arr, filter) {
     var line = $('<li>');
@@ -66,96 +50,70 @@ define(['jqxtn', './hash', 'lib/endpoint',
       count: arr[1],
     };
     var link = [
-      '<a href="', genUrl(obj), '">',
-      Hash.search(obj.term),
+      '<a href="', Help.genUrl(obj), '">',
+      Help.search(obj.term),
       ' (', obj.count, ' posts)</a>',
     ];
+
     line.html(link.join(''));
-    return line.data(Nom, obj);
+    line.data(Nom, obj);
+
+    return line;
   }
 
   function makeArticle(obj) {
     var div = $('<article>');
     var head = $('<b>').html(obj.title);
     var list = $('<ol>');
-    obj.data.forEach(function (item) {
+
+    obj.strings.forEach(function (item) {
       list.append(makeLine(item, obj.filter));
     });
+
     return div.append(head, list);
   }
 
-  function transArray(arr) {
-    var init = arr.shift();
-    var obj = {
-      title: init[0],
-      filter: init[1],
-      data: arr,
-    };
-    return makeArticle(obj);
-  }
-
-  function data2elem() {
-    El.cities = transArray(Data.cities.slice());
-    El.categories = transArray(Data.categories.slice());
-  }
-
-  function readCategories(obj) {
-    var arr = [['TOP CATEGORIES', 'category']];
-
-    for (var i in obj)
-      if (i) arr.push([Hash.search(i), obj[i]]);
-
-    Data.categories = arr;
-  }
-
-  function readCities(obj) {
-    var arr = [['TOP CITIES', 'city']];
-
-    for (var i in obj)
-      if (i) arr.push([i, obj[i]]);
-
-    Data.cities = arr;
-  }
-
-  function addDummies(wrap) {
-    var blank = $('<div class="possible-card blank">');
-    wrap.append(blank.clone(), blank.clone(), blank.clone());
-  }
-
-  function insertLists() {
-    var dupe = Dupe.clone().empty();
+  function insertToplist() {
     var card = findCard();
     var next = card.next();
     var wrap = card.parent();
 
-    dupe.insertAfter(card).css('visibility', 'visible');
+    El.list.insertAfter(card).css('visibility', 'visible');
     next.appendTo(wrap).css('visibility', 'visible');
-    dupe.append(El.cities.clone(), El.categories.clone());
-    addDummies(wrap);
+
+    Help.addDummies(wrap);
     revealCards();
   }
 
-  function readTop5(obj) {
-    readCategories(obj.area_of_interest);
-    readCities(obj.city);
+  function useData(data) {
+    Data.raw = data;
+    Data.categs = Help.readCategs(data.area_of_interest);
+    Data.cities = Help.readCities(data.city);
 
-    data2elem();
-    insertLists();
-    $(document).on('sf:ajaxfinish', insertLists);
+    El.cities = makeArticle(Data.cities);
+    El.categs = makeArticle(Data.categs);
+    El.list.empty().append(El.cities, El.categs);
+
+    $(document).on('sf:ajaxfinish', insertToplist);
+    insertToplist();
   }
 
   function init() {
-    $.loadCss(_drt.base + 'toplist/toplist.css');
+    if (~Df.homes.indexOf(_drt.site)) {
+      ghostCards();
 
-    newEndpoint(Df.points.top5, readTop5);
-    Dupe = dupeCard();
+      $.loadCss(_drt.base + 'toplist/toplist.css');
+
+      Endpoint(Df.points.top5, useData);
+
+      El.list = Help.dupeCard(findCard());
+    }
 
     return {
       _: Nom,
-      _Endpoint: newEndpoint,
-      _Hash: Hash,
+      _Endpoint: Endpoint,
+      _Help: Help,
       Data: Data,
-      Dupe: Dupe,
       Df: Df,
       El: El,
     };
@@ -167,6 +125,7 @@ define(['jqxtn', './hash', 'lib/endpoint',
 
 /*
 
-
+  #search-filter-form-3453
+  #search-filter-results-3453
 
  */
