@@ -20,7 +20,7 @@ define(['jqxtn', './hash',
     return url;
   }
 
-  function readCategories(obj) {
+  function readCategs(obj) {
     var arr = [['TOP CATEGORIES', 'category']];
 
     for (var i in obj) {
@@ -43,7 +43,7 @@ define(['jqxtn', './hash',
     //
     addDummies: addDummies,
     genUrl: genUrl,
-    readCategories: readCategories,
+    readCategs: readCategs,
     readCities: readCities,
     search: Hash.search,
   };

@@ -88,17 +88,20 @@ define(['jqxtn', './help', 'lib/endpoint',
 
   function transArray(arr) {
     var init = arr.shift();
-    var obj = {
+
+    return {
       title: init[0],
       filter: init[1],
       strings: arr,
     };
-    return makeArticle(obj);
   }
 
   function data2elem() {
-    El.cities = transArray(Data.cities.slice());
-    El.categories = transArray(Data.categories.slice());
+    Data.cities = transArray(Data.cities.slice());
+    Data.categs = transArray(Data.categs.slice());
+
+    El.cities = makeArticle(Data.cities);
+    El.categs = makeArticle(Data.categs);
   }
 
   // moved
@@ -111,13 +114,15 @@ define(['jqxtn', './help', 'lib/endpoint',
 
     dupe.insertAfter(card).css('visibility', 'visible');
     next.appendTo(wrap).css('visibility', 'visible');
-    dupe.append(El.cities.clone(), El.categories.clone());
+    dupe.append(El.cities.clone(), El.categs.clone());
+
     Help.addDummies(wrap);
     revealCards();
   }
 
   function useData(data) {
-    Data.categories = Help.readCategories(data.area_of_interest);
+    Data.raw = data;
+    Data.categs = Help.readCategs(data.area_of_interest);
     Data.cities = Help.readCities(data.city);
 
     data2elem();
