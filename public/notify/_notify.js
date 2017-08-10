@@ -46,7 +46,7 @@ define(['jqxtn', './clean', './fetch',
     function _close(evt) {
       evt.preventDefault();
       evt.stopPropagation();
-      if (ele.is('.max')) {
+      if (obj.max) {
         obj.cb('setcookie');
         ele.removeClass('max');
         ele.hide();

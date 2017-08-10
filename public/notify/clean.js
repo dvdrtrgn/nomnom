@@ -60,7 +60,6 @@ define(['jqxtn', 'jscook', 'lib/formtool',
     _: Nom,
     _Cookie: Cookie,
     _Formtool: Formtool,
-    Data: Data,
     //
     load: loadData,
     strings: cleanData,
