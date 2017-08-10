@@ -17,8 +17,16 @@ define(['jqxtn', './help', 'lib/endpoint',
       top5: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/ecg/top5.php',
     },
   };
-  var Data = {};
-  var El = {};
+  var Data = {
+    categs: null,
+    cities: null,
+    raw: null,
+  };
+  var El = {
+    categs: null,
+    cities: null,
+    toplist: null,
+  };
 
   //
   // etc
@@ -39,8 +47,6 @@ define(['jqxtn', './help', 'lib/endpoint',
 
     return card;
   }
-
-  // moved
 
   function makeLine(arr, filter) {
     var line = $('<li>');
@@ -78,7 +84,7 @@ define(['jqxtn', './help', 'lib/endpoint',
     var next = card.next();
     var wrap = card.parent();
 
-    El.list.insertAfter(card).css('visibility', 'visible');
+    El.toplist.insertAfter(card).css('visibility', 'visible');
     next.appendTo(wrap).css('visibility', 'visible');
 
     Help.addDummies(wrap);
@@ -92,7 +98,7 @@ define(['jqxtn', './help', 'lib/endpoint',
 
     El.cities = makeArticle(Data.cities);
     El.categs = makeArticle(Data.categs);
-    El.list.empty().append(El.cities, El.categs);
+    El.toplist.empty().append(El.cities, El.categs);
 
     $(document).on('sf:ajaxfinish', insertToplist);
     insertToplist();
@@ -106,7 +112,7 @@ define(['jqxtn', './help', 'lib/endpoint',
 
       Endpoint(Df.points.top5, useData);
 
-      El.list = Help.dupeCard(findCard());
+      El.toplist = Help.dupeCard(findCard());
     }
 
     return {
@@ -120,7 +126,6 @@ define(['jqxtn', './help', 'lib/endpoint',
   }
 
   return init();
-
 });
 
 /*
