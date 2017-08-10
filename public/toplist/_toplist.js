@@ -41,18 +41,6 @@ define(['jqxtn', './help', 'lib/endpoint',
     return card;
   }
 
-  function dupeCard() {
-    var card = findCard();
-    var dupe = card.clone();
-
-    if (!dupe.is('.toplist')) {
-      dupe.addClass('toplist');
-    } else {
-      dupe = card; // already there! (for whatever reason)
-    }
-    return dupe;
-  }
-
   // moved
 
   function makeLine(arr, filter) {
@@ -120,7 +108,7 @@ define(['jqxtn', './help', 'lib/endpoint',
 
       Endpoint(Df.points.top5, useData);
 
-      Dupe = dupeCard();
+      Dupe = Help.dupeCard(findCard());
     }
 
     return {

@@ -21,6 +21,17 @@ define(['jqxtn', './hash',
     wrap.append(blank.clone(), blank.clone(), blank.clone());
   }
 
+  function dupeCard(card) {
+    var dupe = card.clone();
+
+    if (!dupe.is('.toplist')) {
+      dupe.addClass('toplist');
+    } else {
+      dupe = card; // already there! (for whatever reason)
+    }
+    return dupe;
+  }
+
   function genUrl(obj) {
     var url = _drt.site;
 
@@ -52,6 +63,7 @@ define(['jqxtn', './hash',
     _: Nom,
     //
     addDummies: addDummies,
+    dupeCard: dupeCard,
     genUrl: genUrl,
     readCategs: readCategs,
     readCities: readCities,
