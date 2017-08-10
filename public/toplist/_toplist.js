@@ -18,7 +18,6 @@ define(['jqxtn', './help', 'lib/endpoint',
     },
   };
   var Data = {};
-  var Dupe;
   var El = {};
 
   //
@@ -75,14 +74,12 @@ define(['jqxtn', './help', 'lib/endpoint',
   }
 
   function insertToplist() {
-    var dupe = Dupe.clone().empty();
     var card = findCard();
     var next = card.next();
     var wrap = card.parent();
 
-    dupe.insertAfter(card).css('visibility', 'visible');
+    El.list.insertAfter(card).css('visibility', 'visible');
     next.appendTo(wrap).css('visibility', 'visible');
-    dupe.append(El.cities.clone(), El.categs.clone());
 
     Help.addDummies(wrap);
     revealCards();
@@ -95,6 +92,7 @@ define(['jqxtn', './help', 'lib/endpoint',
 
     El.cities = makeArticle(Data.cities);
     El.categs = makeArticle(Data.categs);
+    El.list.empty().append(El.cities, El.categs);
 
     $(document).on('sf:ajaxfinish', insertToplist);
     insertToplist();
@@ -108,7 +106,7 @@ define(['jqxtn', './help', 'lib/endpoint',
 
       Endpoint(Df.points.top5, useData);
 
-      Dupe = Help.dupeCard(findCard());
+      El.list = Help.dupeCard(findCard());
     }
 
     return {
@@ -116,7 +114,6 @@ define(['jqxtn', './help', 'lib/endpoint',
       _Endpoint: Endpoint,
       _Help: Help,
       Data: Data,
-      Dupe: Dupe,
       Df: Df,
       El: El,
     };
