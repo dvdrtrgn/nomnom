@@ -24,14 +24,6 @@ define(['jqxtn', 'lib/endpoint', 'jscook', 'lib/formtool',
     });
   }
 
-  function setSearch(text) {
-    var field = $('.sf-input-text');
-    var form = field.closest('form');
-
-    field.val('"' + text + '"');
-    form.submit();
-  }
-
   function cleanData() {
     var name = Data.posts.first_name + ' ' + Data.posts.last_name;
     var nameStr = name.length > 1 ? name : 'Someone';
@@ -48,7 +40,7 @@ define(['jqxtn', 'lib/endpoint', 'jscook', 'lib/formtool',
     var postArr = [
       function (arg, msg) {
         if (arg === 'setcookie') Cookie.set('card_last_post_id', postId);
-        if (arg === 'setsearch') Formtool.set(msg);
+        if (arg === 'setsearch') Formtool.search(msg);
       },
       'Better is Possible',
       nameStr + ' just created a new post.',
@@ -59,7 +51,7 @@ define(['jqxtn', 'lib/endpoint', 'jscook', 'lib/formtool',
     var likeArr = [
       function (arg, msg) {
         if (arg === 'setcookie') Cookie.set('card_last_like_cnt', likeCnt);
-        if (arg === 'setsearch') Formtool.set(msg);
+        if (arg === 'setsearch') Formtool.search(msg);
       },
       'Great job!',
       'Someone has liked a post that you created.',
@@ -95,7 +87,6 @@ define(['jqxtn', 'lib/endpoint', 'jscook', 'lib/formtool',
       //
       get: getData,
       update: update,
-      setSearch: setSearch,
     };
   }
 
