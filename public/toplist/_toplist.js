@@ -1,6 +1,6 @@
 /*globals _drt */
 define(['jqxtn', './hash', 'lib/endpoint',
-], function ($, Hash, newEndpoint) {
+], function ($, Hash, Endpoint) {
   'use strict';
 
   var Nom = '_toplist';
@@ -74,17 +74,22 @@ define(['jqxtn', './hash', 'lib/endpoint',
       Hash.search(obj.term),
       ' (', obj.count, ' posts)</a>',
     ];
+
     line.html(link.join(''));
-    return line.data(Nom, obj);
+    line.data(Nom, obj);
+
+    return line;
   }
 
   function makeArticle(obj) {
     var div = $('<article>');
     var head = $('<b>').html(obj.title);
     var list = $('<ol>');
-    obj.data.forEach(function (item) {
+
+    obj.strings.forEach(function (item) {
       list.append(makeLine(item, obj.filter));
     });
+
     return div.append(head, list);
   }
 
@@ -93,7 +98,7 @@ define(['jqxtn', './hash', 'lib/endpoint',
     var obj = {
       title: init[0],
       filter: init[1],
-      data: arr,
+      strings: arr,
     };
     return makeArticle(obj);
   }
@@ -106,18 +111,18 @@ define(['jqxtn', './hash', 'lib/endpoint',
   function readCategories(obj) {
     var arr = [['TOP CATEGORIES', 'category']];
 
-    for (var i in obj)
-      if (i) arr.push([Hash.search(i), obj[i]]);
-
+    for (var i in obj) {
+      if (i) arr.push([Hash.search(i), obj[i]]); // turn keys into full text
+    }
     Data.categories = arr;
   }
 
   function readCities(obj) {
     var arr = [['TOP CITIES', 'city']];
 
-    for (var i in obj)
+    for (var i in obj) {
       if (i) arr.push([i, obj[i]]);
-
+    }
     Data.cities = arr;
   }
 
@@ -126,7 +131,7 @@ define(['jqxtn', './hash', 'lib/endpoint',
     wrap.append(blank.clone(), blank.clone(), blank.clone());
   }
 
-  function insertLists() {
+  function insertToplist() {
     var dupe = Dupe.clone().empty();
     var card = findCard();
     var next = card.next();
@@ -139,13 +144,13 @@ define(['jqxtn', './hash', 'lib/endpoint',
     revealCards();
   }
 
-  function readTop5(obj) {
-    readCategories(obj.area_of_interest);
-    readCities(obj.city);
+  function useData(data) {
+    readCategories(data.area_of_interest);
+    readCities(data.city);
 
     data2elem();
-    insertLists();
-    $(document).on('sf:ajaxfinish', insertLists);
+    insertToplist();
+    $(document).on('sf:ajaxfinish', insertToplist);
   }
 
   function init() {
@@ -154,14 +159,14 @@ define(['jqxtn', './hash', 'lib/endpoint',
 
       $.loadCss(_drt.base + 'toplist/toplist.css');
 
-      newEndpoint(Df.points.top5, readTop5);
+      Endpoint(Df.points.top5, useData);
 
       Dupe = dupeCard();
     }
 
     return {
       _: Nom,
-      _Endpoint: newEndpoint,
+      _Endpoint: Endpoint,
       _Hash: Hash,
       Data: Data,
       Dupe: Dupe,
