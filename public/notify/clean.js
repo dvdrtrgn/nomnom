@@ -47,8 +47,8 @@ define(['jqxtn', 'jscook', 'lib/formtool',
     };
 
     return {
-      posts: lastId < postId ? postObj : {},
-      likes: lastCnt < likeCnt ? likeObj : {},
+      posts: lastId < postId ? postObj : '',
+      likes: lastCnt < likeCnt ? likeObj : '',
     };
   }
 
