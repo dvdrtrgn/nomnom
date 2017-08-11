@@ -43,7 +43,7 @@ define(['jqxtn', './hash',
     var url = _drt.site;
 
     url += Hash.search(obj.filter); // 'search-results/' +
-    url += encodeURIComponent(Hash.research(obj.term));
+    url += encodeURIComponent(Hash.research(obj.slug));
 
     return url;
   }

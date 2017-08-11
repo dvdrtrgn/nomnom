@@ -29,22 +29,31 @@ define(['jqxtn', './help', 'lib/endpoint',
   // etc
   //
 
-  function makeLine(data) {
-    var $line = $('<li>');
+  function makeLink(data) {
     var $link = $('<a>');
-    var text = Help.search(data.term);
 
     $link.attr('href', Help.genUrl(data));
-    $link.text(text + ' (' + data.count + ' posts)');
+    $link.text(data.text + ' (' + data.count + ' posts)');
 
-    $line.data(Nom, data);
-    $line.append($link);
-    return $line;
+    return $link;
   }
 
-  function addLines(ele, lineFn) {
+  function genLineMaker(wrap) {
+    return function (data) {
+      data.text = Help.search(data.term);
+      data.slug = wrap.replace('#', data.text);
+
+      var $line = $('<li>').data(Nom, data);
+
+      $line.append(makeLink(data));
+
+      return $line;
+    };
+  }
+
+  function addList(ele, lineFn) {
     var list = $(ele).find('ol');
-    var data = list.data(Nom);
+    var data = $(ele).data(Nom);
 
     data.strings.forEach(function (item) {
       var obj = {
@@ -89,8 +98,8 @@ define(['jqxtn', './help', 'lib/endpoint',
     El.categs = makeArticle(Data.categs);
     El.toplist.empty().append(El.cities, El.categs);
 
-    addLines(El.cities, makeLine);
-    addLines(El.categs, makeLine);
+    addList(El.cities, genLineMaker('"#,"'));
+    addList(El.categs, genLineMaker('#'));
 
     $(document).on('sf:ajaxfinish', insertToplist);
     insertToplist();
