@@ -87,6 +87,7 @@ define(['jqxtn', './hash',
     readCategs: readCategs,
     readCities: readCities,
     search: Hash.search,
+    research: Hash.research,
   };
 });
 

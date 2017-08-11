@@ -1,6 +1,6 @@
 /*globals _drt */
-define(['jqxtn', './help', 'lib/endpoint',
-], function ($, Help, Endpoint) {
+define(['jqxtn', './help', 'lib/endpoint', 'lib/formtool',
+], function ($, Help, Endpoint, Formtool) {
   'use strict';
 
   var Nom = '_toplist';
@@ -34,6 +34,17 @@ define(['jqxtn', './help', 'lib/endpoint',
 
     $link.attr('href', Help.genUrl(data));
     $link.text(data.text + ' (' + data.count + ' posts)');
+
+    $link.on('click', function (evt) {
+      if (data.filter === 'city') {
+        evt.preventDefault();
+        Formtool.search(data.slug);
+      }
+      if (data.filter === 'category') {
+        evt.preventDefault();
+        Formtool.filter(Help.research(data.term));
+      }
+    });
 
     return $link;
   }
@@ -98,7 +109,7 @@ define(['jqxtn', './help', 'lib/endpoint',
     El.categs = makeArticle(Data.categs);
     El.toplist.empty().append(El.cities, El.categs);
 
-    addList(El.cities, genLineMaker('"#,"'));
+    addList(El.cities, genLineMaker('#,'));
     addList(El.categs, genLineMaker('#'));
 
     $(document).on('sf:ajaxfinish', insertToplist);
