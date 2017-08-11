@@ -7,9 +7,6 @@ define(['jqxtn', './help', 'lib/endpoint',
   var W = window;
   var C = W.console;
   var Df = {
-    index: 2, // in avada css, set nth-child(<index+1>) to hidden
-    wrap: '.possible-card-wrapper',
-    posts: '.possible-card-wrapper .possible-card',
     homes: [
       'http://ecgsolutions.hosting.wellsfargo.com/marketing/csc/',
     ],
@@ -31,14 +28,6 @@ define(['jqxtn', './help', 'lib/endpoint',
   //
   // etc
   //
-
-  function findCard() {
-    var cards = $(Df.posts);
-    var pick = Df.index - 1;
-    var card = (cards.length > pick) ? cards.eq(pick) : cards.last();
-
-    return card;
-  }
 
   function makeLine(arr, filter) {
     var line = $('<li>');
@@ -72,7 +61,7 @@ define(['jqxtn', './help', 'lib/endpoint',
   }
 
   function insertToplist() {
-    var card = findCard();
+    var card = Help.findDupe();
     var next = card.next();
     var wrap = card.parent();
 
@@ -104,7 +93,7 @@ define(['jqxtn', './help', 'lib/endpoint',
 
       Endpoint(Df.points.top5, useData);
 
-      El.toplist = Help.dupeCard(findCard());
+      El.toplist = Help.dupeCard(Help.findDupe());
     }
 
     return {
