@@ -71,7 +71,9 @@ define(['jqxtn', './help', 'lib/endpoint',
     var next = card.next();
     var wrap = card.parent();
 
-    El.toplist.insertAfter(card).css('visibility', 'visible');
+    El.toplist
+      .clone(true) // filter action in msie 11 destroys elements
+      .insertAfter(card).css('visibility', 'visible');
     next.appendTo(wrap).css('visibility', 'visible');
 
     Help.addDummies(wrap);
