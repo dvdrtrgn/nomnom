@@ -29,13 +29,8 @@ define(['jqxtn', './help', 'lib/endpoint',
   // etc
   //
 
-  function makeLine(arr, filter) {
+  function makeLine(obj) {
     var line = $('<li>');
-    var obj = {
-      filter: filter,
-      term: arr[0],
-      count: arr[1],
-    };
     var link = [
       '<a href="', Help.genUrl(obj), '">',
       Help.search(obj.term),
@@ -48,15 +43,26 @@ define(['jqxtn', './help', 'lib/endpoint',
     return line;
   }
 
+  function addLines(ele, lineFn) {
+    var list = ele.find('ol');
+    var data = list.data(Nom);
+
+    data.strings.forEach(function (item) {
+      var obj = {
+        filter: data.filter,
+        term: item[0],
+        count: item[1],
+      };
+      list.append(lineFn(obj));
+    });
+  }
+
   function makeArticle(obj) {
     var div = $('<article>');
     var head = $('<b>').html(obj.title);
     var list = $('<ol>');
 
-    obj.strings.forEach(function (item) {
-      list.append(makeLine(item, obj.filter));
-    });
-
+    div.data(Nom, obj);
     return div.append(head, list);
   }
 
@@ -80,6 +86,9 @@ define(['jqxtn', './help', 'lib/endpoint',
     El.cities = makeArticle(Data.cities);
     El.categs = makeArticle(Data.categs);
     El.toplist.empty().append(El.cities, El.categs);
+
+    addLines(El.cities, makeLine);
+    addLines(El.categs, makeLine);
 
     $(document).on('sf:ajaxfinish', insertToplist);
     insertToplist();
