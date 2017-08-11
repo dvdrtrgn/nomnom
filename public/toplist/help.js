@@ -41,6 +41,16 @@ define(['jqxtn', './hash',
     return url;
   }
 
+  function gsReady(bool) {
+    if (bool === false) {
+      $('.possible-card-wrapper').removeClass('ready');
+    } else if (bool) {
+      $('.possible-card-wrapper').addClass('ready');
+    } else {
+      return $('.possible-card-wrapper').is('.ready');
+    }
+  }
+
   function readCategs(obj) {
     var arr = [['TOP CATEGORIES', 'category']];
 
@@ -65,6 +75,7 @@ define(['jqxtn', './hash',
     addDummies: addDummies,
     dupeCard: dupeCard,
     genUrl: genUrl,
+    gsReady: gsReady,
     readCategs: readCategs,
     readCities: readCities,
     search: Hash.search,

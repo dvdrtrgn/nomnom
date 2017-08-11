@@ -32,14 +32,6 @@ define(['jqxtn', './help', 'lib/endpoint',
   // etc
   //
 
-  function ghostCards() {
-    $(Df.wrap).removeClass('ready');
-  }
-
-  function revealCards() {
-    $(Df.wrap).addClass('ready');
-  }
-
   function findCard() {
     var cards = $(Df.posts);
     var pick = Df.index - 1;
@@ -88,7 +80,7 @@ define(['jqxtn', './help', 'lib/endpoint',
     next.appendTo(wrap).css('visibility', 'visible');
 
     Help.addDummies(wrap);
-    revealCards();
+    Help.gsReady(true);
   }
 
   function useData(data) {
@@ -106,7 +98,7 @@ define(['jqxtn', './help', 'lib/endpoint',
 
   function init() {
     if (~Df.homes.indexOf(_drt.site)) {
-      ghostCards();
+      Help.gsReady(false);
 
       $.loadCss(_drt.base + 'toplist/toplist.css');
 
