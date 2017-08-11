@@ -15,10 +15,22 @@ define(['jqxtn', './clean', './fetch',
     notiLike: 'notify like',
   };
 
+  function sleepSoon(ele) {
+    setTimeout(function () {
+      ele.addClass('retire'); // go away after 10sec
+    }, 9999);
+  }
+
+  function wakeUp(ele) {
+    ele.removeClass('retire');
+    sleepSoon(ele);
+  }
+
   function makeDiv(klass) {
     var ele = $('<div tabindex=0>').addClass(klass);
 
     function _toggle(evt) {
+      wakeUp(ele);
       evt.preventDefault();
       evt.stopPropagation();
       var data = ele.data(Nom);
@@ -43,6 +55,10 @@ define(['jqxtn', './clean', './fetch',
     obj.cb = obj.dismiss || $.noop; // look in data for a callback clue
     obj.max = false;
     ele.empty().data(Nom, obj);
+    if (ele.is('.max')) {
+      ele.removeClass('retire');
+    }
+    sleepSoon(ele);
 
     var makeLine = function (i) {
       return $('<b>').addClass('slug' + i).html(strs[i - 1] || '&nbsp;');
@@ -88,7 +104,7 @@ define(['jqxtn', './clean', './fetch',
 
       setInterval(function () {
         Fetch.request(useData);
-      }, 60 * 1000);
+      }, 20 * 1000);
     }
 
     return {

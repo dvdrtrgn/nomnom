@@ -33,6 +33,11 @@ footer:last-child {
     right: 0;
   }
 
+  &.retire:not(.max) {
+    bottom: -50px;
+    opacity: 0.1;
+  }
+
   &.post {
     background-image: url('images/notice_post-sm.svg');
     right: 52%;
