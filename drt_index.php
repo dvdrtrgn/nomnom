@@ -8,11 +8,13 @@
     Version: 000
   */
 
+  $dbug = !empty($_COOKIE['drt_debug']);
+
   $devUrl = [
     '',
     'http://10.94.211.163/js/',
     '//localhost/wordpress/wp-content/plugins/drt-mod/public/',
-  ][0];
+  ][$dbug ? 1 : 0];
 
   define('DRT__PLUGIN', __FILE__); # /.../drt_index.php
   define('DRT__PLUGIN_DIR', plugin_dir_path(__FILE__)); # /unix/
