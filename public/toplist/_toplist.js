@@ -1,15 +1,12 @@
 /*globals _drt */
-define(['jqxtn', './help', 'lib/endpoint',
-], function ($, Help, Endpoint) {
+define(['jqxtn', './help', 'lib/endpoint', 'lib/formtool',
+], function ($, Help, Endpoint, Formtool) {
   'use strict';
 
   var Nom = '_toplist';
   var W = window;
   var C = W.console;
   var Df = {
-    index: 2, // in avada css, set nth-child(<index+1>) to hidden
-    wrap: '.possible-card-wrapper',
-    posts: '.possible-card-wrapper .possible-card',
     homes: [
       'http://ecgsolutions.hosting.wellsfargo.com/marketing/csc/',
     ],
@@ -17,72 +14,90 @@ define(['jqxtn', './help', 'lib/endpoint',
       top5: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/ecg/top5.php',
     },
   };
-  var Data = {};
-  var El = {};
+  var Data = {
+    categs: null,
+    cities: null,
+    raw: null,
+  };
+  var El = {
+    categs: null,
+    cities: null,
+    toplist: null,
+  };
 
   //
   // etc
   //
 
-  function ghostCards() {
-    $(Df.wrap).removeClass('ready');
-  }
+  function makeLink(data) {
+    var $link = $('<a>');
 
-  function revealCards() {
-    $(Df.wrap).addClass('ready');
-  }
+    $link.attr('href', Help.genUrl(data));
+    $link.text(data.text + ' (' + data.count + ' posts)');
 
-  function findCard() {
-    var cards = $(Df.posts);
-    var pick = Df.index - 1;
-    var card = (cards.length > pick) ? cards.eq(pick) : cards.last();
-
-    return card;
-  }
-
-  // moved
-
-  function makeLine(arr, filter) {
-    var line = $('<li>');
-    var obj = {
-      filter: filter,
-      term: arr[0],
-      count: arr[1],
-    };
-    var link = [
-      '<a href="', Help.genUrl(obj), '">',
-      Help.search(obj.term),
-      ' (', obj.count, ' posts)</a>',
-    ];
-
-    line.html(link.join(''));
-    line.data(Nom, obj);
-
-    return line;
-  }
-
-  function makeArticle(obj) {
-    var div = $('<article>');
-    var head = $('<b>').html(obj.title);
-    var list = $('<ol>');
-
-    obj.strings.forEach(function (item) {
-      list.append(makeLine(item, obj.filter));
+    $link.on('click', function (evt) {
+      if (data.filter === 'city') {
+        evt.preventDefault();
+        Formtool.search(data.slug);
+      }
+      if (data.filter === 'category') {
+        evt.preventDefault();
+        Formtool.filter(Help.research(data.term));
+      }
     });
 
-    return div.append(head, list);
+    return $link;
+  }
+
+  function genLineMaker(wrap) {
+    return function (data) {
+      data.text = Help.search(data.term);
+      data.slug = wrap.replace('#', data.text);
+
+      var $line = $('<li>').data(Nom, data);
+
+      $line.append(makeLink(data));
+
+      return $line;
+    };
+  }
+
+  function addList(ele, lineFn) {
+    var list = $(ele).find('ol');
+    var data = $(ele).data(Nom);
+
+    data.strings.forEach(function (item) {
+      var obj = {
+        filter: data.filter,
+        term: item[0],
+        count: item[1],
+      };
+      list.append(lineFn(obj));
+    });
+  }
+
+  function makeArticle(data) {
+    var $wrap = $('<article>');
+    var $head = $('<b>').html(data.title);
+    var $list = $('<ol>');
+
+    $wrap.data(Nom, data);
+    $wrap.append($head, $list);
+    return $wrap;
   }
 
   function insertToplist() {
-    var card = findCard();
+    var card = Help.findDupe();
     var next = card.next();
     var wrap = card.parent();
 
-    El.list.insertAfter(card).css('visibility', 'visible');
+    El.toplist
+      .clone(true) // filter action in msie 11 destroys elements
+      .insertAfter(card).css('visibility', 'visible');
     next.appendTo(wrap).css('visibility', 'visible');
 
     Help.addDummies(wrap);
-    revealCards();
+    Help.gsReady(true);
   }
 
   function useData(data) {
@@ -92,7 +107,10 @@ define(['jqxtn', './help', 'lib/endpoint',
 
     El.cities = makeArticle(Data.cities);
     El.categs = makeArticle(Data.categs);
-    El.list.empty().append(El.cities, El.categs);
+    El.toplist.empty().append(El.cities, El.categs);
+
+    addList(El.cities, genLineMaker('#,'));
+    addList(El.categs, genLineMaker('#'));
 
     $(document).on('sf:ajaxfinish', insertToplist);
     insertToplist();
@@ -100,13 +118,13 @@ define(['jqxtn', './help', 'lib/endpoint',
 
   function init() {
     if (~Df.homes.indexOf(_drt.site)) {
-      ghostCards();
+      Help.gsReady(false);
 
       $.loadCss(_drt.base + 'toplist/toplist.css');
 
       Endpoint(Df.points.top5, useData);
 
-      El.list = Help.dupeCard(findCard());
+      El.toplist = Help.dupeCard(Help.findDupe());
     }
 
     return {
@@ -120,12 +138,10 @@ define(['jqxtn', './help', 'lib/endpoint',
   }
 
   return init();
-
 });
 
 /*
 
-  #search-filter-form-3453
-  #search-filter-results-3453
+
 
  */

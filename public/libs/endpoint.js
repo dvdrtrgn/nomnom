@@ -28,7 +28,7 @@ define(['jquery'], function ($) {
     }
 
     done = done || makeCb('json');
-    fail = fail || makeCb('fail', 'info', 9);
+    fail = fail || makeCb('fail', 'warn', 9);
 
     $.ajax(endpoint)
       .done(done).fail(fail).always();

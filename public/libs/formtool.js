@@ -19,7 +19,7 @@ define(['jquery'], function ($) {
 
   function setFilter(text) {
     $.reify(El);
-    El.filter.val('"' + text + '"');
+    El.filter.val([text]);
     El.form.submit();
   }
 
