@@ -84,11 +84,10 @@ define(['jqxtn', './clean', './fetch',
       El.notiLike = makeDiv(El.notiLike).hide();
       $('body').prepend(El.notiPost, El.notiLike);
 
-      Fetch.get(useData);
+      Fetch.request(useData);
 
       setInterval(function () {
-        Fetch.update();
-        Fetch.get(useData);
+        Fetch.request(useData);
       }, 60 * 1000);
     }
 

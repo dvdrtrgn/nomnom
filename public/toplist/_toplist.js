@@ -7,9 +7,6 @@ define(['jqxtn', './help', 'lib/endpoint',
   var W = window;
   var C = W.console;
   var Df = {
-    index: 2, // in avada css, set nth-child(<index+1>) to hidden
-    wrap: '.possible-card-wrapper',
-    posts: '.possible-card-wrapper .possible-card',
     homes: [
       'http://ecgsolutions.hosting.wellsfargo.com/marketing/csc/',
     ],
@@ -32,55 +29,45 @@ define(['jqxtn', './help', 'lib/endpoint',
   // etc
   //
 
-  function ghostCards() {
-    $(Df.wrap).removeClass('ready');
+  function makeLine(data) {
+    var $line = $('<li>');
+    var $link = $('<a>');
+    var text = Help.search(data.term);
+
+    $link.attr('href', Help.genUrl(data));
+    $link.text(text + ' (' + data.count + ' posts)');
+
+    $line.data(Nom, data);
+    $line.append($link);
+    return $line;
   }
 
-  function revealCards() {
-    $(Df.wrap).addClass('ready');
-  }
+  function addLines(ele, lineFn) {
+    var list = $(ele).find('ol');
+    var data = list.data(Nom);
 
-  function findCard() {
-    var cards = $(Df.posts);
-    var pick = Df.index - 1;
-    var card = (cards.length > pick) ? cards.eq(pick) : cards.last();
-
-    return card;
-  }
-
-  function makeLine(arr, filter) {
-    var line = $('<li>');
-    var obj = {
-      filter: filter,
-      term: arr[0],
-      count: arr[1],
-    };
-    var link = [
-      '<a href="', Help.genUrl(obj), '">',
-      Help.search(obj.term),
-      ' (', obj.count, ' posts)</a>',
-    ];
-
-    line.html(link.join(''));
-    line.data(Nom, obj);
-
-    return line;
-  }
-
-  function makeArticle(obj) {
-    var div = $('<article>');
-    var head = $('<b>').html(obj.title);
-    var list = $('<ol>');
-
-    obj.strings.forEach(function (item) {
-      list.append(makeLine(item, obj.filter));
+    data.strings.forEach(function (item) {
+      var obj = {
+        filter: data.filter,
+        term: item[0],
+        count: item[1],
+      };
+      list.append(lineFn(obj));
     });
+  }
 
-    return div.append(head, list);
+  function makeArticle(data) {
+    var $wrap = $('<article>');
+    var $head = $('<b>').html(data.title);
+    var $list = $('<ol>');
+
+    $wrap.data(Nom, data);
+    $wrap.append($head, $list);
+    return $wrap;
   }
 
   function insertToplist() {
-    var card = findCard();
+    var card = Help.findDupe();
     var next = card.next();
     var wrap = card.parent();
 
@@ -88,7 +75,7 @@ define(['jqxtn', './help', 'lib/endpoint',
     next.appendTo(wrap).css('visibility', 'visible');
 
     Help.addDummies(wrap);
-    revealCards();
+    Help.gsReady(true);
   }
 
   function useData(data) {
@@ -100,19 +87,22 @@ define(['jqxtn', './help', 'lib/endpoint',
     El.categs = makeArticle(Data.categs);
     El.toplist.empty().append(El.cities, El.categs);
 
+    addLines(El.cities, makeLine);
+    addLines(El.categs, makeLine);
+
     $(document).on('sf:ajaxfinish', insertToplist);
     insertToplist();
   }
 
   function init() {
     if (~Df.homes.indexOf(_drt.site)) {
-      ghostCards();
+      Help.gsReady(false);
 
       $.loadCss(_drt.base + 'toplist/toplist.css');
 
       Endpoint(Df.points.top5, useData);
 
-      El.toplist = Help.dupeCard(findCard());
+      El.toplist = Help.dupeCard(Help.findDupe());
     }
 
     return {
@@ -130,7 +120,6 @@ define(['jqxtn', './help', 'lib/endpoint',
 
 /*
 
-  #search-filter-form-3453
-  #search-filter-results-3453
+
 
  */

@@ -32,6 +32,13 @@ define(['jqxtn', './hash',
     return dupe;
   }
 
+  function findDupe() {
+    var cards = $('.possible-card-wrapper .possible-card');
+    var card = (cards.length > 1) ? cards.eq(1) : cards.last();
+    // in avada css, set nth-child(<index+1>) to hidden
+    return card;
+  }
+
   function genUrl(obj) {
     var url = _drt.site;
 
@@ -39,6 +46,16 @@ define(['jqxtn', './hash',
     url += encodeURIComponent(Hash.research(obj.term));
 
     return url;
+  }
+
+  function gsReady(bool) {
+    if (bool === false) {
+      $('.possible-card-wrapper').removeClass('ready');
+    } else if (bool) {
+      $('.possible-card-wrapper').addClass('ready');
+    } else {
+      return $('.possible-card-wrapper').is('.ready');
+    }
   }
 
   function readCategs(obj) {
@@ -64,7 +81,9 @@ define(['jqxtn', './hash',
     //
     addDummies: addDummies,
     dupeCard: dupeCard,
+    findDupe: findDupe,
     genUrl: genUrl,
+    gsReady: gsReady,
     readCategs: readCategs,
     readCities: readCities,
     search: Hash.search,
@@ -73,6 +92,7 @@ define(['jqxtn', './hash',
 
 /*
 
-
+  #search-filter-form-3453
+  #search-filter-results-3453
 
  */
