@@ -130,6 +130,7 @@ define(['jqxtn', './help', 'lib/endpoint', 'lib/formtool',
     return {
       _: Nom,
       _Endpoint: Endpoint,
+      _Formtool: Formtool,
       _Help: Help,
       Data: Data,
       Df: Df,

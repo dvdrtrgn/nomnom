@@ -14,6 +14,10 @@ define(['jqxtn', './clean', './fetch',
     notiPost: 'notify post',
     notiLike: 'notify like',
   };
+  var Saved = {
+    posts: '',
+    likes: '',
+  };
 
   function sleepSoon(ele) {
     setTimeout(function () {
@@ -48,16 +52,14 @@ define(['jqxtn', './clean', './fetch',
   }
 
   function fillDiv(ele, obj) {
-    var strs = obj.strings;
-    if (!obj || !strs || !strs.length) return;
+    if (!obj) return;
     // icanhasdata?
+    var strs = obj.strings;
 
     obj.cb = obj.dismiss || $.noop; // look in data for a callback clue
     obj.max = false;
     ele.empty().data(Nom, obj);
-    if (ele.is('.max')) {
-      ele.removeClass('retire');
-    }
+    ele.removeClass('retire');
     sleepSoon(ele);
 
     var makeLine = function (i) {
@@ -84,12 +86,31 @@ define(['jqxtn', './clean', './fetch',
     return ele.show();
   }
 
+  function filterChanges(objs) {
+    var posts = JSON.stringify(objs.posts);
+    var likes = JSON.stringify(objs.likes);
+
+    if (Saved.posts !== posts) {
+      Saved.posts = posts;
+    } else {
+      objs.posts = '';
+    }
+
+    if (Saved.likes !== likes) {
+      Saved.likes = likes;
+    } else {
+      objs.likes = '';
+    }
+  }
+
   function useData(data) {
     Clean.load(data);
     var objs = Clean.strings();
 
-    fillDiv(El.notiPost, objs.posts);
-    fillDiv(El.notiLike, objs.likes);
+    filterChanges(objs);
+
+    objs.posts && fillDiv(El.notiPost, objs.posts);
+    objs.likes && fillDiv(El.notiLike, objs.likes);
   }
 
   function init() {
@@ -112,6 +133,7 @@ define(['jqxtn', './clean', './fetch',
       _Clean: Clean,
       _Fetch: Fetch,
       El: El,
+      Saved: Saved,
     };
   }
 
