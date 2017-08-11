@@ -29,22 +29,21 @@ define(['jqxtn', './help', 'lib/endpoint',
   // etc
   //
 
-  function makeLine(obj) {
-    var line = $('<li>');
-    var link = [
-      '<a href="', Help.genUrl(obj), '">',
-      Help.search(obj.term),
-      ' (', obj.count, ' posts)</a>',
-    ];
+  function makeLine(data) {
+    var $line = $('<li>');
+    var $link = $('<a>');
+    var text = Help.search(data.term);
 
-    line.html(link.join(''));
-    line.data(Nom, obj);
+    $link.attr('href', Help.genUrl(data));
+    $link.text(text + ' (' + data.count + ' posts)');
 
-    return line;
+    $line.data(Nom, data);
+    $line.append($link);
+    return $line;
   }
 
   function addLines(ele, lineFn) {
-    var list = ele.find('ol');
+    var list = $(ele).find('ol');
     var data = list.data(Nom);
 
     data.strings.forEach(function (item) {
@@ -57,13 +56,14 @@ define(['jqxtn', './help', 'lib/endpoint',
     });
   }
 
-  function makeArticle(obj) {
-    var div = $('<article>');
-    var head = $('<b>').html(obj.title);
-    var list = $('<ol>');
+  function makeArticle(data) {
+    var $wrap = $('<article>');
+    var $head = $('<b>').html(data.title);
+    var $list = $('<ol>');
 
-    div.data(Nom, obj);
-    return div.append(head, list);
+    $wrap.data(Nom, data);
+    $wrap.append($head, $list);
+    return $wrap;
   }
 
   function insertToplist() {
@@ -120,7 +120,6 @@ define(['jqxtn', './help', 'lib/endpoint',
 
 /*
 
-  #search-filter-form-3453
-  #search-filter-results-3453
+
 
  */
