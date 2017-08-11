@@ -13,12 +13,14 @@ define(['jquery'], function ($) {
 
   function setSearch(text) {
     $.reify(El);
-    El.search.val('"' + text + '"');
+    El.filter.val(['']);
+    El.search.val(text ? '"' + text + '"' : '');
     El.form.submit();
   }
 
   function setFilter(text) {
     $.reify(El);
+    El.search.val('');
     El.filter.val([text]);
     El.form.submit();
   }
