@@ -11,43 +11,39 @@ define(['jqxtn', 'lib/endpoint', 'lib/formtool',
     posts: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/ecg/latest.php',
   };
 
-  function update() {
+  function request(cb) {
     delete Data.posts;
     delete Data.likes;
 
     Endpoint(Uris.posts, function (data) {
       Data.posts = data;
     });
-
     Endpoint(Uris.likes, function (data) {
       Data.likes = data;
     });
+
+    getData(cb);
   }
 
   function getData(cb) {
     setTimeout(function () {
       if (!Data.likes || !Data.posts) {
-        getData(cb);
+        getData(cb); // keep checking
       } else {
-        cb(Data);
+        cb(Data); // work done here
       }
     }, 99);
   }
 
-  function init() {
-    update();
-    return {
-      _: Nom,
-      _Endpoint: Endpoint,
-      Data: Data,
-      Uris: Uris,
-      //
-      get: getData,
-      update: update,
-    };
-  }
-
-  return init();
+  return {
+    _: Nom,
+    _Endpoint: Endpoint,
+    Data: Data,
+    Uris: Uris,
+    //
+    get: getData,
+    request: request,
+  };
 });
 
 /*
