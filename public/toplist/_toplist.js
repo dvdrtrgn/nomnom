@@ -50,31 +50,26 @@ define(['jqxtn', './help', 'lib/endpoint', 'lib/formtool',
     return $link;
   }
 
-  function genLineMaker(wrap) {
-    return function (data) {
-      data.slug = wrap.replace('#', data.text);
-
-      var $line = $('<li>').data(Nom, data);
-
-      $line.append(makeLink(data));
-
-      return $line;
-    };
+  function lineMaker(data) {
+    var $line = $('<li>').data(Nom, data);
+    $line.append(makeLink(data));
+    return $line;
   }
 
-  function addList(ele, lineFn) {
+  function addList(ele) {
     var list = ele.find('ol');
     var data = ele.data(Nom);
 
-    data.listLines.forEach(function (line) { // [key, cnt]
+    data.listLines.forEach(function (line) {
       var obj = {
         text: line.label,
         count: line.val,
         filter: data.listType,
         query: data.query,
         val: line.key,
+        slug: data.querytmpl.replace('#', line.label),
       };
-      list.append(lineFn(obj));
+      list.append(lineMaker(obj));
     });
   }
 
@@ -107,13 +102,13 @@ define(['jqxtn', './help', 'lib/endpoint', 'lib/formtool',
     Data.categs = Help.readCategs(data.area_of_interest);
     Data.cities = Help.readCities(data.city);
 
-    El.cities = makeArticle(Data.cities);
     El.categs = makeArticle(Data.categs);
-    addList(El.cities, genLineMaker('"#,"'));
-    addList(El.categs, genLineMaker('#'));
-
+    El.cities = makeArticle(Data.cities);
     El.toplist = Help.dupeCard(Help.findDupe());
     El.toplist.empty().append(El.cities, El.categs);
+
+    addList(El.categs);
+    addList(El.cities);
     insertToplist();
   }
 

@@ -67,6 +67,7 @@ define(['jqxtn', './hash',
       listType: 'category',
       listLines: [],
       query: '?_sfm_area_of_interest=',
+      querytmpl: '#',
     };
     _transArray(obj, data.listLines);
     return data;
@@ -78,6 +79,7 @@ define(['jqxtn', './hash',
       listType: 'city',
       listLines: [],
       query: '?_sf_s=',
+      querytmpl: '"#,"',
     };
     _transArray(obj, data.listLines);
     return data;
