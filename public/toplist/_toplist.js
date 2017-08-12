@@ -43,7 +43,7 @@ define(['jqxtn', './help', 'lib/endpoint', 'lib/formtool',
       }
       if (data.filter === 'category') {
         evt.preventDefault();
-        Formtool.filter(Help.research(data.term));
+        Formtool.filter(data.val);
       }
     });
 
@@ -52,7 +52,6 @@ define(['jqxtn', './help', 'lib/endpoint', 'lib/formtool',
 
   function genLineMaker(wrap) {
     return function (data) {
-      data.text = Help.search(data.term);
       data.slug = wrap.replace('#', data.text);
 
       var $line = $('<li>').data(Nom, data);
@@ -69,9 +68,11 @@ define(['jqxtn', './help', 'lib/endpoint', 'lib/formtool',
 
     data.strings.forEach(function (item) {
       var obj = {
-        filter: data.filter,
-        term: item[0],
         count: item[1],
+        filter: data.filter,
+        val: Help.research(item[0]),
+        text: item[0],
+        query: Help.search(data.filter),
       };
       list.append(lineFn(obj));
     });
@@ -108,7 +109,7 @@ define(['jqxtn', './help', 'lib/endpoint', 'lib/formtool',
 
     El.cities = makeArticle(Data.cities);
     El.categs = makeArticle(Data.categs);
-    addList(El.cities, genLineMaker('#,'));
+    addList(El.cities, genLineMaker('"#,"'));
     addList(El.categs, genLineMaker('#'));
 
     El.toplist = Help.dupeCard(Help.findDupe());

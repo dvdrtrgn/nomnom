@@ -44,10 +44,9 @@ define(['jqxtn', './hash',
   }
 
   function genUrl(obj) {
-    var url = _drt.site;
+    var url = _drt.site + obj.query;
 
-    url += Hash.search(obj.filter); // 'search-results/' +
-    url += encodeURIComponent(Hash.research(obj.slug));
+    url += Hash.research(obj.slug);
 
     return url;
   }
