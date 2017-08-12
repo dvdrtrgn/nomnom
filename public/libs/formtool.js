@@ -14,7 +14,7 @@ define(['jquery'], function ($) {
   function setSearch(text) {
     $.reify(El);
     El.filter.val(['']);
-    El.search.val(text ? '"' + text + '"' : '');
+    El.search.val(text || '');
     El.form.submit();
   }
 
