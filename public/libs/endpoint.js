@@ -1,3 +1,4 @@
+/*globals _drt */
 define(['jquery'], function ($) {
   'use strict';
 
@@ -25,6 +26,18 @@ define(['jquery'], function ($) {
   return function (endpoint, done, fail) {
     if (!endpoint) {
       throw ('no uri');
+    }
+
+    switch (endpoint) {
+    case 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/ecg/get.php':
+      endpoint = _drt.base + 'data/get.json';
+      break;
+    case 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/ecg/latest.php':
+      endpoint = _drt.base + 'data/latest.json';
+      break;
+    case 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/ecg/top5.php':
+      endpoint = _drt.base + 'data/top5.json';
+      break;
     }
 
     done = done || makeCb('json');

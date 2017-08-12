@@ -9,6 +9,7 @@ define(['jqxtn', './help', 'lib/endpoint', 'lib/formtool',
   var Df = {
     homes: [
       'http://ecgsolutions.hosting.wellsfargo.com/marketing/csc/',
+      'http://localhost/wordpress/',
     ],
     points: {
       top5: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/ecg/top5.php',
