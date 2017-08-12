@@ -21,6 +21,10 @@ define(['jqxtn', './hash',
     wrap.append(blank.clone(), blank.clone(), blank.clone());
   }
 
+  function clearCards() {
+    $('.possible-card-wrapper .possible-card').not(':first').remove();
+  }
+
   function dupeCard(card) {
     var dupe = card.clone();
 
@@ -80,6 +84,7 @@ define(['jqxtn', './hash',
     _: Nom,
     //
     addDummies: addDummies,
+    clearCards: clearCards,
     dupeCard: dupeCard,
     findDupe: findDupe,
     genUrl: genUrl,

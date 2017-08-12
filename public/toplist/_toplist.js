@@ -108,12 +108,11 @@ define(['jqxtn', './help', 'lib/endpoint', 'lib/formtool',
 
     El.cities = makeArticle(Data.cities);
     El.categs = makeArticle(Data.categs);
-    El.toplist.empty().append(El.cities, El.categs);
-
     addList(El.cities, genLineMaker('#,'));
     addList(El.categs, genLineMaker('#'));
 
-    $(document).on('sf:ajaxfinish', insertToplist);
+    El.toplist = Help.dupeCard(Help.findDupe());
+    El.toplist.empty().append(El.cities, El.categs);
     insertToplist();
   }
 
@@ -124,8 +123,8 @@ define(['jqxtn', './help', 'lib/endpoint', 'lib/formtool',
       $.loadCss(_drt.base + 'toplist/toplist.css');
 
       Endpoint(Df.points.top5, useData);
-
-      El.toplist = Help.dupeCard(Help.findDupe());
+      $(document).on('sf:ajaxfinish', insertToplist);
+      $(document).on('sf:ajaxstart', Help.clearCards);
     }
 
     return {
