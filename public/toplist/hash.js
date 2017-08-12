@@ -38,8 +38,6 @@ define([], function () {
 
   var hash = {
     _: Nom,
-    city: '?_sf_s=',
-    category: '?_sfm_area_of_interest=',
     '': 'All Items',
     animal_welfare: 'Animal Welfare',
     arts_culture: 'Arts & Culture',

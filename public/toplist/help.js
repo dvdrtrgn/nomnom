@@ -6,14 +6,14 @@ define(['jqxtn', './hash',
   var W = window;
   var C = W.console;
 
-  function _transArray(arr) {
-    var init = arr.shift();
-
-    return {
-      title: init[0],
-      filter: init[1],
-      strings: arr,
-    };
+  function _transArray(obj, arr) {
+    for (var key in obj) {
+      arr.push({
+        key: key,
+        val: obj[key],
+        label: Hash.search(key),
+      });
+    }
   }
 
   function addDummies(wrap) {
@@ -62,21 +62,25 @@ define(['jqxtn', './hash',
   }
 
   function readCategs(obj) {
-    var arr = [['TOP CATEGORIES', 'category']];
-
-    for (var i in obj) {
-      if (i) arr.push([Hash.search(i), obj[i]]); // turn keys into full text
-    }
-    return _transArray(arr);
+    var data = {
+      listTitle: 'TOP CATEGORIES',
+      listType: 'category',
+      listLines: [],
+      query: '?_sfm_area_of_interest=',
+    };
+    _transArray(obj, data.listLines);
+    return data;
   }
 
   function readCities(obj) {
-    var arr = [['TOP CITIES', 'city']];
-
-    for (var i in obj) {
-      if (i) arr.push([i, obj[i]]);
-    }
-    return _transArray(arr);
+    var data = {
+      listTitle: 'TOP CITIES',
+      listType: 'city',
+      listLines: [],
+      query: '?_sf_s=',
+    };
+    _transArray(obj, data.listLines);
+    return data;
   }
 
   return {

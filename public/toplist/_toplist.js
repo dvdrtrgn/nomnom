@@ -63,16 +63,16 @@ define(['jqxtn', './help', 'lib/endpoint', 'lib/formtool',
   }
 
   function addList(ele, lineFn) {
-    var list = $(ele).find('ol');
-    var data = $(ele).data(Nom);
+    var list = ele.find('ol');
+    var data = ele.data(Nom);
 
-    data.strings.forEach(function (item) {
+    data.listLines.forEach(function (line) { // [key, cnt]
       var obj = {
-        count: item[1],
-        filter: data.filter,
-        val: Help.research(item[0]),
-        text: item[0],
-        query: Help.search(data.filter),
+        text: line.label,
+        count: line.val,
+        filter: data.listType,
+        query: data.query,
+        val: line.key,
       };
       list.append(lineFn(obj));
     });
@@ -80,7 +80,7 @@ define(['jqxtn', './help', 'lib/endpoint', 'lib/formtool',
 
   function makeArticle(data) {
     var $wrap = $('<article>');
-    var $head = $('<b>').html(data.title);
+    var $head = $('<b>').html(data.listTitle);
     var $list = $('<ol>');
 
     $wrap.data(Nom, data);
