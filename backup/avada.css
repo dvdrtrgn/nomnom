@@ -1,4 +1,13 @@
-/* used _drt/toplist for early ghosting */
+/* used _drt/toplist */
+#search-filter-form-3453 * {
+  border-radius: 2px;
+  color: black;
+}
+#search-filter-form-3453 .search-filter-reset {
+  color: white;
+  height: 80%;
+}
+/* used for early ghosting */
 #search-filter-results-3453 .possible-card-wrapper:not(.ready) > :nth-child(3) {
   background-image: url('../dummy.jpg');
   background-size: cover;
