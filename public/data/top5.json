@@ -1,0 +1,16 @@
+{
+  "area_of_interest": {
+    "human_services": 15,
+    "child_youth_development": 14,
+    "education": 9,
+    "other": 8,
+    "diversity_inclusion": 7
+  },
+  "city": {
+    "Omaha": 8,
+    "Minneapolis": 8,
+    "San Francisco": 7,
+    "Albuquerque": 7,
+    "Phoenix": 5
+  }
+}

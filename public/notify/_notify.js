@@ -8,6 +8,7 @@ define(['jqxtn', './clean', './fetch',
   var Df = {
     homes: [
       'http://ecgsolutions.hosting.wellsfargo.com/marketing/csc/',
+      'http://localhost/wordpress/',
     ],
   };
   var El = {

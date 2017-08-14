@@ -9,6 +9,7 @@ define(['jqxtn', './help', 'lib/endpoint', 'lib/formtool',
   var Df = {
     homes: [
       'http://ecgsolutions.hosting.wellsfargo.com/marketing/csc/',
+      'http://localhost/wordpress/',
     ],
     points: {
       top5: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/ecg/top5.php',
@@ -42,43 +43,39 @@ define(['jqxtn', './help', 'lib/endpoint', 'lib/formtool',
       }
       if (data.filter === 'category') {
         evt.preventDefault();
-        Formtool.filter(Help.research(data.term));
+        Formtool.filter(data.val);
       }
     });
 
     return $link;
   }
 
-  function genLineMaker(wrap) {
-    return function (data) {
-      data.text = Help.search(data.term);
-      data.slug = wrap.replace('#', data.text);
-
-      var $line = $('<li>').data(Nom, data);
-
-      $line.append(makeLink(data));
-
-      return $line;
-    };
+  function lineMaker(data) {
+    var $line = $('<li>').data(Nom, data);
+    $line.append(makeLink(data));
+    return $line;
   }
 
-  function addList(ele, lineFn) {
-    var list = $(ele).find('ol');
-    var data = $(ele).data(Nom);
+  function addList(ele) {
+    var list = ele.find('ol');
+    var data = ele.data(Nom);
 
-    data.strings.forEach(function (item) {
+    data.listLines.forEach(function (line) {
       var obj = {
-        filter: data.filter,
-        term: item[0],
-        count: item[1],
+        text: line.label,
+        count: line.val,
+        filter: data.listType,
+        query: data.query,
+        val: line.key,
+        slug: data.querytmpl.replace('#', line.label),
       };
-      list.append(lineFn(obj));
+      list.append(lineMaker(obj));
     });
   }
 
   function makeArticle(data) {
     var $wrap = $('<article>');
-    var $head = $('<b>').html(data.title);
+    var $head = $('<b>').html(data.listTitle);
     var $list = $('<ol>');
 
     $wrap.data(Nom, data);
@@ -105,14 +102,13 @@ define(['jqxtn', './help', 'lib/endpoint', 'lib/formtool',
     Data.categs = Help.readCategs(data.area_of_interest);
     Data.cities = Help.readCities(data.city);
 
-    El.cities = makeArticle(Data.cities);
     El.categs = makeArticle(Data.categs);
+    El.cities = makeArticle(Data.cities);
+    El.toplist = Help.dupeCard(Help.findDupe());
     El.toplist.empty().append(El.cities, El.categs);
 
-    addList(El.cities, genLineMaker('#,'));
-    addList(El.categs, genLineMaker('#'));
-
-    $(document).on('sf:ajaxfinish', insertToplist);
+    addList(El.categs);
+    addList(El.cities);
     insertToplist();
   }
 
@@ -123,8 +119,8 @@ define(['jqxtn', './help', 'lib/endpoint', 'lib/formtool',
       $.loadCss(_drt.base + 'toplist/toplist.css');
 
       Endpoint(Df.points.top5, useData);
-
-      El.toplist = Help.dupeCard(Help.findDupe());
+      $(document).on('sf:ajaxfinish', insertToplist);
+      $(document).on('sf:ajaxstart', Help.clearCards);
     }
 
     return {
