@@ -15,7 +15,8 @@ define(['jquery'], function ($) {
   };
 
   function addNavBack() {
-    Df.backnav.on('click', function () {
+    Df.backnav.on('click', function (evt) {
+      evt.preventDefault();
       setSearch();
       Df.backnav.hide();
     }).css({
