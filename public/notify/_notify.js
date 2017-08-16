@@ -5,11 +5,18 @@ define(['jqxtn', './clean', './fetch',
   var Nom = '_notify';
   var W = window;
   var C = W.console;
+
+  // - - - - - - - - - - - - - - - - - -
+
   var Df = {
     homes: [
       'http://ecgsolutions.hosting.wellsfargo.com/marketing/csc/',
       'http://localhost/wordpress/',
     ],
+    refreshTime: 3e4,
+    retireTime: 1e4,
+    toggleEvents: 'click keypress',
+    triggerEvents: 'mousemove keydown',
   };
   var El = {
     notiPost: 'notify post',
@@ -20,15 +27,28 @@ define(['jqxtn', './clean', './fetch',
     likes: '',
   };
 
-  function nextMove(fn) {
-    $('body').one('mousemove', fn);
+  // - - - - - - - - - - - - - - - - - -
+  // HELPERS
+
+  function runOnce(fn) {
+    var ran = false;
+    return function () {
+      if (ran) return;
+      ran = true;
+      return fn();
+    };
+  }
+
+  function nextMove(fn) { // run if user is moving on page
+    $('body').one(Df.triggerEvents, runOnce(fn));
   }
 
   function sleepSoon(ele) {
     nextMove(function () {
       setTimeout(function () {
-        ele.addClass('retire');
-      }, 9999); // go away after 10sec
+        if (!ele.is(':hover')) ele.addClass('retire');
+        sleepSoon(ele); // mouse was over tab
+      }, Df.retireTime); // go away after 10sec
     });
   }
 
@@ -39,35 +59,62 @@ define(['jqxtn', './clean', './fetch',
     });
   }
 
-  function makeDiv(klass) {
+  function toggleMax(ele) {
+    var data = ele.data(Nom);
+    data.max = !data.max;
+    ele.toggleClass('max');
+  }
+
+  function captureEvent(evt) {
+    evt.preventDefault();
+    evt.stopPropagation();
+    return $(evt.currentTarget);
+  }
+
+  // - - - - - - - - - - - - - - - - - -
+  // HANDLES
+
+  function _close(evt) {
+    var ele = captureEvent(evt).closest('.notify');
+    var data = ele.data(Nom);
+
+    if (data.max) {
+      data.cb('setcookie');
+      ele.addClass('retire');
+    }
+    toggleMax(ele);
+  }
+
+  function _toggle(evt) {
+    var ele = captureEvent(evt);
+    var data = ele.data(Nom);
+
+    if (data.max) {
+      data.cb('setsearch', data.title);
+    }
+    wakeUp(ele);
+    toggleMax(ele);
+  }
+
+  // - - - - - - - - - - - - - - - - - -
+  // CONSTRUCT
+
+  function makeNotice(klass) {
     var ele = $('<div tabindex=0>').addClass(klass);
 
-    function _toggle(evt) {
-      wakeUp(ele);
-      evt.preventDefault();
-      evt.stopPropagation();
-      var data = ele.data(Nom);
-
-      ele.toggleClass('max');
-      if (data.max) {
-        data.cb('setsearch', data.title);
-      }
-      data.max = !data.max;
-    }
-
-    ele.on('click keypress', _toggle);
+    ele.on(Df.toggleEvents, _toggle);
 
     return ele;
   }
 
-  function fillDiv(ele, obj) {
-    if (!obj) return;
-    // icanhasdata?
-    var strs = obj.strings;
+  function updateNotice(ele, data) {
+    if (!data) return; // icanhasdata?
+    var strs = data.strings;
 
-    obj.cb = obj.dismiss || $.noop; // look in data for a callback clue
-    obj.max = false;
-    ele.empty().data(Nom, obj);
+    data.cb = data.dismiss || $.noop; // look in data for a callback clue
+    data.max = false;
+
+    ele.empty().data(Nom, data);
     ele.addClass('retire');
     wakeUp(ele);
 
@@ -75,22 +122,11 @@ define(['jqxtn', './clean', './fetch',
       return $('<b>').addClass('slug' + i).html(strs[i - 1] || '&nbsp;');
     };
 
-    function _close(evt) {
-      evt.preventDefault();
-      evt.stopPropagation();
-      if (obj.max) {
-        obj.cb('setcookie');
-        ele.removeClass('max');
-        ele.hide();
-      }
-      ele.toggleClass('max');
-    }
-
     $('<p class=slugs>').appendTo(ele)
       .append(makeLine(1)).append(makeLine(2)).append(makeLine(3));
 
     $('<b class=xo tabindex=0>&times;</b>').appendTo(ele)
-      .on('click keypress', _close);
+      .on(Df.toggleEvents, _close);
 
     return ele.show();
   }
@@ -118,23 +154,27 @@ define(['jqxtn', './clean', './fetch',
 
     filterChanges(objs);
 
-    objs.posts && fillDiv(El.notiPost, objs.posts);
-    objs.likes && fillDiv(El.notiLike, objs.likes);
+    objs.posts && updateNotice(El.notiPost, objs.posts);
+    objs.likes && updateNotice(El.notiLike, objs.likes);
   }
+
+  // - - - - - - - - - - - - - - - - - -
+  // INITS
 
   function fetchNow() {
     Fetch.request(useData);
+
     setTimeout(function () {
-      nextMove(fetchNow);
-    }, 30 * 1000);
+      nextMove(fetchNow); // fetch when user is engaged
+    }, Df.refreshTime);
   }
 
   function init() {
     if (~Df.homes.indexOf(_drt.site)) {
       $.loadCss(_drt.base + 'notify/notify.css');
 
-      El.notiPost = makeDiv(El.notiPost).hide();
-      El.notiLike = makeDiv(El.notiLike).hide();
+      El.notiPost = makeNotice(El.notiPost).hide();
+      El.notiLike = makeNotice(El.notiLike).hide();
       $('body').prepend(El.notiPost, El.notiLike);
 
       fetchNow();
