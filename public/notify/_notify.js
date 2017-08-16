@@ -5,6 +5,9 @@ define(['jqxtn', './clean', './fetch',
   var Nom = '_notify';
   var W = window;
   var C = W.console;
+
+  // - - - - - - - - - - - - - - - - - -
+
   var Df = {
     homes: [
       'http://ecgsolutions.hosting.wellsfargo.com/marketing/csc/',
@@ -45,6 +48,14 @@ define(['jqxtn', './clean', './fetch',
     data.max = !data.max;
     ele.toggleClass('max');
   }
+
+  // - - - - - - - - - - - - - - - - - -
+  // HANDLES
+
+
+
+  // - - - - - - - - - - - - - - - - - -
+  // CONSTRUCT
 
   function makeDiv(klass) {
     var ele = $('<div tabindex=0>').addClass(klass);
@@ -126,6 +137,9 @@ define(['jqxtn', './clean', './fetch',
     objs.posts && fillDiv(El.notiPost, objs.posts);
     objs.likes && fillDiv(El.notiLike, objs.likes);
   }
+
+  // - - - - - - - - - - - - - - - - - -
+  // INITS
 
   function fetchNow() {
     Fetch.request(useData);
