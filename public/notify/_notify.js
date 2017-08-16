@@ -27,8 +27,9 @@ define(['jqxtn', './clean', './fetch',
   function sleepSoon(ele) {
     nextMove(function () {
       setTimeout(function () {
-        ele.addClass('retire');
-      }, 9999); // go away after 10sec
+        if (!ele.is(':hover')) ele.addClass('retire');
+        sleepSoon(ele); // mouse was over tab
+      }, 10e3); // go away after 10sec
     });
   }
 
