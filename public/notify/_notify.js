@@ -57,7 +57,7 @@ define(['jqxtn', './clean', './fetch',
   // - - - - - - - - - - - - - - - - - -
   // CONSTRUCT
 
-  function makeDiv(klass) {
+  function makeNotice(klass) {
     var ele = $('<div tabindex=0>').addClass(klass);
 
     function _toggle(evt) {
@@ -77,9 +77,8 @@ define(['jqxtn', './clean', './fetch',
     return ele;
   }
 
-  function fillDiv(ele, data) {
-    if (!data) return;
-    // icanhasdata?
+  function updateNotice(ele, data) {
+    if (!data) return; // icanhasdata?
     var strs = data.strings;
 
     data.cb = data.dismiss || $.noop; // look in data for a callback clue
@@ -134,8 +133,8 @@ define(['jqxtn', './clean', './fetch',
 
     filterChanges(objs);
 
-    objs.posts && fillDiv(El.notiPost, objs.posts);
-    objs.likes && fillDiv(El.notiLike, objs.likes);
+    objs.posts && updateNotice(El.notiPost, objs.posts);
+    objs.likes && updateNotice(El.notiLike, objs.likes);
   }
 
   // - - - - - - - - - - - - - - - - - -
@@ -152,8 +151,8 @@ define(['jqxtn', './clean', './fetch',
     if (~Df.homes.indexOf(_drt.site)) {
       $.loadCss(_drt.base + 'notify/notify.css');
 
-      El.notiPost = makeDiv(El.notiPost).hide();
-      El.notiLike = makeDiv(El.notiLike).hide();
+      El.notiPost = makeNotice(El.notiPost).hide();
+      El.notiLike = makeNotice(El.notiLike).hide();
       $('body').prepend(El.notiPost, El.notiLike);
 
       fetchNow();
