@@ -13,6 +13,9 @@ define(['jqxtn', './clean', './fetch',
       'http://ecgsolutions.hosting.wellsfargo.com/marketing/csc/',
       'http://localhost/wordpress/',
     ],
+    refreshTime: 3e4,
+    retireTime: 1e4,
+    toggleEvents: 'click keypress',
   };
   var El = {
     notiPost: 'notify post',
@@ -32,7 +35,7 @@ define(['jqxtn', './clean', './fetch',
       setTimeout(function () {
         if (!ele.is(':hover')) ele.addClass('retire');
         sleepSoon(ele); // mouse was over tab
-      }, 10e3); // go away after 10sec
+      }, Df.retireTime); // go away after 10sec
     });
   }
 
@@ -49,10 +52,36 @@ define(['jqxtn', './clean', './fetch',
     ele.toggleClass('max');
   }
 
+  function captureEvent(evt) {
+    evt.preventDefault();
+    evt.stopPropagation();
+    return $(evt.currentTarget);
+  }
+
   // - - - - - - - - - - - - - - - - - -
   // HANDLES
 
+  function _close(evt) {
+    var ele = captureEvent(evt).closest('.notify');
+    var data = ele.data(Nom);
 
+    if (data.max) {
+      data.cb('setcookie');
+      ele.addClass('retire');
+    }
+    toggleMax(ele);
+  }
+
+  function _toggle(evt) {
+    var ele = captureEvent(evt);
+    var data = ele.data(Nom);
+
+    if (data.max) {
+      data.cb('setsearch', data.title);
+    }
+    wakeUp(ele);
+    toggleMax(ele);
+  }
 
   // - - - - - - - - - - - - - - - - - -
   // CONSTRUCT
@@ -60,19 +89,7 @@ define(['jqxtn', './clean', './fetch',
   function makeNotice(klass) {
     var ele = $('<div tabindex=0>').addClass(klass);
 
-    function _toggle(evt) {
-      wakeUp(ele);
-      evt.preventDefault();
-      evt.stopPropagation();
-      var data = ele.data(Nom);
-
-      if (data.max) {
-        data.cb('setsearch', data.title);
-      }
-      toggleMax(ele);
-    }
-
-    ele.on('click keypress', _toggle);
+    ele.on(Df.toggleEvents, _toggle);
 
     return ele;
   }
@@ -83,6 +100,7 @@ define(['jqxtn', './clean', './fetch',
 
     data.cb = data.dismiss || $.noop; // look in data for a callback clue
     data.max = false;
+
     ele.empty().data(Nom, data);
     ele.addClass('retire');
     wakeUp(ele);
@@ -91,21 +109,11 @@ define(['jqxtn', './clean', './fetch',
       return $('<b>').addClass('slug' + i).html(strs[i - 1] || '&nbsp;');
     };
 
-    function _close(evt) {
-      evt.preventDefault();
-      evt.stopPropagation();
-      if (data.max) {
-        data.cb('setcookie');
-        ele.addClass('retire');
-      }
-      toggleMax(ele);
-    }
-
     $('<p class=slugs>').appendTo(ele)
       .append(makeLine(1)).append(makeLine(2)).append(makeLine(3));
 
     $('<b class=xo tabindex=0>&times;</b>').appendTo(ele)
-      .on('click keypress', _close);
+      .on(Df.toggleEvents, _close);
 
     return ele.show();
   }
@@ -142,9 +150,10 @@ define(['jqxtn', './clean', './fetch',
 
   function fetchNow() {
     Fetch.request(useData);
+
     setTimeout(function () {
-      nextMove(fetchNow);
-    }, 30 * 1000);
+      nextMove(fetchNow); // fetch when user is engaged
+    }, Df.refreshTime);
   }
 
   function init() {
