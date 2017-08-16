@@ -66,14 +66,14 @@ define(['jqxtn', './clean', './fetch',
     return ele;
   }
 
-  function fillDiv(ele, obj) {
-    if (!obj) return;
+  function fillDiv(ele, data) {
+    if (!data) return;
     // icanhasdata?
-    var strs = obj.strings;
+    var strs = data.strings;
 
-    obj.cb = obj.dismiss || $.noop; // look in data for a callback clue
-    obj.max = false;
-    ele.empty().data(Nom, obj);
+    data.cb = data.dismiss || $.noop; // look in data for a callback clue
+    data.max = false;
+    ele.empty().data(Nom, data);
     ele.addClass('retire');
     wakeUp(ele);
 
@@ -84,8 +84,8 @@ define(['jqxtn', './clean', './fetch',
     function _close(evt) {
       evt.preventDefault();
       evt.stopPropagation();
-      if (obj.max) {
-        obj.cb('setcookie');
+      if (data.max) {
+        data.cb('setcookie');
         ele.addClass('retire');
       }
       toggleMax(ele);
