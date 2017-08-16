@@ -122,6 +122,13 @@ define(['jqxtn', './clean', './fetch',
     objs.likes && fillDiv(El.notiLike, objs.likes);
   }
 
+  function fetchNow() {
+    Fetch.request(useData);
+    setTimeout(function () {
+      nextMove(fetchNow);
+    }, 30 * 1000);
+  }
+
   function init() {
     if (~Df.homes.indexOf(_drt.site)) {
       $.loadCss(_drt.base + 'notify/notify.css');
@@ -130,11 +137,7 @@ define(['jqxtn', './clean', './fetch',
       El.notiLike = makeDiv(El.notiLike).hide();
       $('body').prepend(El.notiPost, El.notiLike);
 
-      Fetch.request(useData);
-
-      setInterval(function () {
-        Fetch.request(useData);
-      }, 20 * 1000);
+      fetchNow();
     }
 
     return {
