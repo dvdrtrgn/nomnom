@@ -20,10 +20,16 @@ define(['jqxtn', './clean', './fetch',
     likes: '',
   };
 
+  function nextMove(fn) {
+    $('body').one('mousemove', fn);
+  }
+
   function sleepSoon(ele) {
-    setTimeout(function () {
-      ele.addClass('retire'); // go away after 10sec
-    }, 9999);
+    nextMove(function () {
+      setTimeout(function () {
+        ele.addClass('retire'); // go away after 10sec
+      }, 9999);
+    });
   }
 
   function wakeUp(ele) {
