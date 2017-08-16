@@ -40,6 +40,12 @@ define(['jqxtn', './clean', './fetch',
     });
   }
 
+  function toggleMax(ele) {
+    var data = ele.data(Nom);
+    data.max = !data.max;
+    ele.toggleClass('max');
+  }
+
   function makeDiv(klass) {
     var ele = $('<div tabindex=0>').addClass(klass);
 
@@ -49,11 +55,10 @@ define(['jqxtn', './clean', './fetch',
       evt.stopPropagation();
       var data = ele.data(Nom);
 
-      ele.toggleClass('max');
       if (data.max) {
         data.cb('setsearch', data.title);
       }
-      data.max = !data.max;
+      toggleMax(ele);
     }
 
     ele.on('click keypress', _toggle);
@@ -81,10 +86,9 @@ define(['jqxtn', './clean', './fetch',
       evt.stopPropagation();
       if (obj.max) {
         obj.cb('setcookie');
-        ele.removeClass('max');
-        ele.hide();
+        ele.addClass('retire');
       }
-      ele.toggleClass('max');
+      toggleMax(ele);
     }
 
     $('<p class=slugs>').appendTo(ele)
