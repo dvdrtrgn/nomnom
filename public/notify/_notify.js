@@ -27,14 +27,16 @@ define(['jqxtn', './clean', './fetch',
   function sleepSoon(ele) {
     nextMove(function () {
       setTimeout(function () {
-        ele.addClass('retire'); // go away after 10sec
-      }, 9999);
+        ele.addClass('retire');
+      }, 9999); // go away after 10sec
     });
   }
 
   function wakeUp(ele) {
-    ele.removeClass('retire');
-    sleepSoon(ele);
+    nextMove(function () {
+      ele.removeClass('retire');
+      sleepSoon(ele);
+    });
   }
 
   function makeDiv(klass) {
@@ -66,8 +68,8 @@ define(['jqxtn', './clean', './fetch',
     obj.cb = obj.dismiss || $.noop; // look in data for a callback clue
     obj.max = false;
     ele.empty().data(Nom, obj);
-    ele.removeClass('retire');
-    sleepSoon(ele);
+    ele.addClass('retire');
+    wakeUp(ele);
 
     var makeLine = function (i) {
       return $('<b>').addClass('slug' + i).html(strs[i - 1] || '&nbsp;');
