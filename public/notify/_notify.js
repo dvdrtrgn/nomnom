@@ -16,6 +16,7 @@ define(['jqxtn', './clean', './fetch',
     refreshTime: 3e4,
     retireTime: 1e4,
     toggleEvents: 'click keypress',
+    triggerEvents: 'mousemove keydown',
   };
   var El = {
     notiPost: 'notify post',
@@ -26,8 +27,20 @@ define(['jqxtn', './clean', './fetch',
     likes: '',
   };
 
-  function nextMove(fn) {
-    $('body').one('mousemove', fn);
+  // - - - - - - - - - - - - - - - - - -
+  // HELPERS
+
+  function runOnce(fn) {
+    var ran = false;
+    return function () {
+      if (ran) return;
+      ran = true;
+      return fn();
+    };
+  }
+
+  function nextMove(fn) { // run if user is moving on page
+    $('body').one(Df.triggerEvents, runOnce(fn));
   }
 
   function sleepSoon(ele) {
