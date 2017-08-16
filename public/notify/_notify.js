@@ -20,15 +20,23 @@ define(['jqxtn', './clean', './fetch',
     likes: '',
   };
 
+  function nextMove(fn) {
+    $('body').one('mousemove', fn);
+  }
+
   function sleepSoon(ele) {
-    setTimeout(function () {
-      ele.addClass('retire'); // go away after 10sec
-    }, 9999);
+    nextMove(function () {
+      setTimeout(function () {
+        ele.addClass('retire');
+      }, 9999); // go away after 10sec
+    });
   }
 
   function wakeUp(ele) {
-    ele.removeClass('retire');
-    sleepSoon(ele);
+    nextMove(function () {
+      ele.removeClass('retire');
+      sleepSoon(ele);
+    });
   }
 
   function makeDiv(klass) {
@@ -60,8 +68,8 @@ define(['jqxtn', './clean', './fetch',
     obj.cb = obj.dismiss || $.noop; // look in data for a callback clue
     obj.max = false;
     ele.empty().data(Nom, obj);
-    ele.removeClass('retire');
-    sleepSoon(ele);
+    ele.addClass('retire');
+    wakeUp(ele);
 
     var makeLine = function (i) {
       return $('<b>').addClass('slug' + i).html(strs[i - 1] || '&nbsp;');
@@ -114,6 +122,13 @@ define(['jqxtn', './clean', './fetch',
     objs.likes && fillDiv(El.notiLike, objs.likes);
   }
 
+  function fetchNow() {
+    Fetch.request(useData);
+    setTimeout(function () {
+      nextMove(fetchNow);
+    }, 30 * 1000);
+  }
+
   function init() {
     if (~Df.homes.indexOf(_drt.site)) {
       $.loadCss(_drt.base + 'notify/notify.css');
@@ -122,11 +137,7 @@ define(['jqxtn', './clean', './fetch',
       El.notiLike = makeDiv(El.notiLike).hide();
       $('body').prepend(El.notiPost, El.notiLike);
 
-      Fetch.request(useData);
-
-      setInterval(function () {
-        Fetch.request(useData);
-      }, 20 * 1000);
+      fetchNow();
     }
 
     return {

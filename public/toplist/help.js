@@ -22,7 +22,7 @@ define(['jqxtn', './hash',
   }
 
   function clearCards() {
-    $('.possible-card-wrapper .possible-card').not(':first').remove();
+    $('.possible-card-wrapper .possible-card').not(':first').fadeOut(999);
   }
 
   function dupeCard(card) {
