@@ -55,7 +55,8 @@ define(['jquery'], function ($) {
   function init() {
     $.reify(El);
     addNavBack();
-    $(document).on('sf:ajaxfinish', setDirty); // 'sf:ajaxstart'
+    $(document).on('sf:ajaxfinish', setDirty);
+    // sf:[init, ajaxstart, ajaxfinish, ajaxerror]
 
     return {
       Df: Df,
