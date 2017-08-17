@@ -1,11 +1,11 @@
-define(['jquery'], function ($) {
+define(['jqxtn'], function ($) {
   'use strict';
   // `normalize` history state
   var W = window;
   var C = W.console;
 
-  var Df = {};
-  var El = {};
+  var DF = {};
+  var EL = {};
 
   function recover() {
     $(document).on('load', function () {
@@ -20,16 +20,17 @@ define(['jquery'], function ($) {
   }
 
   function init() {
-    $.reify(El);
+    $.reify(EL);
 
-    return {
-      Df: Df,
-      El: El,
+    var api = {
+      DF: DF,
+      EL: EL,
       recover,
     };
+    return api;
   }
 
-  return init();
+  return init(function () {});
 });
 
 /*

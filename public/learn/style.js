@@ -1,6 +1,6 @@
-define(['jquery'], function ($) {
+define(['jqxtn'], function ($) {
   'use strict';
-  // `normalize` history state
+  // make custom properties easy to access
   var W = window;
   var C = W.console;
 
@@ -26,16 +26,19 @@ define(['jquery'], function ($) {
   }
 
   function init() {
+    $.reify(EL);
 
-    return {
+    var api = {
       $: $,
       DF: DF,
       EL: EL,
       new: make,
     };
+
+    return api;
   }
 
-  return init();
+  return init(function () {});
 });
 
 /*
