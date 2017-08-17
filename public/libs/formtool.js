@@ -18,7 +18,6 @@ define(['jquery'], function ($) {
     Df.backnav.on('click', function (evt) {
       evt.preventDefault();
       setSearch();
-      Df.backnav.hide();
     }).css({
       display: 'block',
       color: '#336699',
@@ -29,12 +28,21 @@ define(['jquery'], function ($) {
     El.form.after(Df.backnav);
   }
 
+  function setDirty(bool) {
+    if (bool === false) {
+      Df.backnav.hide();
+    } else if (bool === true) {
+      Df.backnav.show();
+    } else {
+      setDirty(Boolean(W.location.search));
+    }
+  }
+
   function setSearch(text) {
     $.reify(El);
     El.filter.val(['']);
     El.search.val(text || '');
     El.form.submit();
-    Df.backnav.show();
   }
 
   function setFilter(text) {
@@ -42,18 +50,19 @@ define(['jquery'], function ($) {
     El.search.val('');
     El.filter.val([text]);
     El.form.submit();
-    Df.backnav.show();
   }
 
   function init() {
     $.reify(El);
     addNavBack();
+    $(document).on('sf:ajaxfinish', setDirty); // 'sf:ajaxstart'
 
     return {
       Df: Df,
       El: El,
       filter: setFilter,
       search: setSearch,
+      dirty: setDirty,
     };
   }
 
