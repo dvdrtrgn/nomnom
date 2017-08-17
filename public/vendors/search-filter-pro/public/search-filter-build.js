@@ -1,3 +1,6 @@
+/*global jQuery, */
+/*eslint no-console: 'off' */
+
 (function e(t, n, r) {
   function s(o, u) {
     if (!n[o]) {
@@ -9,7 +12,7 @@
         throw f.code = 'MODULE_NOT_FOUND', f;
       }
       var l = n[o] = {
-        exports: {}
+        exports: {},
       };
       t[o][0].call(l.exports, function (e) {
         var n = t[o][1][e];
@@ -45,17 +48,17 @@
             'use strict';
             var hasOwnProperty = Object.prototype.hasOwnProperty,
               hasDontEnumBug = !({
-                toString: null
+                toString: null,
               }).propertyIsEnumerable('toString'),
               dontEnums = [
-				  'toString',
-				  'toLocaleString',
-				  'valueOf',
-				  'hasOwnProperty',
-				  'isPrototypeOf',
-				  'propertyIsEnumerable',
-				  'constructor',
-            ],
+                'toString',
+                'toLocaleString',
+                'valueOf',
+                'hasOwnProperty',
+                'isPrototypeOf',
+                'propertyIsEnumerable',
+                'constructor',
+              ],
               dontEnumsLength = dontEnums.length;
 
             return function (obj) {
@@ -255,7 +258,7 @@
         easeInOutBounce: function (e, t, n, r, i) {
           if (t < i / 2) return $.easing.easeInBounce(e, t * 2, 0, r, i) * .5 + n;
           return $.easing.easeOutBounce(e, t * 2 - i, 0, r, i) * .5 + r * .5 + n;
-        }
+        },
       });
 
     }(jQuery));
@@ -303,18 +306,20 @@
 
       function a(e) {
         var n, r, i, o = {};
-        for (n = 0; n < p.length; n += 1)
+        for (n = 0; n < p.length; n += 1) {
           if (r = p[n], i = e[r], void 0 === i) 'negative' !== r || o.negativeBefore ? 'mark' === r && '.' !== o.thousand ? o[r] = '.' : o[r] = !1 : o[r] = '-';
           else if ('decimals' === r) {
-          if (!(i >= 0 && 8 > i)) throw new Error(r);
-          o[r] = i;
-        } else if ('encoder' === r || 'decoder' === r || 'edit' === r || 'undo' === r) {
-          if ('function' != typeof i) throw new Error(r);
-          o[r] = i;
-        } else {
-          if ('string' != typeof i) throw new Error(r);
-          o[r] = i;
+            if (!(i >= 0 && 8 > i)) throw new Error(r);
+            o[r] = i;
+          } else if ('encoder' === r || 'decoder' === r || 'edit' === r || 'undo' === r) {
+            if ('function' != typeof i) throw new Error(r);
+            o[r] = i;
+          } else {
+            if ('string' != typeof i) throw new Error(r);
+            o[r] = i;
+          }
         }
+
         return t(o, 'mark', 'thousand'), t(o, 'prefix', 'negative'), t(o, 'prefix', 'negativeBefore'), o;
       }
 
@@ -328,19 +333,19 @@
         return this instanceof s ? void('object' == typeof e && (e = a(e), this.to = function (n) {
           return c(e, u, n);
         }, this.from = function (n) {
-          return c(e, f, n);
-        })) : new s(e);
+            return c(e, f, n);
+          })) : new s(e);
       }
       var p = ['decimals', 'thousand', 'mark', 'prefix', 'postfix', 'encoder', 'decoder', 'negativeBefore', 'negative', 'edit', 'undo'];
       window.wNumb = s;
     }();
 
 
-}, {
+  }, {
     './includes/fields': 3,
     './includes/pagination': 4,
     './includes/plugin': 5,
-    './includes/state': 7
+    './includes/state': 7,
   }],
   2: [function (require, module, exports) {
     /*! nouislider - 8.1.0 - 2015-10-25 16:05:43 */
@@ -490,18 +495,18 @@
       // a prefix, which breaks compatibility with the IE10 implementation.
       /** @const */
         actions = window.navigator.pointerEnabled ? {
-          start: 'pointerdown',
-          move: 'pointermove',
-          end: 'pointerup',
-        } : window.navigator.msPointerEnabled ? {
-          start: 'MSPointerDown',
-          move: 'MSPointerMove',
-          end: 'MSPointerUp',
-        } : {
-          start: 'mousedown touchstart',
-          move: 'mousemove touchmove',
-          end: 'mouseup touchend',
-        },
+            start: 'pointerdown',
+            move: 'pointermove',
+            end: 'pointerup',
+          } : window.navigator.msPointerEnabled ? {
+            start: 'MSPointerDown',
+            move: 'MSPointerMove',
+            end: 'MSPointerUp',
+          } : {
+            start: 'mousedown touchstart',
+            move: 'mousemove touchmove',
+            end: 'mouseup touchend',
+          },
         defaultCssPrefix = 'noUi-';
 
 
@@ -670,11 +675,11 @@
 
         // Factor to range ratio
         that.xSteps[i] = fromPercentage([
-			 that.xVal[i]
+          that.xVal[i]
           , that.xVal[i + 1],
         ], n) / subRangeRatio(
-          that.xPct[i],
-          that.xPct[i + 1]);
+            that.xPct[i],
+            that.xPct[i + 1]);
       }
 
 
@@ -802,7 +807,7 @@
         'to': function (value) {
           return value !== undefined && value.toFixed(2);
         },
-        'from': Number
+        'from': Number,
       };
 
       function testStep(parsed, entry) {
@@ -1025,59 +1030,59 @@
         tests = {
           'step': {
             r: false,
-            t: testStep
+            t: testStep,
           },
           'start': {
             r: true,
-            t: testStart
+            t: testStart,
           },
           'connect': {
             r: true,
-            t: testConnect
+            t: testConnect,
           },
           'direction': {
             r: true,
-            t: testDirection
+            t: testDirection,
           },
           'snap': {
             r: false,
-            t: testSnap
+            t: testSnap,
           },
           'animate': {
             r: false,
-            t: testAnimate
+            t: testAnimate,
           },
           'range': {
             r: true,
-            t: testRange
+            t: testRange,
           },
           'orientation': {
             r: false,
-            t: testOrientation
+            t: testOrientation,
           },
           'margin': {
             r: false,
-            t: testMargin
+            t: testMargin,
           },
           'limit': {
             r: false,
-            t: testLimit
+            t: testLimit,
           },
           'behaviour': {
             r: true,
-            t: testBehaviour
+            t: testBehaviour,
           },
           'format': {
             r: false,
-            t: testFormat
+            t: testFormat,
           },
           'tooltips': {
             r: false,
-            t: testTooltips
+            t: testTooltips,
           },
           'cssPrefix': {
             r: false,
-            t: testCssPrefix
+            t: testCssPrefix,
           },
         };
 
@@ -1825,7 +1830,7 @@
 
           if (options.events.snap) {
             start(event, {
-              handles: [scope_Handles[handleNumber]]
+              handles: [scope_Handles[handleNumber]],
             });
           }
         }
@@ -2223,24 +2228,7 @@
 
       setupLegacy: function () {
 
-        /*if(typeof(self.ajax_links_selector)!="undefined")
-		{
-			var $ajax_links_object = jQuery(self.ajax_links_selector);
 
-			if($ajax_links_object.length>0)
-			{
-				$ajax_links_object.on('click', function(e) {
-
-					e.preventDefault();
-
-					var link = jQuery(this).attr('href');
-					self.ajax_action = "pagination";
-
-					self.fetchLegacyAjaxResults(link);
-					return false;
-				});
-			}
-		}*/
       },
     };
 
@@ -2533,18 +2521,18 @@
               if (self.lang_code != '') {
                 $.datepicker.setDefaults(
                   $.extend({
-                      'dateFormat': dateFormat
-                    },
-                    $.datepicker.regional[self.lang_code]
+                    'dateFormat': dateFormat,
+                  },
+                  $.datepicker.regional[self.lang_code]
                   )
                 );
 
               } else {
                 $.datepicker.setDefaults(
                   $.extend({
-                      'dateFormat': dateFormat
-                    },
-                    $.datepicker.regional['en']
+                    'dateFormat': dateFormat,
+                  },
+                  $.datepicker.regional['en']
                   )
                 );
 
@@ -2761,38 +2749,6 @@
         };
 
 
-        /*if(this.debug_mode=="1")
-		{//error logging
-
-			if(self.is_ajax==1)
-			{
-				if(self.display_results_as=="shortcode")
-				{
-					if(self.$ajax_results_container.length==0)
-					{
-						console.log("Search & Filter | Form ID: "+self.sfid+": cannot find the results container on this page - ensure you use the shortcode on this page or provide a URL where it can be found (Results URL)");
-					}
-					if(self.results_url=="")
-					{
-						console.log("Search & Filter | Form ID: "+self.sfid+": No Results URL has been defined - ensure that you enter this in order to use the Search Form on any page)");
-					}
-					//check if results URL is on same domain for potential cross domain errors
-				}
-				else
-				{
-					if(self.$ajax_results_container.length==0)
-					{
-						console.log("Search & Filter | Form ID: "+self.sfid+": cannot find the results container on this page - ensure you use are using the right content selector");
-					}
-				}
-			}
-			else
-			{
-
-			}
-
-		}*/
-
 
         this.stripQueryStringAndHashFromPath = function (url) {
           return url.split('?')[0].split('#')[0];
@@ -2968,7 +2924,7 @@
 
           //fade out results
           self.$ajax_results_container.animate({
-            opacity: 0.5
+            opacity: 0.5,
           }, 'fast'); //loading
 
           if (self.ajax_action == 'pagination') {
@@ -3034,13 +2990,11 @@
             data.textStatus = textStatus;
             data.errorThrown = errorThrown;
             $this.trigger('sf:ajaxerror', [data]);
-            /*console.log("AJAX FAIL");
-				console.log(e);
-				console.log(x);*/
+
 
           }).always(function () {
             self.$ajax_results_container.stop(true, true).animate({
-              opacity: 1
+              opacity: 1,
             }, 'fast'); //finished loading
             var data = {};
             data.sfid = self.sfid;
@@ -3073,13 +3027,6 @@
         };
 
         this.fetchAjaxForm = function () {
-          //trigger start event
-          /*var event_data = {
-				sfid: self.sfid,
-				targetSelector: self.ajax_target_attr
-			};*/
-
-          //$this.trigger("sf:ajaxstart", [ event_data ]);
 
           $this.addClass('search-filter-disabled');
           process_form.disableInputs(self);
@@ -3093,16 +3040,6 @@
 
           var ajax_processing_url = self.addUrlParam(self.ajax_form_url, query_params);
           var data_type = 'json';
-
-
-          //abort any previous ajax requests
-          /*if(self.last_ajax_request)
-			{
-				self.last_ajax_request.abort();
-			}*/
-
-
-          //self.last_ajax_request =
 
           $.get(ajax_processing_url, function (data, status, request) {
             //self.last_ajax_request = null;
@@ -3199,7 +3136,7 @@
 
               //re init S&F class on the form
               $this.searchAndFilter({
-                'isInit': false
+                'isInit': false,
               });
             } else {
               //$this.find("input").removeAttr("disabled");
@@ -3225,7 +3162,7 @@
 
               //re init S&F class on the form
               $this.searchAndFilter({
-                'isInit': false
+                'isInit': false,
               });
             } else {
               //$this.find("input").removeAttr("disabled");
@@ -3542,8 +3479,6 @@
             $field.find('.meta-slider').each(function (index) {
 
               var slider_object = $(this)[0];
-              /*var slider_object = $container.find(".meta-slider")[0];
-					var slider_val = slider_object.noUiSlider.get();*/
 
               var $slider_el = $(this).closest('.sf-meta-range-slider');
               var minVal = $slider_el.attr('data-min');
@@ -3602,7 +3537,7 @@
   }, {
     './process_form': 6,
     './state': 7,
-    'nouislider': 2
+    'nouislider': 2,
   }],
   6: [function (require, module, exports) {
 
@@ -3976,11 +3911,6 @@
             }
 
 
-            /*if($field.length>0)
-				{
-					fieldVal = self.getRadioVal($field);
-				}*/
-
             console.log('here');
 
             var $meta_range = $container.find('.sf-meta-range');
@@ -4223,5 +4153,5 @@
       },
 
     };
-  }, {}]
+  }, {}],
 }, {}, [1]);

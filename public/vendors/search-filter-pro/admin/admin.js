@@ -1,3 +1,4 @@
+/*global jQuery, */
 (function ($) {
   'use strict';
 
@@ -44,7 +45,7 @@
       //run ajax to set option
       $.post(ajaxurl, {
         show: show_option_value,
-        action: meta_prefs_action_name
+        action: meta_prefs_action_name,
       });
       /*.done(function(data)
       			{//don't do anything
@@ -84,7 +85,7 @@
       //run ajax to set option
       $.post(ajaxurl, {
         show: '0',
-        action: meta_prefs_action_name
+        action: meta_prefs_action_name,
       });
     });
 
@@ -123,7 +124,7 @@
         }
 
         last_cache_update_request = $.post(ajaxurl, {
-          action: cache_action
+          action: cache_action,
         }, function () {}, 'json').done(function (data) { //don't do anything
 
           handleAjaxUpdate(data);
@@ -214,7 +215,7 @@
         $(this).addClass('disabled');
 
         last_cache_update_request = $.post(ajaxurl, {
-          action: cache_action
+          action: cache_action,
         }, function () {}, 'json').done(function (data) { //don't do anything
           has_restart_submit = false;
           handleAjaxUpdate(data);

@@ -1,3 +1,4 @@
+/*global jQuery, */
 (function ($) {
   'use strict';
 
@@ -25,7 +26,7 @@
 
           $.post(ajaxurl, {
             meta_key: meta_key,
-            action: meta_prefs_action_name
+            action: meta_prefs_action_name,
           }).done(function (data) { //don't do anything
 
             if (data) {
@@ -1965,7 +1966,7 @@
           attr: 'data-hint', // Tell qTip2 to look inside this attr for its content
         },
         style: {
-          classes: 'sf-tootlip'
+          classes: 'sf-tootlip',
         },
         position: {
           my: 'bottom left',
