@@ -1,5 +1,5 @@
 /*globals _drt */
-define(['jqxtn', 'lib/endpoint', 'lib/formtool',
+define(['jqxtn', 'lib/endpoint',
 ], function ($, Endpoint) {
 
   var Nom = 'fetch';

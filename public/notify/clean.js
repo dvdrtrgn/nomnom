@@ -23,7 +23,7 @@ define(['jqxtn', 'jscook', 'lib/formtool',
     var postObj = {
       dismiss: function (arg, msg) {
         if (arg === 'setcookie') Cookie.set('card_last_post_id', postId);
-        if (arg === 'setsearch') Formtool.search(msg);
+        if (arg === 'setsearch') Formtool.search('"' + msg + '"');
       },
       strings: [
         'Better is Possible',
@@ -36,7 +36,7 @@ define(['jqxtn', 'jscook', 'lib/formtool',
     var likeObj = {
       dismiss: function (arg, msg) {
         if (arg === 'setcookie') Cookie.set('card_last_like_cnt', likeCnt);
-        if (arg === 'setsearch') Formtool.search(msg);
+        if (arg === 'setsearch') Formtool.search('"' + msg + '"');
       },
       strings: [
         'Great job!',
