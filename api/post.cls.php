@@ -7,6 +7,8 @@ define('TBL_DATA', 'edu_10_postmeta');
 class Card {
     private $conn;
     public $id;
+    public $post_title;
+    public $slug;
     public $first_name;
     public $last_name;
     public $photo;
@@ -116,6 +118,16 @@ class Card {
             $this->{$row['meta_key']} = $row['meta_value'];
         }
         $this->photo_path = $this->get_photo();
+
+        $stmt = sprintf("
+            SELECT post_title, post_name
+            FROM %s
+            WHERE ID=%d
+            LIMIT 1
+            ", TBL_POSTS, $id);
+        $data = $this->conn->query($stmt)->fetch();
+        $this->post_title = $data['post_title'];
+        $this->slug = $data['post_name'];
 
         return $this;
     }
