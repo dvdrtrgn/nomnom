@@ -1,9 +1,8 @@
 <?php
 header('Content-Type: application/json');
+require_once('../Card.php');
 
-require_once('../post.cls.php');
-require_once('cfg.php');
-
+// get most recent post data and number of total posts
 
 $card = new Card($pdo);
 $card->get_latest();
