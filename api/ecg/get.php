@@ -2,7 +2,7 @@
 header('Content-Type: application/json');
 require_once('../post.cls.php');
 
-// get my likes
+// get data for my liked post and total likes for it
 // COOKIE['card_post_ids'] stores ids of posts this browser made
 
 $card_id = !empty($_GET['id']) ? $_GET['id'] : 0;
