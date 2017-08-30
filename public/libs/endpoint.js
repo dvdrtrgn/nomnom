@@ -31,14 +31,14 @@ define(['jquery'], function ($) {
     // TEST MOCKING
     if (_drt.site === 'http://localhost/wordpress/')
       switch (endpoint) {
-      case 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/ecg/get.php':
-        endpoint = _drt.base + 'data/get.json';
+      case 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/drt/newcard.php':
+        endpoint = _drt.base + 'data/newcard.json';
         break;
-      case 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/ecg/latest.php':
-        endpoint = _drt.base + 'data/latest.json';
+      case 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/drt/mycards.php':
+        endpoint = _drt.base + 'data/mycards.json';
         break;
-      case 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/ecg/top5.php':
-        endpoint = _drt.base + 'data/top5.json';
+      case 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/drt/topfives.php':
+        endpoint = _drt.base + 'data/topfives.json';
         break;
       }
 

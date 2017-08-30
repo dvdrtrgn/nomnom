@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: application/json');
-require_once('../post.cls.php');
+require_once('../Card.php');
 
 // get most recent post data and number of total posts
 

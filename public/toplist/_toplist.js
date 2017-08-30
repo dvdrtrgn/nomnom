@@ -12,7 +12,7 @@ define(['jqxtn', './help', 'lib/endpoint', 'lib/formtool',
       'http://localhost/wordpress/',
     ],
     points: {
-      top5: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/ecg/top5.php',
+      top5: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/drt/topfives.php',
     },
   };
   var Data = {
