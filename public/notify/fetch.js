@@ -7,8 +7,8 @@ define(['jqxtn', 'lib/endpoint',
   var C = W.console;
   var Data = {};
   var Uris = {
-    likes: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/ecg/get.php',
-    posts: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/ecg/latest.php',
+    likes: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/drt/mycards.php',
+    posts: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/drt/newcard.php',
   };
 
   function request(cb) {
