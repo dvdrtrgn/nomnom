@@ -55,7 +55,7 @@ define(['jqxtn', 'jscook', 'lib/formtool',
     };
   }
 
-  function loadData(obj) {
+  function init(obj) {
     Data = obj;
   }
 
@@ -65,7 +65,7 @@ define(['jqxtn', 'jscook', 'lib/formtool',
     _Cookie: Cookie,
     _Formtool: Formtool,
     //
-    load: loadData,
+    init: init,
     strings: cleanData,
   };
 });

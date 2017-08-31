@@ -8,7 +8,8 @@
     Version: 000
   */
 
-  $dbug = !empty($_COOKIE['drt_debug']);
+  define('DRT__DBUG', $_COOKIE['drt_dbug']);
+  $dbug = !empty(DRT__DBUG);
 
   $devUrl = [
     '',

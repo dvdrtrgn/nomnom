@@ -8,6 +8,7 @@
 
     $_drt = array(
       'base' => $base,
+      'dbug' => DRT__DBUG,
     );
 
     wp_enqueue_script('drtMain', $load, array('jquery'), '000');

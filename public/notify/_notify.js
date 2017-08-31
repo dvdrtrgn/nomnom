@@ -153,7 +153,7 @@ define(['jqxtn', './clean', './fetch',
   }
 
   function useData(data) {
-    Clean.load(data);
+    Clean.init(data);
     var objs = Clean.strings();
 
     filterChanges(objs);
