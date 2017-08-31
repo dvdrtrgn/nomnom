@@ -5,6 +5,8 @@ define([], function () {
   var W = window;
   var C = W.console;
 
+  // - - - - - - - - - - - - - - - - - -
+
   function Hash(obj) {
     var self = this;
     if (!self || self.constructor !== Hash) {
@@ -38,6 +40,7 @@ define([], function () {
 
   var hash = {
     _: NOM,
+    __: function () {},
     '': 'All Items',
     animal_welfare: 'Animal Welfare',
     arts_culture: 'Arts & Culture',

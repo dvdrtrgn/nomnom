@@ -5,11 +5,24 @@ define(['jqxtn', 'lib/endpoint',
   var NOM = 'fetch';
   var W = window;
   var C = W.console;
+
+  // - - - - - - - - - - - - - - - - - -
+
   var Data = {};
   var Uris = {
     likes: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/drt/mycards.php',
     posts: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/drt/newcard.php',
   };
+
+  function getData(cb) {
+    setTimeout(function () {
+      if (!Data.likes || !Data.posts) {
+        getData(cb); // keep checking
+      } else {
+        cb(Data); // work done here
+      }
+    }, 99);
+  }
 
   function request(cb) {
     delete Data.posts;
@@ -25,23 +38,13 @@ define(['jqxtn', 'lib/endpoint',
     getData(cb);
   }
 
-  function getData(cb) {
-    setTimeout(function () {
-      if (!Data.likes || !Data.posts) {
-        getData(cb); // keep checking
-      } else {
-        cb(Data); // work done here
-      }
-    }, 99);
-  }
-
   return {
     _: NOM,
+    __: function () {},
     _Endpoint: Endpoint,
     Data: Data,
     Uris: Uris,
     //
-    get: getData,
     request: request,
   };
 });

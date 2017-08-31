@@ -6,6 +6,8 @@ define(['jqxtn', './hash',
   var W = window;
   var C = W.console;
 
+  // - - - - - - - - - - - - - - - - - -
+
   function _transArray(obj, arr) {
     for (var key in obj) {
       arr.push({
@@ -87,6 +89,7 @@ define(['jqxtn', './hash',
 
   return {
     _: NOM,
+    __: function () {},
     //
     addDummies: addDummies,
     clearCards: clearCards,

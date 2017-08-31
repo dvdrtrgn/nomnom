@@ -5,6 +5,9 @@ define(['jqxtn', 'jscook', 'lib/formtool',
   var NOM = 'clean';
   var W = window;
   var C = W.console;
+
+  // - - - - - - - - - - - - - - - - - -
+
   var Data = {};
 
   function cleanData() {
@@ -58,6 +61,7 @@ define(['jqxtn', 'jscook', 'lib/formtool',
 
   return {
     _: NOM,
+    __: function () {},
     _Cookie: Cookie,
     _Formtool: Formtool,
     //

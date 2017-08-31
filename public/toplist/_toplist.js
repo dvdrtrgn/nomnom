@@ -6,6 +6,9 @@ define(['jqxtn', './help', 'lib/endpoint', 'lib/formtool',
   var NOM = '_toplist';
   var W = window;
   var C = W.console;
+
+  // - - - - - - - - - - - - - - - - - -
+
   var Df = {
     homes: [
       'http://ecgsolutions.hosting.wellsfargo.com/marketing/csc/',
@@ -130,6 +133,7 @@ define(['jqxtn', './help', 'lib/endpoint', 'lib/formtool',
 
     return {
       _: NOM,
+      __: function () {},
       _Endpoint: Endpoint,
       _Formtool: Formtool,
       _Help: Help,
