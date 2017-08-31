@@ -31,8 +31,22 @@ define(['jquery'], function ($) {
     var str = url;
     str = str.replace(DF.live, DF.test);
     str = str.replace('.php', '.json');
-    window.console.log(str, url);
+    C.log('makeMock', url);
     return str;
+  }
+
+  function parseData(data) {
+    if (typeof data === 'string') {
+      data = JSON.parse(data);
+    }
+    return data;
+  }
+
+  function fixup(cb) {
+    // in case response content-type is text/text
+    return function (json) {
+      cb(parseData(json));
+    };
   }
 
   return function (endpoint, done, fail) {
@@ -49,7 +63,7 @@ define(['jquery'], function ($) {
     fail = fail || makeCb('fail', 'warn', 9);
 
     $.ajax(endpoint)
-      .done(done).fail(fail).always();
+      .done(fixup(done)).fail(fail).always();
   };
 
 });
