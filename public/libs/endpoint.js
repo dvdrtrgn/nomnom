@@ -55,7 +55,7 @@ define(['jquery'], function ($) {
     }
 
     // TEST MOCKING
-    if (_drt.site === 'http://localhost/wordpress/') {
+    if (_drt.dbug > 1) {
       endpoint = makeMock(endpoint);
     }
 
