@@ -112,8 +112,13 @@ define(['jqxtn', './help', 'lib/endpoint', 'lib/formtool',
     insertToplist();
   }
 
+  function atHome() {
+    var inlist = Df.homes.indexOf(_drt.site);
+    return Boolean(~inlist); // not -1 (missing)
+  }
+
   function init() {
-    if (~Df.homes.indexOf(_drt.site)) {
+    if (atHome()) {
       Help.gsReady(false);
 
       $.loadCss(_drt.base + 'toplist/toplist.css');
@@ -133,7 +138,7 @@ define(['jqxtn', './help', 'lib/endpoint', 'lib/formtool',
       El: El,
     };
   }
-
+  // console.dir(function toplist_scope() {});
   return init();
 });
 
