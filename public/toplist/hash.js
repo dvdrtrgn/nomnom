@@ -41,7 +41,7 @@ define([], function () {
 
   var hash = {
     _: NOM,
-    __: function () {},
+    '.': function () {},
     '': 'All Items',
     animal_welfare: 'Animal Welfare',
     arts_culture: 'Arts & Culture',

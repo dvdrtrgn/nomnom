@@ -61,7 +61,7 @@ define(['jqxtn', 'jscook', 'lib/formtool',
 
   return {
     _: NOM,
-    __: function () {},
+    '.': function () {},
     _Cookie: Cookie,
     _Formtool: Formtool,
     //
