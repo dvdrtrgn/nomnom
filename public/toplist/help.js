@@ -1,10 +1,12 @@
-/*globals _drt */
+/*globals _drt, define, */
 define(['jqxtn', './hash',
 ], function ($, Hash) {
 
-  var Nom = 'help';
+  var NOM = 'help';
   var W = window;
   var C = W.console;
+
+  // - - - - - - - - - - - - - - - - - -
 
   function _transArray(obj, arr) {
     for (var key in obj) {
@@ -86,7 +88,8 @@ define(['jqxtn', './hash',
   }
 
   return {
-    _: Nom,
+    _: NOM,
+    '.': function () {},
     //
     addDummies: addDummies,
     clearCards: clearCards,

@@ -1,29 +1,14 @@
-/*globals _drt */
+/*globals _drt, define, */
 define(['jqxtn', 'lib/endpoint',
 ], function ($, Endpoint) {
 
-  var Nom = 'fetch';
+  var NOM = 'fetch';
   var W = window;
   var C = W.console;
+
+  // - - - - - - - - - - - - - - - - - -
+
   var Data = {};
-  var Uris = {
-    likes: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/drt/mycards.php',
-    posts: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/drt/newcard.php',
-  };
-
-  function request(cb) {
-    delete Data.posts;
-    delete Data.likes;
-
-    Endpoint(Uris.posts, function (data) {
-      Data.posts = data;
-    });
-    Endpoint(Uris.likes, function (data) {
-      Data.likes = data;
-    });
-
-    getData(cb);
-  }
 
   function getData(cb) {
     setTimeout(function () {
@@ -35,14 +20,25 @@ define(['jqxtn', 'lib/endpoint',
     }, 99);
   }
 
+  function init(obj, cb) {
+    delete Data.posts;
+    delete Data.likes;
+
+    Endpoint(obj.posts, function (data) {
+      Data.posts = data;
+    });
+    Endpoint(obj.likes, function (data) {
+      Data.likes = data;
+    });
+
+    getData(cb);
+  }
+
   return {
-    _: Nom,
-    _Endpoint: Endpoint,
-    Data: Data,
-    Uris: Uris,
+    _: NOM,
+    '.': function () {},
     //
-    get: getData,
-    request: request,
+    init: init,
   };
 });
 

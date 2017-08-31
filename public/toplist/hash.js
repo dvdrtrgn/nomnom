@@ -1,9 +1,12 @@
+/*globals _drt, define, */
 define([], function () {
   'use strict';
 
-  var Nom = 'hash';
+  var NOM = 'hash';
   var W = window;
   var C = W.console;
+
+  // - - - - - - - - - - - - - - - - - -
 
   function Hash(obj) {
     var self = this;
@@ -37,7 +40,8 @@ define([], function () {
   }
 
   var hash = {
-    _: Nom,
+    _: NOM,
+    '.': function () {},
     '': 'All Items',
     animal_welfare: 'Animal Welfare',
     arts_culture: 'Arts & Culture',

@@ -1,11 +1,14 @@
-/*globals _drt */
+/*globals _drt, define, */
 define(['jqxtn', './help', 'lib/endpoint', 'lib/formtool',
 ], function ($, Help, Endpoint, Formtool) {
   'use strict';
 
-  var Nom = '_toplist';
+  var NOM = '_toplist';
   var W = window;
   var C = W.console;
+
+  // - - - - - - - - - - - - - - - - - -
+
   var Df = {
     homes: [
       'http://ecgsolutions.hosting.wellsfargo.com/marketing/csc/',
@@ -51,14 +54,14 @@ define(['jqxtn', './help', 'lib/endpoint', 'lib/formtool',
   }
 
   function lineMaker(data) {
-    var $line = $('<li>').data(Nom, data);
+    var $line = $('<li>').data(NOM, data);
     $line.append(makeLink(data));
     return $line;
   }
 
   function addList(ele) {
     var list = ele.find('ol');
-    var data = ele.data(Nom);
+    var data = ele.data(NOM);
 
     data.listLines.forEach(function (line) {
       var obj = {
@@ -78,7 +81,7 @@ define(['jqxtn', './help', 'lib/endpoint', 'lib/formtool',
     var $head = $('<b>').html(data.listTitle);
     var $list = $('<ol>');
 
-    $wrap.data(Nom, data);
+    $wrap.data(NOM, data);
     $wrap.append($head, $list);
     return $wrap;
   }
@@ -112,8 +115,13 @@ define(['jqxtn', './help', 'lib/endpoint', 'lib/formtool',
     insertToplist();
   }
 
+  function atHome() {
+    var inlist = Df.homes.indexOf(_drt.site);
+    return Boolean(~inlist); // not -1 (missing)
+  }
+
   function init() {
-    if (~Df.homes.indexOf(_drt.site)) {
+    if (atHome()) {
       Help.gsReady(false);
 
       $.loadCss(_drt.base + 'toplist/toplist.css');
@@ -124,7 +132,8 @@ define(['jqxtn', './help', 'lib/endpoint', 'lib/formtool',
     }
 
     return {
-      _: Nom,
+      _: NOM,
+      '.': function () {},
       _Endpoint: Endpoint,
       _Formtool: Formtool,
       _Help: Help,
@@ -133,7 +142,7 @@ define(['jqxtn', './help', 'lib/endpoint', 'lib/formtool',
       El: El,
     };
   }
-
+  // console.dir(function toplist_scope() {});
   return init();
 });
 
