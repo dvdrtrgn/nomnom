@@ -1,4 +1,4 @@
-/*globals _drt */
+/*globals _drt, define, */
 define(['jqxtn', 'lib/endpoint',
 ], function ($, Endpoint) {
 

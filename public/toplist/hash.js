@@ -1,3 +1,4 @@
+/*globals _drt, define, */
 define([], function () {
   'use strict';
 

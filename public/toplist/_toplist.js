@@ -1,4 +1,4 @@
-/*globals _drt */
+/*globals _drt, define, */
 define(['jqxtn', './help', 'lib/endpoint', 'lib/formtool',
 ], function ($, Help, Endpoint, Formtool) {
   'use strict';
