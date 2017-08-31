@@ -1,9 +1,13 @@
-/*globals _drt */
+/*globals _drt, define */
 define(['jquery'], function ($) {
   'use strict';
 
   var W = window;
   var C = W.console;
+  var DF = {
+    live: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/drt',
+    test: _drt.base + 'data',
+  };
 
   // set defaults
   $.ajaxSetup({
@@ -23,24 +27,23 @@ define(['jquery'], function ($) {
     };
   }
 
+  function makeMock(url) {
+    var str = url;
+    str = str.replace(DF.live, DF.test);
+    str = str.replace('.php', '.json');
+    window.console.log(str, url);
+    return str;
+  }
+
   return function (endpoint, done, fail) {
     if (!endpoint) {
       throw ('no uri');
     }
 
     // TEST MOCKING
-    if (_drt.site === 'http://localhost/wordpress/')
-      switch (endpoint) {
-      case 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/drt/newcard.php':
-        endpoint = _drt.base + 'data/newcard.json';
-        break;
-      case 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/drt/mycards.php':
-        endpoint = _drt.base + 'data/mycards.json';
-        break;
-      case 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/drt/topfives.php':
-        endpoint = _drt.base + 'data/topfives.json';
-        break;
-      }
+    if (_drt.site === 'http://localhost/wordpress/') {
+      endpoint = makeMock(endpoint);
+    }
 
     done = done || makeCb('json');
     fail = fail || makeCb('fail', 'warn', 9);
