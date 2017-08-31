@@ -3,7 +3,7 @@ define(['jqxtn', './help', 'lib/endpoint', 'lib/formtool',
 ], function ($, Help, Endpoint, Formtool) {
   'use strict';
 
-  var Nom = '_toplist';
+  var NOM = '_toplist';
   var W = window;
   var C = W.console;
   var Df = {
@@ -51,14 +51,14 @@ define(['jqxtn', './help', 'lib/endpoint', 'lib/formtool',
   }
 
   function lineMaker(data) {
-    var $line = $('<li>').data(Nom, data);
+    var $line = $('<li>').data(NOM, data);
     $line.append(makeLink(data));
     return $line;
   }
 
   function addList(ele) {
     var list = ele.find('ol');
-    var data = ele.data(Nom);
+    var data = ele.data(NOM);
 
     data.listLines.forEach(function (line) {
       var obj = {
@@ -78,7 +78,7 @@ define(['jqxtn', './help', 'lib/endpoint', 'lib/formtool',
     var $head = $('<b>').html(data.listTitle);
     var $list = $('<ol>');
 
-    $wrap.data(Nom, data);
+    $wrap.data(NOM, data);
     $wrap.append($head, $list);
     return $wrap;
   }
@@ -129,7 +129,7 @@ define(['jqxtn', './help', 'lib/endpoint', 'lib/formtool',
     }
 
     return {
-      _: Nom,
+      _: NOM,
       _Endpoint: Endpoint,
       _Formtool: Formtool,
       _Help: Help,

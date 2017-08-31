@@ -2,7 +2,7 @@
 define(['jqxtn', 'lib/endpoint',
 ], function ($, Endpoint) {
 
-  var Nom = 'fetch';
+  var NOM = 'fetch';
   var W = window;
   var C = W.console;
   var Data = {};
@@ -36,7 +36,7 @@ define(['jqxtn', 'lib/endpoint',
   }
 
   return {
-    _: Nom,
+    _: NOM,
     _Endpoint: Endpoint,
     Data: Data,
     Uris: Uris,

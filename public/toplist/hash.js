@@ -1,7 +1,7 @@
 define([], function () {
   'use strict';
 
-  var Nom = 'hash';
+  var NOM = 'hash';
   var W = window;
   var C = W.console;
 
@@ -37,7 +37,7 @@ define([], function () {
   }
 
   var hash = {
-    _: Nom,
+    _: NOM,
     '': 'All Items',
     animal_welfare: 'Animal Welfare',
     arts_culture: 'Arts & Culture',

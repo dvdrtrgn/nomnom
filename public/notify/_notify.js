@@ -2,7 +2,7 @@
 define(['jqxtn', './clean', './fetch',
 ], function ($, Clean, Fetch) {
 
-  var Nom = '_notify';
+  var NOM = '_notify';
   var W = window;
   var C = W.console;
 
@@ -60,7 +60,7 @@ define(['jqxtn', './clean', './fetch',
   }
 
   function toggleMax(ele) {
-    var data = ele.data(Nom);
+    var data = ele.data(NOM);
     data.max = !data.max;
     ele.toggleClass('max');
   }
@@ -76,7 +76,7 @@ define(['jqxtn', './clean', './fetch',
 
   function _close(evt) {
     var ele = captureEvent(evt).closest('.notify');
-    var data = ele.data(Nom);
+    var data = ele.data(NOM);
 
     if (data.max) {
       data.cb('setcookie');
@@ -87,7 +87,7 @@ define(['jqxtn', './clean', './fetch',
 
   function _toggle(evt) {
     var ele = captureEvent(evt);
-    var data = ele.data(Nom);
+    var data = ele.data(NOM);
 
     if (data.max) {
       data.cb('setsearch', data.title);
@@ -114,7 +114,7 @@ define(['jqxtn', './clean', './fetch',
     data.cb = data.dismiss || $.noop; // look in data for a callback clue
     data.max = false;
 
-    ele.empty().data(Nom, data);
+    ele.empty().data(NOM, data);
     ele.addClass('retire');
     wakeUp(ele);
 
@@ -181,7 +181,7 @@ define(['jqxtn', './clean', './fetch',
     }
 
     return {
-      _: Nom,
+      _: NOM,
       _Clean: Clean,
       _Fetch: Fetch,
       El: El,

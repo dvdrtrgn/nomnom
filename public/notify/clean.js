@@ -2,7 +2,7 @@
 define(['jqxtn', 'jscook', 'lib/formtool',
 ], function ($, Cookie, Formtool) {
 
-  var Nom = 'clean';
+  var NOM = 'clean';
   var W = window;
   var C = W.console;
   var Data = {};
@@ -57,7 +57,7 @@ define(['jqxtn', 'jscook', 'lib/formtool',
   }
 
   return {
-    _: Nom,
+    _: NOM,
     _Cookie: Cookie,
     _Formtool: Formtool,
     //

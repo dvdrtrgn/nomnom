@@ -2,7 +2,7 @@
 define(['jqxtn', './hash',
 ], function ($, Hash) {
 
-  var Nom = 'help';
+  var NOM = 'help';
   var W = window;
   var C = W.console;
 
@@ -86,7 +86,7 @@ define(['jqxtn', './hash',
   }
 
   return {
-    _: Nom,
+    _: NOM,
     //
     addDummies: addDummies,
     clearCards: clearCards,
