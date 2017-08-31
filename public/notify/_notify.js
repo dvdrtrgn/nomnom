@@ -13,6 +13,10 @@ define(['jqxtn', './clean', './fetch',
       'http://ecgsolutions.hosting.wellsfargo.com/marketing/csc/',
       'http://localhost/wordpress/',
     ],
+    uris: {
+      likes: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/drt/mycards.php',
+      posts: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/drt/newcard.php',
+    },
     refreshTime: 3e4,
     retireTime: 1e4,
     toggleEvents: 'click keypress',
@@ -162,7 +166,7 @@ define(['jqxtn', './clean', './fetch',
   // INITS
 
   function fetchNow() {
-    Fetch.request(useData);
+    Fetch.init(Df.uris, useData);
 
     setTimeout(function () {
       nextMove(fetchNow); // fetch when user is engaged
