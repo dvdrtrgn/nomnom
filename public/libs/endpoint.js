@@ -6,7 +6,7 @@ define(['jquery'], function ($) {
   var C = W.console;
   var DF = {
     live: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/drt',
-    test: _drt.base + '/data',
+    test: _drt.base + 'data',
   };
 
   // set defaults
