@@ -64,7 +64,7 @@
       if (_drt.paths.length) requirejs(_drt.paths, function () {
         _drt.modules = $.fixArgs(arguments);
         _drt.modules.forEach(function (e) {
-          _drt[e._] = e;
+          _drt[e[''].NOM] = e;
         });
       });
     }

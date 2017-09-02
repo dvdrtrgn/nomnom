@@ -186,8 +186,10 @@ define(['jqxtn', './clean', './fetch',
     }
 
     return {
-      _: NOM,
-      '.': function () {},
+      '': {
+        NOM: NOM,
+        closure: function () {},
+      },
       _Clean: Clean,
       _Fetch: Fetch,
       EL: EL,

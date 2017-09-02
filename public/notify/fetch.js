@@ -35,9 +35,10 @@ define(['jqxtn', 'lib/endpoint',
   }
 
   return {
-    _: NOM,
-    '.': function () {},
-    //
+    '': {
+      NOM: NOM,
+      closure: function () {},
+    },
     init: init,
   };
 });
