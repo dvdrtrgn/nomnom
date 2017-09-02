@@ -8,7 +8,7 @@ define(['jqxtn', './clean', './fetch',
 
   // - - - - - - - - - - - - - - - - - -
 
-  var Df = {
+  var DF = {
     homes: [
       'http://ecgsolutions.hosting.wellsfargo.com/marketing/csc/',
       'http://localhost/wordpress/',
@@ -22,10 +22,11 @@ define(['jqxtn', './clean', './fetch',
     toggleEvents: 'click keypress',
     triggerEvents: 'mousemove keydown',
   };
-  var El = {
+  var EL = {
     notiPost: 'notify post',
     notiLike: 'notify like',
   };
+
   var Saved = {
     posts: '',
     likes: '',
@@ -44,7 +45,7 @@ define(['jqxtn', './clean', './fetch',
   }
 
   function nextMove(fn) { // run if user is moving on page
-    $('body').one(Df.triggerEvents, runOnce(fn));
+    $('body').one(DF.triggerEvents, runOnce(fn));
   }
 
   function sleepSoon(ele) {
@@ -52,7 +53,7 @@ define(['jqxtn', './clean', './fetch',
       setTimeout(function () {
         if (!ele.is(':hover')) ele.addClass('retire');
         sleepSoon(ele); // mouse was over tab
-      }, Df.retireTime); // go away after 10sec
+      }, DF.retireTime); // go away after 10sec
     });
   }
 
@@ -106,7 +107,7 @@ define(['jqxtn', './clean', './fetch',
   function makeNotice(klass) {
     var ele = $('<div tabindex=0>').addClass(klass);
 
-    ele.on(Df.toggleEvents, _toggle);
+    ele.on(DF.toggleEvents, _toggle);
 
     return ele;
   }
@@ -130,7 +131,7 @@ define(['jqxtn', './clean', './fetch',
       .append(makeLine(1)).append(makeLine(2)).append(makeLine(3));
 
     $('<b class=xo tabindex=0>&times;</b>').appendTo(ele)
-      .on(Df.toggleEvents, _close);
+      .on(DF.toggleEvents, _close);
 
     return ele.show();
   }
@@ -158,28 +159,28 @@ define(['jqxtn', './clean', './fetch',
 
     filterChanges(objs);
 
-    objs.posts && updateNotice(El.notiPost, objs.posts);
-    objs.likes && updateNotice(El.notiLike, objs.likes);
+    objs.posts && updateNotice(EL.notiPost, objs.posts);
+    objs.likes && updateNotice(EL.notiLike, objs.likes);
   }
 
   // - - - - - - - - - - - - - - - - - -
   // INITS
 
   function fetchNow() {
-    Fetch.init(Df.uris, useData);
+    Fetch.init(DF.uris, useData);
 
     setTimeout(function () {
       nextMove(fetchNow); // fetch when user is engaged
-    }, Df.refreshTime);
+    }, DF.refreshTime);
   }
 
   function init() {
-    if (~Df.homes.indexOf(_drt.site)) {
+    if (~DF.homes.indexOf(_drt.site)) {
       $.loadCss(_drt.base + 'notify/notify.css');
 
-      El.notiPost = makeNotice(El.notiPost).hide();
-      El.notiLike = makeNotice(El.notiLike).hide();
-      $('body').prepend(El.notiPost, El.notiLike);
+      EL.notiPost = makeNotice(EL.notiPost).hide();
+      EL.notiLike = makeNotice(EL.notiLike).hide();
+      $('body').prepend(EL.notiPost, EL.notiLike);
 
       fetchNow();
     }
@@ -189,7 +190,7 @@ define(['jqxtn', './clean', './fetch',
       '.': function () {},
       _Clean: Clean,
       _Fetch: Fetch,
-      El: El,
+      EL: EL,
       Saved: Saved,
     };
   }
