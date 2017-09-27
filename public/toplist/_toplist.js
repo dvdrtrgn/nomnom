@@ -9,7 +9,7 @@ define(['jqxtn', './help', 'lib/endpoint', 'lib/formtool',
 
   // - - - - - - - - - - - - - - - - - -
 
-  var Df = {
+  var DF = {
     homes: [
       'http://ecgsolutions.hosting.wellsfargo.com/marketing/csc/',
       'http://localhost/wordpress/',
@@ -18,15 +18,16 @@ define(['jqxtn', './help', 'lib/endpoint', 'lib/formtool',
       top5: 'http://ecgsolutions.hosting.wellsfargo.com/marketing/api/drt/topfives.php',
     },
   };
+  var EL = {
+    categs: null,
+    cities: null,
+    toplist: null,
+  };
+
   var Data = {
     categs: null,
     cities: null,
     raw: null,
-  };
-  var El = {
-    categs: null,
-    cities: null,
-    toplist: null,
   };
 
   //
@@ -91,7 +92,7 @@ define(['jqxtn', './help', 'lib/endpoint', 'lib/formtool',
     var next = card.next();
     var wrap = card.parent();
 
-    El.toplist
+    EL.toplist
       .clone(true) // filter action in msie 11 destroys elements
       .insertAfter(card).css('visibility', 'visible');
     next.appendTo(wrap).css('visibility', 'visible');
@@ -105,18 +106,18 @@ define(['jqxtn', './help', 'lib/endpoint', 'lib/formtool',
     Data.categs = Help.readCategs(data.area_of_interest);
     Data.cities = Help.readCities(data.city);
 
-    El.categs = makeArticle(Data.categs);
-    El.cities = makeArticle(Data.cities);
-    El.toplist = Help.dupeCard(Help.findDupe());
-    El.toplist.empty().append(El.cities, El.categs);
+    EL.categs = makeArticle(Data.categs);
+    EL.cities = makeArticle(Data.cities);
+    EL.toplist = Help.dupeCard(Help.findDupe());
+    EL.toplist.empty().append(EL.cities, EL.categs);
 
-    addList(El.categs);
-    addList(El.cities);
+    addList(EL.categs);
+    addList(EL.cities);
     insertToplist();
   }
 
   function atHome() {
-    var inlist = Df.homes.indexOf(_drt.site);
+    var inlist = DF.homes.indexOf(_drt.site);
     return Boolean(~inlist); // not -1 (missing)
   }
 
@@ -126,20 +127,22 @@ define(['jqxtn', './help', 'lib/endpoint', 'lib/formtool',
 
       $.loadCss(_drt.base + 'toplist/toplist.css');
 
-      Endpoint(Df.points.top5, useData);
+      Endpoint(DF.points.top5, useData);
       $(document).on('sf:ajaxfinish', insertToplist);
       $(document).on('sf:ajaxstart', Help.clearCards);
     }
 
     return {
-      _: NOM,
-      '.': function () {},
+      '': {
+        NOM: NOM,
+        closure: function () {},
+      },
       _Endpoint: Endpoint,
       _Formtool: Formtool,
       _Help: Help,
       Data: Data,
-      Df: Df,
-      El: El,
+      DF: DF,
+      EL: EL,
     };
   }
   // console.dir(function toplist_scope() {});

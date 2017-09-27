@@ -88,9 +88,10 @@ define(['jqxtn', './hash',
   }
 
   return {
-    _: NOM,
-    '.': function () {},
-    //
+    '': {
+      NOM: NOM,
+      closure: function () {},
+    },
     addDummies: addDummies,
     clearCards: clearCards,
     dupeCard: dupeCard,

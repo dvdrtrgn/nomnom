@@ -9,13 +9,13 @@
   */
 
   define('DRT__DBUG', $_COOKIE['drt_dbug']);
-  $dbug = !empty(DRT__DBUG);
+  $dbug = !empty(DRT__DBUG) ? DRT__DBUG == 1 : 0;
 
   $devUrl = [
     '',
     'http://10.94.211.163/js/',
-    '//localhost/wordpress/wp-content/plugins/drt-mod/public/',
-  ][$dbug ? 1 : 0];
+    // '//localhost/wordpress/wp-content/plugins/drt-mod/public/',
+  ][$dbug];
 
   define('DRT__PLUGIN', __FILE__); # /.../drt_index.php
   define('DRT__PLUGIN_DIR', plugin_dir_path(__FILE__)); # /unix/

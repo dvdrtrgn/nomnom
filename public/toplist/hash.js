@@ -26,6 +26,7 @@ define([], function () {
     }
 
     function _seek(key, a1, a2) {
+      key = key || undefined;
       return a2[a1.indexOf(key)] || key;
     }
 
@@ -40,9 +41,10 @@ define([], function () {
   }
 
   var hash = {
-    _: NOM,
-    '.': function () {},
-    '': 'All Items',
+    '': {
+      NOM: NOM,
+      closure: function () {},
+    },
     animal_welfare: 'Animal Welfare',
     arts_culture: 'Arts & Culture',
     child_youth_development: 'Child and Youth Development',
@@ -54,6 +56,7 @@ define([], function () {
     religious_institutions: 'Religious Institutions',
     workforce_development: 'Workforce Development',
     other: 'Other',
+    undefined: 'All Items',
   };
 
   hash = Hash(hash);

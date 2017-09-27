@@ -5,10 +5,10 @@ define(['jquery'], function ($) {
   var W = window;
   var C = W.console;
 
-  var Df = {
+  var DF = {
     backnav: $('<a href="#">&lt; Return to all posts</a>'),
   };
-  var El = {
+  var EL = {
     form: '.searchandfilter', // #search-filter-form-3453
     sort: '.searchandfilter .sf-field-sort_order select',
     filter: '.searchandfilter .sf-field-post-meta-area_of_interest select',
@@ -16,7 +16,7 @@ define(['jquery'], function ($) {
   };
 
   function addNavBack() {
-    Df.backnav.on('click', function (evt) {
+    DF.backnav.on('click', function (evt) {
       evt.preventDefault();
       setSearch();
     }).css({
@@ -26,42 +26,42 @@ define(['jquery'], function ($) {
       textDecoration: 'underline',
     }).hide();
 
-    El.form.after(Df.backnav);
+    EL.form.after(DF.backnav);
   }
 
   function setDirty(bool) {
     if (bool === false) {
-      Df.backnav.hide();
+      DF.backnav.hide();
     } else if (bool === true) {
-      Df.backnav.show();
+      DF.backnav.show();
     } else {
       setDirty(Boolean(W.location.search));
     }
   }
 
   function setSearch(text) {
-    $.reify(El);
-    El.filter.val(['']);
-    El.search.val(text || '');
-    El.form.submit();
+    $.reify(EL);
+    EL.filter.val(['']);
+    EL.search.val(text || '');
+    EL.form.submit();
   }
 
   function setFilter(text) {
-    $.reify(El);
-    El.search.val('');
-    El.filter.val([text]);
-    El.form.submit();
+    $.reify(EL);
+    EL.search.val('');
+    EL.filter.val([text]);
+    EL.form.submit();
   }
 
   function init() {
-    $.reify(El);
+    $.reify(EL);
     addNavBack();
     $(document).on('sf:ajaxfinish', setDirty);
     // sf:[init, ajaxstart, ajaxfinish, ajaxerror]
 
     return {
-      Df: Df,
-      El: El,
+      DF: DF,
+      EL: EL,
       filter: setFilter,
       search: setSearch,
       dirty: setDirty,
