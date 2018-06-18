@@ -13,7 +13,7 @@
 
   $devUrl = [
     '',
-    'http://10.94.211.163/js/',
+    'http://10.94.206.163/js/',
     // '//localhost/wordpress/wp-content/plugins/drt-mod/public/',
   ][$dbug];
 
