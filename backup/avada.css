@@ -1,23 +1,28 @@
+/* used _drt */
+
+@import '../fonts/myriad.css';
+
 /* used _drt/toplist */
-#search-filter-form-3453 * {
+#search-filter-form-8976 * {
   border-radius: 2px;
   color: black;
 }
-#search-filter-form-3453 .search-filter-reset {
+#search-filter-form-8976 .search-filter-reset {
   color: white;
   height: 80%;
 }
 /* used for early ghosting */
-#search-filter-results-3453 .possible-card-wrapper:not(.ready) > :nth-child(3) {
+#search-filter-results-8976 .possible-card-wrapper:not(.ready) > :nth-child(3) {
   background-image: url('../dummy.jpg');
   background-size: cover;
   border: 0;
   opacity: 0.2;
 }
-#search-filter-results-3453 .possible-card-wrapper:not(.ready) > :nth-child(3) * {
+#search-filter-results-8976 .possible-card-wrapper:not(.ready) > :nth-child(3) * {
   visibility: hidden;
 }
 /* end _drt/toplist */
+
 
 #main {
   min-height: 67vh;
@@ -51,7 +56,6 @@
 }
 
 .wide-portion {
-  width: 66%;
   background-color: white;
   background-color: rgba(255, 255, 255, 0.9)
 }
@@ -65,13 +69,13 @@
 #campaign-heading {
   font-size: 1.4rem;
   font-weight: normal;
-  font-family: "Archer Medium", Georgia, serif;
+  font-family: "myriad-pro", sans-serif;
 }
 
 #campaign-tagline {
   color: purple;
   font-size: 2.64rem;
-  font-family: "Archer Medium", Georgia, serif;
+  font-family: "myriad-pro", sans-serif;
 }
 
 #campaign-cta {
@@ -269,7 +273,7 @@ a.search-filter-reset {
 /* Footer Widget Area Overrides */
 
 .fusion-footer-widget-area {
-  font-family: "Archer Medium";
+  font-family: "myriad-pro", sans-serif;
   font-size: 1.4em;
   line-height: 1.4;
 }

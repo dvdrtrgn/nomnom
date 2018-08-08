@@ -1,4 +1,6 @@
 <?php
+define('AUG2018', '1533081600');
+
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 require_once('../Card.php');
@@ -9,7 +11,7 @@ $FILTER_TOP_GET = array('area_of_interest', 'city');
 $res = array();
 
 foreach($FILTER_TOP_GET as $item) {
-  $res[$item] = Card::get_top($pdo, $item, 5);
+  $res[$item] = Card::get_top($pdo, $item, 5, AUG2018);
 }
 
 echo json_encode($res);

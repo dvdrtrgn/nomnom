@@ -29,7 +29,7 @@ define(['jqxtn', 'jscook', 'lib/formtool',
         if (arg === 'setsearch') Formtool.search('"' + msg + '"');
       },
       strings: [
-        'Better is Possible',
+        'Re-affirming our commitment',
         nameStr + ' just created a new post.',
         postStr + ' on site',
       ],
